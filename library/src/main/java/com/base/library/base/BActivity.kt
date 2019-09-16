@@ -6,6 +6,8 @@ import android.os.Handler
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
 import com.blankj.utilcode.util.LogUtils
@@ -17,11 +19,9 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BView
 import io.reactivex.functions.Consumer
-import kotlinx.android.synthetic.main.base_activity_layout.*
-import kotlinx.android.synthetic.main.base_titlebar.*
+import kotlinx.android.synthetic.main.b_activity_layout.*
+import kotlinx.android.synthetic.main.b_titlebar.*
 
 abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
 
@@ -45,8 +45,8 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
         window.decorView.post { mHandler.post { initData() } }
     }
 
-    fun initContentView(layoutResID: Int) {
-        setContentView(R.layout.base_activity_layout)
+    open fun initContentView(layoutResID: Int) {
+        setContentView(R.layout.b_activity_layout)
         val contentView = LayoutInflater.from(this).inflate(layoutResID, baseLayout, false)
         baseLayout.addView(contentView)
     }

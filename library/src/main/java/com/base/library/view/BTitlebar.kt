@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
 import com.base.library.interfaces.OnSurplusListener
-import kotlinx.android.synthetic.main.base_titlebar.view.*
+import kotlinx.android.synthetic.main.b_titlebar.view.*
 
 /**
  * 通用的顶部导航栏

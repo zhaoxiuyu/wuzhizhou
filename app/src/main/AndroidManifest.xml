@@ -9,7 +9,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".module.common.ui.MainActivity">
+
+        <!-- 首页 -->
+        <activity android:name=".module.common.ui.MainActivity"/>
+        <activity android:name=".module.common.ui.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -17,6 +20,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- 管理员 -->
+        <activity android:name=".module.management.ui.SettingActivity"/>
+
+        <!-- 购票 -->
+        <activity android:name=".module.purchase.ui.PurchaseMainActivity"/>
+
+        <!-- 取票 -->
+        <activity android:name=".module.take.ui.TakeMainActivity"/>
+        <activity android:name=".module.take.ui.TakeQrCodeActivity"/>
+        <activity android:name=".module.take.ui.TakeIdCardActivity"/>
+        <activity android:name=".module.take.ui.TakePhoneActivity"/>
+        <activity android:name=".module.take.ui.TakeNumberActivity"/>
+        <activity android:name=".module.take.ui.TakeOrderActivity"/>
+
+        <!-- 支付 -->
+        <activity android:name=".module.pay.ui.PayTypeActivity"/>
+
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ package com.base.library.template.ui
 //
 //    @Override
 //    public void initView() {
-//        initContentView(R.layout.base_activity_test);
+//        initContentView(R.layout.b_activity_test);
 //        setMPresenter(new BasePresenter(this));
 //        getMPresenter().getData(null);
 //    }

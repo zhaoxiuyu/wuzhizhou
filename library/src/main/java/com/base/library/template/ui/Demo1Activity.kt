@@ -16,7 +16,7 @@ class Demo1Activity : BActivity<Demo1Contract.Presenter>(), Demo1Contract.View {
     }
 
     override fun initView() {
-        initContentView(R.layout.base_activity_test)
+        initContentView(R.layout.b_activity_test)
         mPresenter = Demo1Presenter(this)
     }
 
