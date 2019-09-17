@@ -13,6 +13,9 @@ import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import kotlinx.android.synthetic.main.title_top_state.view.*
 
+/**
+ * 页面顶部状态
+ */
 class TitleTopState(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     init {

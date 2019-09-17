@@ -1,6 +1,5 @@
 package com.sendinfo.wuzhizhou.module.common.ui
 
-import android.content.Intent
 import android.view.View
 import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest

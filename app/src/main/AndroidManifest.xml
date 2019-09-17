@@ -26,6 +26,7 @@
 
         <!-- 购票 -->
         <activity android:name=".module.purchase.ui.PurchaseMainActivity"/>
+        <activity android:name=".module.purchase.ui.PurchaseSureActivity"/>
 
         <!-- 取票 -->
         <activity android:name=".module.take.ui.TakeMainActivity"/>

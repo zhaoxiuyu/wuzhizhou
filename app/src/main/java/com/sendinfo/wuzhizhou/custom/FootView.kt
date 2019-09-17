@@ -11,6 +11,9 @@ import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.utils.getShebeiCode
 import kotlinx.android.synthetic.main.footview.view.*
 
+/**
+ * 底部版权
+ */
 class FootView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     init {

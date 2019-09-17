@@ -13,7 +13,7 @@
             android:id="@+id/orderNo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_24"
             tools:text="订单号"/>
@@ -22,7 +22,7 @@
             android:id="@+id/routeName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_24"
             tools:text="产品名称"/>
@@ -31,7 +31,7 @@
             android:id="@+id/planBeginDate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_24"
             tools:text="游玩日期"/>
@@ -45,30 +45,12 @@
             android:textSize="@dimen/sp_24"
             tools:text="数量"/>
 
-    <LinearLayout
+    <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
-
-        <CheckBox
-                android:id="@+id/cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_8"/>
-
-    </LinearLayout>
-
-    <Button
-            android:id="@+id/btSubmit"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:background="@drawable/bg_but"
-            android:textColor="@color/white"
             android:textSize="@dimen/sp_24"
-            android:text="取票"/>
+            tools:text="选择"/>
 
 </LinearLayout>
