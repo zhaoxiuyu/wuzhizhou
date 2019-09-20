@@ -10,65 +10,40 @@
               android:paddingTop="20dp">
 
     <TextView
-            android:id="@+id/orderNo"
+            android:id="@+id/tvBillNo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.4"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
+            android:textSize="@dimen/sp_20"
             tools:text="订单号"/>
 
     <TextView
-            android:id="@+id/routeName"
+            android:id="@+id/tvTravelDate"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.4"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
-            tools:text="产品名称"/>
-
-    <TextView
-            android:id="@+id/planBeginDate"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.4"
-            android:gravity="center"
-            android:textSize="@dimen/sp_24"
+            android:textSize="@dimen/sp_20"
             tools:text="游玩日期"/>
 
     <TextView
-            android:id="@+id/amount"
+            android:id="@+id/tvUserName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.4"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
-            tools:text="数量"/>
-
-    <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-        <CheckBox
-                android:id="@+id/cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_8"/>
-
-    </LinearLayout>
+            android:textSize="@dimen/sp_20"
+            tools:text="预定人"/>
 
     <Button
             android:id="@+id/btSubmit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:visibility="gone"
             android:background="@drawable/bg_but"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_24"
+            android:textSize="@dimen/sp_20"
             android:text="取票"/>
 
 </LinearLayout>

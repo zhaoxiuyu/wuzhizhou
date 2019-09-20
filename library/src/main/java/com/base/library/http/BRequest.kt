@@ -1,6 +1,7 @@
 package com.base.library.http
 
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.SPStaticUtils
 import com.blankj.utilcode.util.StringUtils
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.cache.CacheMode
@@ -13,7 +14,7 @@ import io.reactivex.Observable
 /**
  * 通用的网络请求参数封装
  */
-class BRequest(val url: String) {
+class BRequest(val method: String) {
     // url 请求的标志,用来唯一指定请求
 
     var httpType = POST //请求类型
@@ -22,9 +23,9 @@ class BRequest(val url: String) {
     var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
     var isSpliceUrl = false//是否强制将params的参数拼接到url后面,up系列与params系列混用
     var isMultipart = false//是否强制使用multipart/form-data表单上传
-    var method: String = url //方法名(默认设置为URL)
+    var url: String = "${SPStaticUtils.getString("ip")}$method" //方法名(默认设置为URL)
     var cacheMode = CacheMode.NO_CACHE//缓存模式
-    var cacheTime = -1L //缓存时长-1永不过期
+    var cacheTime = -1L //缓存时长 -1永不过期
     var heads: Map<String, String>? = null //请求头和参数
     var params: Map<String, String>? = null // key value 参数
     var body: String = "" //upString
@@ -75,11 +76,11 @@ class BRequest(val url: String) {
         sb.appendln("请求方法 : $method")
         sb.appendln("params参数为 : ")
         params?.forEach { sb.appendln("${it.key} = ${it.value}") }
-        sb.appendln("body参数为 : ")
-        sb.appendln(body)
         sb.appendln("请求头为 : ")
         heads?.forEach { sb.appendln("${it.key} = ${it.value}") }
+        sb.appendln("body参数为 : ")
         LogUtils.i(sb.toString())
+        if (!StringUtils.isEmpty(body)) LogUtils.json(body)
     }
 
     companion object {

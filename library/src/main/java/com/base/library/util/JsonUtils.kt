@@ -46,11 +46,6 @@ object JsonUtils {
     }
 
     /**
-     * 获取 gson
-     */
-    fun getGson() = gson
-
-    /**
      * 将 String 解析成指定泛型
      */
     fun <T> toAny(str: String, t: Class<T>): T = gson.fromJson(str, t)
@@ -62,7 +57,6 @@ object JsonUtils {
 
     /**
      * 将 Any 解析成指定泛型并返回
-     * val token = TypeToken<ArrayList<BannerVo>>(){};
      * val list = JsonUtil.getObject(response.dataInfo, object : TypeToken<ArrayList<BannerVo>>(){})
      */
     fun <T> toAny(str: String, token: TypeToken<T>): Any {

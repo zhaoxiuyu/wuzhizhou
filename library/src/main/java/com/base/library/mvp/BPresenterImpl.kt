@@ -62,7 +62,7 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
     }
 
     @SuppressLint("CheckResult")
-    override fun requestSuccess(body: String, baseHttpDto: BRequest) {
+    override fun requestSuccess(body: String, bHttpDto: BRequest) {
         Observable.just(body)
             .subscribeOn(Schedulers.io())
             .map {
@@ -73,9 +73,9 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(lifecycleOwner)))
             .subscribe({
                 LogUtils.d("返回线程 : " + Thread.currentThread().name)
-                requestSuccess(it, baseHttpDto)
+                requestSuccess(it, bHttpDto)
             }, {
-                requestError(it, baseHttpDto)
+                requestError(it, bHttpDto)
             })
     }
 

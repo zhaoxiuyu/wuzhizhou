@@ -1,13 +1,16 @@
 package com.sendinfo.wuzhizhou.module.take.ui
 
-import android.content.Intent
 import com.base.library.entitys.BaseResponse
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BaseView
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.utils.startAct
 import kotlinx.android.synthetic.main.activity_take_main.*
 
+/**
+ * 选择取票方式
+ */
 class TakeMainActivity : BaseActivity<BPresenter>(), BaseView {
 
     override fun initView() {
@@ -18,17 +21,10 @@ class TakeMainActivity : BaseActivity<BPresenter>(), BaseView {
     override fun initData() {
         super.initData()
 
-        qrCode.setOnClickListener { startAct(TakeQrCodeActivity::class.java) }
-        number.setOnClickListener { startAct(TakeNumberActivity::class.java) }
-        idCard.setOnClickListener { startAct(TakeIdCardActivity::class.java) }
-        phone.setOnClickListener { startAct(TakePhoneActivity::class.java) }
+        qrCode.setOnClickListener { startAct(this, TakeQrCodeActivity::class.java) }
+        number.setOnClickListener { startAct(this, TakeNumberActivity::class.java) }
+        idCard.setOnClickListener { startAct(this, TakeIdCardActivity::class.java) }
 
-    }
-
-    private fun <T> startAct(cls: Class<T>) {
-        val intent = Intent(this, cls)
-        startActivity(intent)
-        finish()
     }
 
     override fun bindData(baseResponse: BaseResponse) {

@@ -17,11 +17,12 @@ class BModelImpl : BModel {
     private var compositeDisposable: CompositeDisposable? = null
 
     override fun getData(callback: BRequestCallback, http: BRequest) {
+        http.print()
         http.getOkGo().execute(object : BCallback(callback, http.silence) {
             override fun onSuccess(response: Response<String>?) {
                 super.onSuccess(response)
                 val body = response?.body() ?: ""
-
+                printLog(http.url, http.method, body)
                 callback.requestSuccess(body, http)
             }
 
@@ -105,10 +106,10 @@ class BModelImpl : BModel {
             StringBuilder()
                 .appendln("Response 地址 : $url")
                 .appendln("方法 : $method")
-                .appendln("返回数据 : ")
-                .appendln(data)
+                .appendln("返回数据如下 : ")
                 .toString()
         )
+        LogUtils.json(data)
     }
 
 }

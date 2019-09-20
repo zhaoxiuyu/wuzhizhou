@@ -38,3 +38,12 @@ fun putDyj(dyj: Int) {
 
 fun getDyj(): Int = SPStaticUtils.getInt("dyj", 1)
 
+/**
+ * IP端口
+ */
+fun putIp(ip: String) {
+    SPStaticUtils.put("ip", ip)
+}
+
+fun getIp(): String = SPStaticUtils.getString("ip")
+

@@ -1,4 +1,4 @@
-package com.sendinfo.wuzhizhou.module.management.ui
+package com.sendinfo.wuzhizhou.module.again.ui
 
 import com.base.library.mvp.BPresenter
 import com.blankj.utilcode.util.AppUtils
@@ -8,21 +8,24 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.utils.*
-import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.android.synthetic.main.activity_again_setting.*
 
 /**
  * 设置
  */
-class SettingActivity : BaseActivity<BPresenter>() {
+class AgainSettingActivity : BaseActivity<BPresenter>() {
 
     override fun initView() {
         super.initView()
-        initContentView(R.layout.activity_setting)
+        initContentView(R.layout.activity_again_setting)
     }
 
     override fun initData() {
         super.initData()
 
+        /**
+         * 票数
+         */
         etPrintNumber.setText(getPrintNumber().toString())
         btPrintNumber.setOnClickListener {
             val printNumber = etPrintNumber.text.toString()
@@ -51,7 +54,7 @@ class SettingActivity : BaseActivity<BPresenter>() {
         }
 
         /**
-         * 1 霍尼,2 HID
+         * 1 霍尼,2 HID ,身份证阅读器
          */
         if (getIdCard() == 1) {
             radioGroupIdCard.check(weier.id)
@@ -66,6 +69,19 @@ class SettingActivity : BaseActivity<BPresenter>() {
             }
         }
 
+        /**
+         * IP端口
+         */
+        etIp.setText(getIp())
+        btIp.setOnClickListener {
+            val ip = etIp.text.toString()
+            if (StringUtils.isEmpty(ip)) {
+                ToastUtils.showShort("请输入IP端口")
+                return@setOnClickListener
+            }
+            putIp(ip)
+        }
+
         //测试打印机
         testDyj.setOnClickListener { }
 
@@ -76,10 +92,6 @@ class SettingActivity : BaseActivity<BPresenter>() {
             })
         }
 
-        //检查更新
-        checkUpdate.setOnClickListener {
-            // todo
-        }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.sendinfo.wuzhizhou.custom
 
-import android.app.Activity
 import android.content.Context
 import android.os.CountDownTimer
 import android.os.SystemClock
@@ -9,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.base.library.interfaces.OnSurplusListener
+import com.blankj.utilcode.util.ActivityUtils
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import kotlinx.android.synthetic.main.title_top_state.view.*
@@ -37,29 +37,34 @@ class TitleTopState(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
      * surplusListener 倒计时结束回调接口
      * finish 倒计时结束是否自动销毁页面
      */
-    private var cdTimer: CountDownTimer? = null
-    private var surplusListener: OnSurplusListener? = null
-    fun startSurplus(countTime: Int = 30000, surplusListener: OnSurplusListener? = null, finish: Boolean = true) {
-        this.surplusListener = surplusListener
+    private var surplus: OnSurplusListener? = null
+    private var countTime: Int = 30000
+    private var finish: Boolean = true
+
+    private fun startSurplus(countTime: Int = 30000, surplus: OnSurplusListener? = null, finish: Boolean = true) {
+        this.surplus = surplus
+        this.countTime = countTime
+        this.finish = finish
+
         djTime.visibility = View.VISIBLE
         djTime.text = "倒计时 ${(countTime / 1000)}"
-
-        cdTimer?.cancel()
-        cdTimer = object : CountDownTimer(countTime.toLong(), 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                djTime.text = "倒计时 ${(millisUntilFinished / 1000)} s"
-            }
-
-            override fun onFinish() {
-                djTime.text = "倒计时 0 s"
-                if (finish) (context as Activity).finish()
-                surplusListener?.surplus()
-            }
-        }
+        cdTimer?.start()
     }
 
     fun stopSurplus() {
         cdTimer?.cancel()
+    }
+
+    private val cdTimer = object : CountDownTimer(countTime.toLong(), 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            djTime.text = "倒计时 ${(millisUntilFinished / 1000)} s"
+        }
+
+        override fun onFinish() {
+            djTime.text = "倒计时 0 s"
+            if (finish) ActivityUtils.getActivityByContext(getContext())?.finish()
+            surplus?.surplus()
+        }
     }
 
     /**
@@ -79,7 +84,7 @@ class TitleTopState(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         cdTimer?.cancel()
-        surplusListener = null
+        surplus = null
     }
 
 }

@@ -41,6 +41,39 @@
 
     </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/btIp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_but"
+                android:text="保存可打印票数"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_24"/>
+
+        <EditText
+                android:id="@+id/etIp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="3"
+                android:background="@drawable/bg_edit"
+                android:hint="请输入IP端口"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingLeft="5dp"
+                android:textSize="@dimen/sp_24"/>
+
+    </LinearLayout>
+
     <RadioGroup
             android:id="@+id/radioGroupIdCard"
             android:layout_width="match_parent"
@@ -102,17 +135,6 @@
             android:background="@drawable/bg_but"
             android:gravity="center"
             android:text="测试打印机"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_24"/>
-
-    <TextView
-            android:id="@+id/checkUpdate"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="@dimen/dp_20"
-            android:background="@drawable/bg_but"
-            android:gravity="center"
-            android:text="检查更新"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_24"/>
 

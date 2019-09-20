@@ -25,7 +25,7 @@ interface BRequestCallback {
     /**
      * 返回成功调用 返回数据
      */
-    fun requestSuccess(baseResponse: BaseResponse, baseHttpDto: BRequest)
+    fun requestSuccess(baseResponse: BaseResponse, bHttpDto: BRequest)
 
     /**
      * 返回成功调用 返回数据

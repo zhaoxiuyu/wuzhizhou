@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/tvGroup"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingTop="@dimen/dp_10"
+             android:paddingBottom="@dimen/dp_10"
+             android:textSize="@dimen/sp_24"
+             android:gravity="center"
+             android:textStyle="bold"
+             android:button="@null"
+             android:background="@drawable/bg_but_group"
+             android:textColor="@drawable/bg_text_group"
+             tools:text="门船票">
+
+</RadioButton>

@@ -10,47 +10,58 @@
               android:paddingTop="20dp">
 
     <TextView
-            android:id="@+id/orderNo"
+            android:id="@+id/tvTicketModelName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.6"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
-            tools:text="订单号"/>
+            android:textSize="@dimen/sp_20"
+            tools:text="票型名称"/>
 
     <TextView
-            android:id="@+id/routeName"
+            android:id="@+id/tvTicketModelKindName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.6"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
-            tools:text="产品名称"/>
+            android:textSize="@dimen/sp_20"
+            tools:text="票种名称"/>
 
     <TextView
-            android:id="@+id/planBeginDate"
+            android:id="@+id/tvRebatePrice"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
-            tools:text="游玩日期"/>
+            android:textSize="@dimen/sp_20"
+            tools:text="票型价格"/>
 
     <TextView
-            android:id="@+id/amount"
+            android:id="@+id/tvValiddays"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_24"
+            android:textSize="@dimen/sp_20"
+            tools:text="有效天数"/>
+
+    <TextView
+            android:id="@+id/tvNumber"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_20"
             tools:text="数量"/>
 
-    <TextView
+    <Button
+            android:id="@+id/btIdCard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="@dimen/sp_24"
-            tools:text="选择"/>
+            android:background="@drawable/bg_but"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:text="验证身份证"/>
 
 </LinearLayout>

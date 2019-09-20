@@ -10,6 +10,10 @@ import com.sendinfo.wuzhizhou.R
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_order.*
 
+/**
+ * BActivity 在 library 里面，不想动
+ * 用 BaseActivity 在包一层吧
+ */
 open class BaseActivity<T : BPresenter> : BActivity<T>() {
 
     // 没有数据

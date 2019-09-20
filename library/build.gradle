@@ -149,7 +149,7 @@ dependencies {
     api 'com.youth.banner:banner:1.4.10'
 
     // 提示框
-    api 'com.lxj:xpopup:1.8.9-x'
+    api 'com.lxj:xpopup:1.8.10-x'
 
     // SuperTextView
     api 'com.github.lygttpod:SuperTextView:2.2.4'

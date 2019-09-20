@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.4"
                 android:gravity="center"
-                android:text="产品名称"
+                android:text="游玩日期"
                 android:textSize="@dimen/sp_24"/>
 
         <TextView
@@ -31,15 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.4"
                 android:gravity="center"
-                android:text="游玩日期"
-                android:textSize="@dimen/sp_24"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="数量"
+                android:text="预定人"
                 android:textSize="@dimen/sp_24"/>
 
         <TextView
