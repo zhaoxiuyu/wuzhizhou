@@ -5,13 +5,11 @@ import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
 import com.base.library.util.CockroachUtil
-import com.blankj.utilcode.util.CrashUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.https.HttpsUtils
-import com.vondear.rxtool.RxTool
 import okhttp3.OkHttpClient
 
 /**
@@ -25,10 +23,9 @@ open class BApplication : MultiDexApplication() {
 
 //        DoraemonKit.install(this)
         initAndroidUtilCode()
-        RxTool.init(this)
         initHttp()
 
-        initCockroach()
+//        initCockroach()
 
         //XPopup主题颜色
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
@@ -76,7 +73,6 @@ open class BApplication : MultiDexApplication() {
      */
     private fun initAndroidUtilCode() {
         Utils.init(this)
-        CrashUtils.init { crashInfo, e -> LogUtils.e(crashInfo) }
         LogUtils.getConfig().setLogSwitch(BuildConfig.IS_DEBUG)//总开关
             .setConsoleSwitch(BuildConfig.IS_DEBUG)//控制台开关
             .setGlobalTag("IZXY")//全局 Tag

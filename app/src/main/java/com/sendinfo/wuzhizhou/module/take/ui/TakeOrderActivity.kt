@@ -46,6 +46,8 @@ class TakeOrderActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), TakeO
 
     override fun initData() {
         super.initData()
+        soundPoolUtils.startPlayVideo(R.raw.order)
+
         initAdapter()
     }
 

@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.base.library.mvp.BPresenter
+import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
+import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.util.LogUtils
 import com.gyf.immersionbar.ImmersionBar
 import com.gyf.immersionbar.components.ImmersionFragment
@@ -18,8 +21,6 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.lxj.xpopup.interfaces.XPopupCallback
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BView
 import io.reactivex.functions.Consumer
 
 /**
@@ -139,4 +140,15 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(consumer)
     }
+
+    override fun other(content: String, behavior: String, level: String) {
+        roomInsertJournalRecord(content, behavior, level)
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+            .subscribe({
+                //                LogUtils.d("插入的主键是:$it")
+            }, {
+                //                LogUtils.e("删除:$it.localizedMessage")
+            })
+    }
+
 }

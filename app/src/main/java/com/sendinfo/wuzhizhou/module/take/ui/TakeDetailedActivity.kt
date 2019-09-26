@@ -7,6 +7,7 @@ import com.base.library.util.isFastClick
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.entitys.response.TakeTicketModelsVo
 import com.sendinfo.wuzhizhou.module.take.adapter.TakeDetailedAdapter
 import com.sendinfo.wuzhizhou.module.take.contract.TakeDetailedContract
@@ -42,6 +43,8 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
 
     override fun initData() {
         super.initData()
+        soundPoolUtils.startPlayVideo(R.raw.take)
+
         initAdapter()
 
         // 取票保存订单
@@ -77,8 +80,8 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
         mAdapter.notifyItemChanged(position)
     }
 
-    override fun toPrintTemp(printTemp: MutableList<String>) {
-        startActPrint(this, printTemp)
+    override fun toPrintTemp(printTemp: MutableList<PrintTempVo>) {
+        startActPrint(this, printTemp, "取票")
     }
 
 }

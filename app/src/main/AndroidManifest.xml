@@ -13,7 +13,9 @@
 
         <!-- 首页 -->
         <activity android:name=".module.common.ui.MainActivity"/>
-        <activity android:name=".module.common.ui.PrintActivity"/>
+        <activity android:name=".module.common.ui.PrintActivity">
+
+        </activity>
         <activity android:name=".module.common.ui.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,7 +31,6 @@
         <activity android:name=".module.again.ui.AgainVerificationActivity"/>
         <activity android:name=".module.again.ui.AgainMainActivity"/>
         <activity android:name=".module.again.ui.AgainRecordActivity"/>
-        <activity android:name=".module.again.ui.AgainChoiceActivity"/>
 
         <!-- 购票 -->
         <activity android:name=".module.purchase.ui.PurchaseMainActivity"/>
@@ -44,7 +45,8 @@
         <activity android:name=".module.take.ui.TakeDetailedActivity"/>
 
         <!-- 支付 -->
-        <activity android:name=".module.pay.ui.PayTypeActivity"/>
+        <activity android:name=".module.pay.ui.PayTypeActivity">
+        </activity>
         <activity android:name=".module.pay.ui.PayActivity"/>
 
     </application>

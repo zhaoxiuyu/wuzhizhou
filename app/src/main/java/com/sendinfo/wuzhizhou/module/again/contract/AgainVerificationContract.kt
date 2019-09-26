@@ -9,13 +9,13 @@ import com.base.library.mvp.BView
 interface AgainVerificationContract {
 
     interface View : BView {
-        fun checkSuccess(request: String?)
+        fun loginSuccess(request: String?)
 
-        fun checkError(msg: String?)
+        fun loginError(msg: String?)
     }
 
     interface Presenter : BPresenter {
-        fun check(idCard: String)
+        fun login(optorCode: String, optorPwd: String)
     }
 
 }

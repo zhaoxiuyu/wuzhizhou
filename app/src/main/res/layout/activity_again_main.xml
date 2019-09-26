@@ -15,6 +15,7 @@
                 android:id="@+id/wham"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/chongda"/>
     </LinearLayout>
 
@@ -28,6 +29,7 @@
                 android:id="@+id/setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/piaoshuguanli"/>
     </LinearLayout>
 

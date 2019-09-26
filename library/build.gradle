@@ -82,11 +82,11 @@ dependencies {
 
     // 工具类
     api 'com.blankj:utilcode:1.25.9'//柯基 AndroidUtilCode
-    api "com.github.tamsiree.RxTool:RxKit:2.3.9"//基础工具库
-    api "com.github.tamsiree.RxTool:RxUI:2.3.9"//UI库
-    api "com.github.tamsiree.RxTool:RxCamera:2.3.9"//相机库
-    api "com.github.tamsiree.RxTool:RxFeature:2.3.9" //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
-    api "com.github.tamsiree.RxTool:RxArcGisKit:2.3.9"  //ArcGis For Android工具库（API：100.1以上版本）
+//    api "com.github.tamsiree.RxTool:RxKit:2.3.9"//基础工具库
+//    api "com.github.tamsiree.RxTool:RxUI:2.3.9"//UI库
+//    api "com.github.tamsiree.RxTool:RxCamera:2.3.9"//相机库
+//    api "com.github.tamsiree.RxTool:RxFeature:2.3.9" //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
+//    api "com.github.tamsiree.RxTool:RxArcGisKit:2.3.9"  //ArcGis For Android工具库（API：100.1以上版本）
 
     // MMV
     api 'com.tencent:mmkv:1.0.23'
@@ -126,8 +126,8 @@ dependencies {
     api 'jp.wasabeef:glide-transformations:4.1.0'
 
     // View动画效果大集合
-//    api 'com.daimajia.easing:library:2.0@aar'
-//    api 'com.daimajia.androidanimations:library:2.3@aar'
+    api 'com.daimajia.easing:library:2.0@aar'
+    api 'com.daimajia.androidanimations:library:2.3@aar'
 
     // RecyclerView 列表动画
 //    api 'jp.wasabeef:recyclerview-animators:3.0.0'
@@ -165,6 +165,9 @@ dependencies {
 
     //底部导航栏
     //api 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
+
+    //lottie
+    api 'com.airbnb.android:lottie:3.0.1'
 
 }
 

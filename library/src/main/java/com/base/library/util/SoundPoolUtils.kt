@@ -6,12 +6,25 @@ import android.media.SoundPool
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import androidx.lifecycle.LifecycleOwner
+import com.base.library.interfaces.MyLifecycleObserver
+import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
 
 /**
  * 短音频 + 震动
  */
-object SoundPoolUtils {
+class SoundPoolUtils : MyLifecycleObserver {
+
+    private lateinit var owner: LifecycleOwner
+
+    override fun onCreate(owner: LifecycleOwner) {
+        this.owner = owner
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        release()
+    }
 
     private val MAX_STREAMS = 2
     private val DEFAULT_QUALITY = 0
@@ -50,9 +63,11 @@ object SoundPoolUtils {
     /**
      * resId 音频的资源ID
      */
-    fun playVideo(resId: Int) {
+    fun startPlayVideo(resId: Int) {
         val load = mSoundPool.load(Utils.getApp(), resId, DEFAULT_PRIORITY)
-        mSoundPool.play(load, LEFT_VOLUME.toFloat(), RIGHT_VOLUME.toFloat(), DEFAULT_PRIORITY, LOOP, RATE)
+        mSoundPool.setOnLoadCompleteListener { soundPool, sampleId, status ->
+            mSoundPool.play(load, LEFT_VOLUME.toFloat(), RIGHT_VOLUME.toFloat(), DEFAULT_PRIORITY, LOOP, RATE)
+        }
     }
 
     /**
@@ -73,7 +88,7 @@ object SoundPoolUtils {
      * 方法描述: 同时开始音乐和震动
      */
     fun startVideoAndVibrator(resId: Int, milliseconds: Long) {
-        playVideo(resId)
+        startPlayVideo(resId)
         startVibrator(milliseconds)
     }
 

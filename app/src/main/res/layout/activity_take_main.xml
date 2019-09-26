@@ -16,6 +16,7 @@
                 android:id="@+id/qrCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/erweimaqupiao"/>
     </LinearLayout>
 
@@ -29,6 +30,7 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/fuzhumaqupiao"/>
     </LinearLayout>
 
@@ -43,6 +45,7 @@
                 android:id="@+id/idCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/sfzqupiao"/>
     </LinearLayout>
 

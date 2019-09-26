@@ -1,5 +1,6 @@
 package com.sendinfo.wuzhizhou.entitys.response
 
+import com.sendinfo.wuzhizhou.entitys.request.IDCardsReq
 import java.io.Serializable
 
 class GetTicketVo : Serializable {
@@ -12,7 +13,7 @@ class GetTicketVo : Serializable {
     var TicketModelKindName: String? = null // ": "免费", ->  票种名称
     var SeasonType: String? = null // ": "2",   ->  淡旺季类型
     var BarcodeType: String? = null // ": "MP", ->  介质类型
-    var RebatePrice: String? = null // ": 0,    ->  票型价格
+    var RebatePrice: Double? = null // ": 0,    ->  票型价格
     var BuyLimitCoun: String? = null // t": 1,  ->  限制一次购票最大数量
     var Validdays: String? = null // ": 1,  ->  有效天数
     var UserCount: String? = null // ": 1,  ->  使用人数
@@ -25,5 +26,7 @@ class GetTicketVo : Serializable {
 
     // 自定义定义的属性,用来保存已选的票型数量
     var tvNumber = 0
+
+    var IDCards: MutableList<IDCardsReq>? = null // -> 实名制票对应的身份证
 
 }

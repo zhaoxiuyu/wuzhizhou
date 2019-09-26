@@ -14,7 +14,6 @@ import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -105,6 +104,10 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
         }
 
         throwable?.printStackTrace()
+    }
+
+    override fun other(content: String, behavior: String, level: String) {
+        mView?.other(content, behavior, level)
     }
 
 }

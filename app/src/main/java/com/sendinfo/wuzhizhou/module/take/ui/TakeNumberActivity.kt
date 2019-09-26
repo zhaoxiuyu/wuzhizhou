@@ -2,6 +2,8 @@ package com.sendinfo.wuzhizhou.module.take.ui
 
 import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.StringUtils
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.entitys.response.TakeOrderModelsVo
@@ -29,6 +31,8 @@ class TakeNumberActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), Take
 
     override fun initData() {
         super.initData()
+        soundPoolUtils.startPlayVideo(R.raw.fuzhuma)
+
         butVerify.setOnClickListener { getTakeOrderInfo() }
     }
 
@@ -38,6 +42,7 @@ class TakeNumberActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), Take
         val number = etIdCard.text.toString()
         if (StringUtils.isEmpty(number)) {
             tvInfo.text = "请输入辅助码"
+            YoYo.with(Techniques.Shake).playOn(etIdCard)
         } else {
             mPresenter?.getTakeOrderInfo(TakeOrderInfo3, number, uuid, false)
         }

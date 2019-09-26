@@ -64,8 +64,33 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <Button
+                android:id="@+id/btSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8"
+                android:paddingStart="@dimen/dp_18"
+                android:paddingEnd="@dimen/dp_18"
+                android:background="@drawable/bg_but"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_24"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_marginEnd="@dimen/dp_6"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:text="下一步"/>
+
+    </LinearLayout>
 
 </LinearLayout>

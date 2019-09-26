@@ -98,7 +98,7 @@ interface TestDao {
 //    fun insertRxSingl2(test: MutableList<Test>): Single<List<Long>>
 
     /**
-     * +++++++++++ 这些都是 Insert +++++++++++
+     * +++++++++++ 这些都是 Update +++++++++++
      */
 
     //Completable — 当update/delete完成时，马上调用onComplete

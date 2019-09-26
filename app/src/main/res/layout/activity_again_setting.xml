@@ -29,14 +29,15 @@
                 android:id="@+id/etPrintNumber"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="@dimen/dp_15"
                 android:layout_weight="3"
                 android:background="@drawable/bg_edit"
-                android:hint="请输入可打印门票数量"
+                android:hint="@string/input_number"
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLength="5"
-                android:paddingLeft="5dp"
+                android:paddingStart="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_1"
                 android:textSize="@dimen/sp_24"/>
 
     </LinearLayout>
@@ -54,7 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/bg_but"
-                android:text="保存可打印票数"
+                android:text="保存IP端口"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_24"/>
 
@@ -62,14 +63,14 @@
                 android:id="@+id/etIp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="@dimen/dp_15"
                 android:layout_weight="3"
                 android:background="@drawable/bg_edit"
-                android:hint="请输入IP端口"
+                android:hint="@string/input_ip"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLength="5"
-                android:paddingLeft="5dp"
+                android:paddingStart="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_1"
                 android:textSize="@dimen/sp_24"/>
 
     </LinearLayout>
@@ -88,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="@dimen/dp_6"
-                android:text="HID读身份证"
+                android:text="@string/hid_text"
                 android:textSize="@dimen/sp_24"/>
 
         <RadioButton
@@ -96,7 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="维尔读身份证"
+                android:text="@string/weier_text"
                 android:textSize="@dimen/sp_24"/>
     </RadioGroup>
 
@@ -114,7 +115,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="@dimen/dp_6"
-                android:text="霍尼韦尔打印机"
+                android:text="@string/huoni_text"
                 android:textSize="@dimen/sp_24"/>
 
         <RadioButton
@@ -122,10 +123,20 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TSC打印机"
+                android:text="@string/tsc_text"
                 android:textSize="@dimen/sp_24"/>
 
     </RadioGroup>
+
+    <Button
+            android:id="@+id/tuichu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/bg_but"
+            android:text="@string/ext_app"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_24"/>
 
     <TextView
             android:id="@+id/testDyj"
@@ -134,17 +145,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:background="@drawable/bg_but"
             android:gravity="center"
-            android:text="测试打印机"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_24"/>
-
-    <Button
-            android:id="@+id/tuichu"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="@dimen/dp_20"
-            android:background="@drawable/bg_but"
-            android:text="退出应用程序"
+            android:text="@string/test_print"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_24"/>
 

@@ -1,4 +1,4 @@
-package com.base.app.module.common.ui
+package com.sendinfo.wuzhizhou.module.common.ui
 
 import android.os.Bundle
 import com.base.library.base.BFragment

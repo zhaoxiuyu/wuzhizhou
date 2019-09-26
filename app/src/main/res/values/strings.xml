@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">蜈支洲自助机</string>
+    <string name="img_content">图片说明,为了应付检查</string>
+    <string name="input_number">请输入可打印门票数量</string>
+    <string name="input_ip">请输入IP端口</string>
+    <string name="input_username">请输入用户名</string>
+    <string name="input_password">请输入密码</string>
+    <string name="input_fuzhuma">请输入辅助码</string>
+    <string name="hid_text">HID读身份证</string>
+    <string name="weier_text">维尔读身份证</string>
+    <string name="huoni_text">霍尼韦尔打印机</string>
+    <string name="tsc_text">TSC打印机</string>
+    <string name="ext_app">退出应用程序</string>
+    <string name="test_print">测试打印机</string>
+    <string name="input_idcard">请输刷身份证,或者手动输入</string>
+    <string name="input_shimingrenz">请刷身份证 进行实名认证</string>
+    <string name="input_jiaoyi">请输入交易号</string>
+    <string name="text_fuzhuma">辅助码取票</string>
+    <string name="start_query">开始查询</string>
 </resources>

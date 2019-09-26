@@ -12,6 +12,8 @@
 
     </com.sendinfo.wuzhizhou.custom.TitleTopState>
 
+    <include layout="@layout/division"/>
+
     <FrameLayout
             android:id="@+id/fl"
             android:layout_width="match_parent"

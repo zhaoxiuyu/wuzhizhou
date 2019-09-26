@@ -2,13 +2,12 @@ package com.sendinfo.wuzhizhou.base
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.base.library.base.BActivity
 import com.base.library.mvp.BPresenter
+import com.base.library.util.SoundPoolUtils
 import com.sendinfo.wuzhizhou.R
+import com.sendinfo.wuzhizhou.owner.PrintStateOwner
 import kotlinx.android.synthetic.main.activity_base.*
-import kotlinx.android.synthetic.main.activity_take_order.*
 
 /**
  * BActivity 在 library 里面，不想动
@@ -16,13 +15,15 @@ import kotlinx.android.synthetic.main.activity_take_order.*
  */
 open class BaseActivity<T : BPresenter> : BActivity<T>() {
 
-    // 没有数据
-    val notDataView: View by lazy { layoutInflater.inflate(R.layout.empty_view, rv.parent as ViewGroup, false) }
+    val printStateOwner: PrintStateOwner by lazy { PrintStateOwner() }
+    val soundPoolUtils: SoundPoolUtils by lazy { SoundPoolUtils() }
 
     override fun initArgs(intent: Intent?) {
     }
 
     override fun initView() {
+        lifecycle.addObserver(printStateOwner)
+        lifecycle.addObserver(soundPoolUtils)
     }
 
     override fun initData() {

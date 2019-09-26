@@ -10,6 +10,7 @@ import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
+import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.util.LogUtils
 import com.gyf.immersionbar.ImmersionBar
 import com.lxj.xpopup.XPopup
@@ -129,6 +130,16 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
         getCacheObservable(key)
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe(consumer)
+    }
+
+    override fun other(content: String, behavior: String, level: String) {
+        roomInsertJournalRecord(content, behavior, level)
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+            .subscribe({
+                //                LogUtils.d("插入的主键是:$it")
+            }, {
+                //                LogUtils.e("删除:$it.localizedMessage")
+            })
     }
 
 }

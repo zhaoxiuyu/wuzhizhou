@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
@@ -15,6 +16,7 @@ import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseMainGroupAdapter
 import com.sendinfo.wuzhizhou.module.purchase.contract.PurchaseMainContract
 import com.sendinfo.wuzhizhou.module.purchase.presenter.PurchaseMainPresenter
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_purchase_main.*
 import java.io.Serializable
 
@@ -37,9 +39,16 @@ class PurchaseMainActivity : BaseActivity<PurchaseMainContract.Presenter>(), Pur
 
     override fun initData() {
         super.initData()
+        soundPoolUtils.startPlayVideo(R.raw.purchase)
+
         initAdapter()
+        tts.startSurplus(120000)
+        btSubmit.setOnClickListener {
+            if (isFastClick()) return@setOnClickListener
+            toAddIdCard()
+        }
+
         mPresenter?.getTicket()
-        btSubmit.setOnClickListener { toAddIdCard() }
     }
 
     /**
@@ -49,7 +58,6 @@ class PurchaseMainActivity : BaseActivity<PurchaseMainContract.Presenter>(), Pur
         mGroupAdapter.onItemChildClickListener = groupClick
         mGroupAdapter.bindToRecyclerView(rvGroup)
         rvGroup.layoutManager = GridLayoutManager(this, 4)
-        rvGroup.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
 
         mTicketsAdapter.onItemChildClickListener = this
         rv.adapter = mTicketsAdapter
@@ -122,7 +130,7 @@ class PurchaseMainActivity : BaseActivity<PurchaseMainContract.Presenter>(), Pur
         }
 
         // 判断有没有选择票型数量(新集合有没有票型)
-        if (ticketVos.isNullOrEmpty()) {
+        if (newTickets.isNullOrEmpty()) {
             ToastUtils.showShort("没有选择票型")
             return
         }

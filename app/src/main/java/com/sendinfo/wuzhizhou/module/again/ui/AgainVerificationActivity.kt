@@ -1,6 +1,9 @@
 package com.sendinfo.wuzhizhou.module.again.ui
 
-import android.view.View
+import com.base.library.util.isFastClick
+import com.blankj.utilcode.util.StringUtils
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.module.again.contract.AgainVerificationContract
@@ -23,16 +26,32 @@ class AgainVerificationActivity : BaseActivity<AgainVerificationContract.Present
     override fun initData() {
         super.initData()
         butVerify.setOnClickListener {
-            mPresenter?.check("")
+            if (isFastClick()) return@setOnClickListener
+            verify()
         }
     }
 
-    override fun checkSuccess(request: String?) {
+    private fun verify() {
+        val code = tvOptorCode.text.toString()
+        val pwd = tvOptorPwd.text.toString()
+
+        if (StringUtils.isEmpty(code)) {
+            YoYo.with(Techniques.Shake).playOn(tvOptorCode)
+            return
+        }
+        if (StringUtils.isEmpty(pwd)) {
+            YoYo.with(Techniques.Shake).playOn(tvOptorPwd)
+            return
+        }
+        mPresenter?.login(code, pwd)
+    }
+
+    override fun loginSuccess(request: String?) {
         startAct(this, AgainMainActivity::class.java)
     }
 
-    override fun checkError(msg: String?) {
-        tvInfo.visibility = View.VISIBLE
+    override fun loginError(msg: String?) {
+        YoYo.with(Techniques.Shake).playOn(tvInfo)
         tvInfo.text = "$msg"
     }
 

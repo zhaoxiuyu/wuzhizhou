@@ -25,7 +25,28 @@ const val TakeOrderInfo4 = "4"
 /**
  * 保存订单,取票 和购票支付完成之后 都调用这个接口
  */
-const val SaveOrder = "/api/v1/TicketTrade/SaveOrder"
+const val SaveOrder = "api/v1/TicketTrade/SaveOrder"
+
+/**
+ * 管理员登录验证
+ */
+const val Login = "api/v1/Terminal/Login"
+
+/**
+ * 重打查询交易,
+ * terminalCode 设备号,如果只有这个参数,那么就是查询当天这台自助机的明细
+ * tradeId 交易号,这个用得少,如果片面打印了可以用这个快速查询
+ * certNo 身份证号码
+ */
+const val QueryTrade = "api/v1/Terminal/QueryTrade"
+
+/**
+ * 获取重打模板,重打要更改条码号,所以要一个一个重打
+ * terminalCode 设备号,如果只有这个参数,那么就是查询当天这台自助机的明细
+ * oldBarcode 重打查询里面的 barcode
+ */
+const val ReprintTicket = "api/v1/Terminal/ReprintTicket"
+
 
 
 

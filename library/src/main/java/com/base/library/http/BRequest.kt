@@ -70,7 +70,7 @@ class BRequest(val method: String) {
         return request
     }
 
-    fun print() {
+    fun print(): String {
         val sb = StringBuilder()
         sb.appendln("请求地址 : $url")
         sb.appendln("请求方法 : $method")
@@ -79,8 +79,12 @@ class BRequest(val method: String) {
         sb.appendln("请求头为 : ")
         heads?.forEach { sb.appendln("${it.key} = ${it.value}") }
         sb.appendln("body参数为 : ")
+
         LogUtils.i(sb.toString())
         if (!StringUtils.isEmpty(body)) LogUtils.json(body)
+
+        sb.appendln(body)
+        return sb.toString()
     }
 
     companion object {

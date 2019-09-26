@@ -19,9 +19,9 @@ class AgainMainActivity : BaseActivity<BPresenter>() {
     override fun initData() {
         super.initData()
 
-        wham.setOnClickListener { startAct(this, AgainChoiceActivity::class.java) }
+        wham.setOnClickListener { startAct(this, AgainRecordActivity::class.java, isFinish = false) }
 
-        setting.setOnClickListener { startAct(this, AgainSettingActivity::class.java) }
+        setting.setOnClickListener { startAct(this, AgainSettingActivity::class.java, isFinish = false) }
 
     }
 

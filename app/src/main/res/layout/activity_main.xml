@@ -17,6 +17,7 @@
                 android:id="@+id/tvPurchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/goupiao"/>
 
     </LinearLayout>
@@ -32,6 +33,7 @@
                 android:id="@+id/tvTake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_content"
                 android:src="@mipmap/qupiao"/>
     </LinearLayout>
 

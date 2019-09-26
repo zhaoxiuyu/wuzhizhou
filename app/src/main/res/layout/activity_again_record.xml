@@ -15,7 +15,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.4"
                 android:gravity="center"
-                android:text="订单号"
+                android:text="交易编号"
                 android:textSize="@dimen/sp_24"/>
 
         <TextView
@@ -23,15 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.4"
                 android:gravity="center"
-                android:text="产品名称"
-                android:textSize="@dimen/sp_24"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.4"
-                android:gravity="center"
-                android:text="游玩日期"
+                android:text="票型名称"
                 android:textSize="@dimen/sp_24"/>
 
         <TextView
@@ -39,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="数量"
+                android:text="检票点"
                 android:textSize="@dimen/sp_24"/>
 
         <TextView
@@ -56,8 +48,56 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingBottom="@dimen/dp_8"
+            android:paddingStart="@dimen/dp_8"
+            android:paddingEnd="@dimen/dp_8"
+            android:orientation="horizontal">
+
+        <EditText
+                android:id="@+id/etTradeId"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:background="@drawable/bg_edit"
+                android:inputType="number"
+                android:hint="@string/input_jiaoyi"
+                android:gravity="center"/>
+
+        <EditText
+                android:id="@+id/etCertNo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:hint="@string/input_idcard"
+                android:gravity="center"
+                android:background="@drawable/bg_edit"/>
+
+        <Button
+                android:id="@+id/btSubmit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_but"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_24"
+                android:layout_gravity="end"
+                android:text="@string/start_query"/>
+
+    </LinearLayout>
 
 </LinearLayout>

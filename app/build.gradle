@@ -80,6 +80,11 @@ dependencies {
 
     implementation project(':library')
 
+    implementation 'com.sendinfo:tscprintlib:0.2.5' // TSC打印机
+    implementation 'com.sendinfo:honeywellprintlib:0.3.4' // 霍尼打印机
+    implementation 'com.sendinfo:sendinfoheadsetlib:0.9.1' // HID身份证阅读器
+    implementation 'com.sendinfo.mobile:padserialhelp:0.0.8-SNAPSHOT' // 二维码
+
 }
 
 repositories {

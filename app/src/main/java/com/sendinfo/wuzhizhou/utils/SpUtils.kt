@@ -47,3 +47,21 @@ fun putIp(ip: String) {
 
 fun getIp(): String = SPStaticUtils.getString("ip")
 
+/**
+ * 获取二维码串口
+ */
+fun putQRcodeSerialPort(QRcodeSerialPort: String) {
+    SPStaticUtils.put("QRcodeSerialPort", QRcodeSerialPort)
+}
+
+fun getQRcodeSerialPort(): String = SPStaticUtils.getString("QRcodeSerialPort")
+
+/**
+ * 指示灯控制板
+ */
+fun putIcCardSerialPort(IcCardSerialPort: String) {
+    SPStaticUtils.put("IcCardSerialPort", IcCardSerialPort)
+}
+
+fun getIcCardSerialPort(): String = SPStaticUtils.getString("IcCardSerialPort")
+
