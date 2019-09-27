@@ -78,7 +78,7 @@ class AgainRecordActivity : BaseActivity<AgainRecordContract.Presenter>(),
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         if (isFastClick()) return
 
-        // 打印纸票数不足,请管理员重新设置
+        //打印纸票数不足,请管理员重新设置
         if (getPrintNumber() < 1) {
             ToastUtils.showShort("打印纸票数不足,请管理员重新设置")
             return

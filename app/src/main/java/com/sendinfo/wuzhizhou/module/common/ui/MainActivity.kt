@@ -40,7 +40,7 @@ class MainActivity : BaseActivity<BPresenter>() {
      * 检测
      */
     private fun testing() {
-        // 打印纸票数不足,请管理员重新设置
+        //打印纸票数不足,请管理员重新设置
         if (getPrintNumber() < 1) {
             showDialog(
                 content = "打印纸票数不足,请管理员重新设置", confirmBtnText = "去设置",

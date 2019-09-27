@@ -52,7 +52,7 @@ class TakeDetailedPresenter(view: TakeDetailedContract.View) :
             return
         }
 
-        // 打印纸票数不足,请管理员重新设置
+        //打印纸票数不足,请管理员重新设置
         if (getPrintNumber() < count) {
             ToastUtils.showShort("打印纸票数不足,请管理员重新设置")
             return
