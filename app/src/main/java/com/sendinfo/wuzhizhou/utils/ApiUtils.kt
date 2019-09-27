@@ -47,6 +47,28 @@ const val QueryTrade = "api/v1/Terminal/QueryTrade"
  */
 const val ReprintTicket = "api/v1/Terminal/ReprintTicket"
 
+/**
+ * 获取支付二维码
+ *
+ * {
+"out_trade_no": "string", 生成单号 数字
+"auth_code": "string",  游客的支付码， 主扫 忽略
+"total_fee": "string",  支付金额
+"payType": "string", 支付 类型(wxpay alipay)
+"product_code": "string", -传空
+"product_name": "string", -传空
+"order_desc": "string", -传空
+"mch_create_ip": "string"  传 设备编号
+}
+ */
+const val QrCodePay = "api/v1/PayCenter/QrCodePay"
 
+/**
+ * 支付查询
+ */
+const val QrPayQuery = "api/v1/PayCenter/QrPayQuery"
 
-
+/**
+ * 支付关闭
+ */
+const val PayClose = "api/v1/PayCenter/PayClose"

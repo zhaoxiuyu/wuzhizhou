@@ -65,3 +65,12 @@ fun putIcCardSerialPort(IcCardSerialPort: String) {
 
 fun getIcCardSerialPort(): String = SPStaticUtils.getString("IcCardSerialPort")
 
+/**
+ * 手势密码
+ */
+fun putPlv(plv: String) {
+    SPStaticUtils.put("plv", plv)
+}
+
+fun getPlv(): String = SPStaticUtils.getString("plv", "")
+

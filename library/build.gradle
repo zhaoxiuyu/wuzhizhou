@@ -169,6 +169,9 @@ dependencies {
     //lottie
     api 'com.airbnb.android:lottie:3.0.1'
 
+    //手势密码
+    api 'com.github.ihsg:PatternLocker:2.5.4'
+
 }
 
 task sourcesJar(type: Jar) {

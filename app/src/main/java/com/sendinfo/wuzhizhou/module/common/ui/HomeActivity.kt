@@ -4,10 +4,13 @@ import android.animation.ValueAnimator
 import com.base.library.entitys.BaseResponse
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BaseView
+import com.blankj.utilcode.util.StringUtils
 import com.github.florent37.viewanimator.ViewAnimator
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.custom.GlideImageLoader
+import com.sendinfo.wuzhizhou.module.again.ui.AgainSettingActivity
+import com.sendinfo.wuzhizhou.utils.getIp
 import com.sendinfo.wuzhizhou.utils.startAct
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
@@ -24,12 +27,6 @@ class HomeActivity : BaseActivity<BPresenter>(), BaseView {
         super.initData()
         initBanner()
         online.setOnClickListener {
-            //            val journalRecord = JournalRecord().apply {
-            //                content = "内容啊"
-            //                behavior = "测试"
-            //            }
-//            roomLifecycle.addJournal(journalRecord)
-//            roomLifecycle.removeBefore()
             startAct(this, MainActivity::class.java, isFinish = false)
         }
         ViewAnimator.animate(online)
@@ -38,6 +35,12 @@ class HomeActivity : BaseActivity<BPresenter>(), BaseView {
             .repeatMode(ViewAnimator.REVERSE)
             .repeatCount(ValueAnimator.INFINITE)
             .start()
+
+        // 如果IP端口为空就跳转设置页面
+        if (StringUtils.isEmpty(getIp())) {
+            startAct(this, GestureActivity::class.java, isFinish = false)
+        }
+
     }
 
     private fun initBanner() {

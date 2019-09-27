@@ -13,6 +13,7 @@ class SaveOrderReq {
     var TotalTicketCount: Int? = null // ": 0, -> 总票数
     var BillNo: String? = null // ": "string", -> 取票的订单号
     var LockGuid: String? = null // ": "string", -> 查询明细的uuid
+    var PayTradeId: String? = null // ": "string", -> 支付交易号
 
     var TicketInfos: MutableList<TicketInfosReq>? = null // 票型
 

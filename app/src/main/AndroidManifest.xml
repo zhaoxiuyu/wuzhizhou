@@ -14,7 +14,8 @@
         <!-- 首页 -->
         <activity android:name=".module.common.ui.MainActivity"/>
         <activity android:name=".module.common.ui.PrintActivity">
-
+        </activity>
+        <activity android:name=".module.common.ui.GestureActivity">
         </activity>
         <activity android:name=".module.common.ui.HomeActivity">
             <intent-filter>
