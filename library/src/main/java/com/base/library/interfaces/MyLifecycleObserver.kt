@@ -6,6 +6,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import org.jetbrains.annotations.NotNull
 
+/**
+ * 通用的生命周期管理
+ */
 interface MyLifecycleObserver : LifecycleObserver {
 
     /**

@@ -7,12 +7,14 @@ import com.base.library.util.ArithMultiply
 import com.base.library.util.JsonUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.reflect.TypeToken
+import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.entitys.request.TicketInfosReq
 import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.entitys.response.TakeTicketModelsVo
 import com.sendinfo.wuzhizhou.module.take.contract.TakeDetailedContract
 import com.sendinfo.wuzhizhou.utils.SaveOrder
+import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.getShebeiCode
 
 class TakeDetailedPresenter(view: TakeDetailedContract.View) :
@@ -47,6 +49,12 @@ class TakeDetailedPresenter(view: TakeDetailedContract.View) :
 
         if (count <= 0) {
             ToastUtils.showShort("请增加取票数量")
+            return
+        }
+
+        // 打印纸票数不足,请管理员重新设置
+        if (getPrintNumber() < count) {
+            ToastUtils.showShort("打印纸票数不足,请管理员重新设置")
             return
         }
 

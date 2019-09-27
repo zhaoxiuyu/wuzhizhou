@@ -32,7 +32,7 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
 
     var mPresenter: T? = null
     private var xPopupLoading: BasePopupView? = null
-    private var xPopup: BasePopupView? = null
+    var xPopup: BasePopupView? = null
 
     val mHandler: Handler by lazy { Handler() }
     val mApplication: BApplication by lazy { application as BApplication }

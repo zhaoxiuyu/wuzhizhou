@@ -2,6 +2,7 @@ package com.sendinfo.wuzhizhou.module.again.ui
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.RegexUtils
 import com.blankj.utilcode.util.StringUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -15,6 +16,7 @@ import com.sendinfo.wuzhizhou.entitys.response.QueryTradeVo
 import com.sendinfo.wuzhizhou.module.again.adapter.ManagementRecordAdapter
 import com.sendinfo.wuzhizhou.module.again.contract.AgainRecordContract
 import com.sendinfo.wuzhizhou.module.again.presenter.AgainRecordPresenter
+import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.startActPrint
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_again_record.*
@@ -74,6 +76,14 @@ class AgainRecordActivity : BaseActivity<AgainRecordContract.Presenter>(),
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        if (isFastClick()) return
+
+        // 打印纸票数不足,请管理员重新设置
+        if (getPrintNumber() < 1) {
+            ToastUtils.showShort("打印纸票数不足,请管理员重新设置")
+            return
+        }
+
         val queryTradeVo = mAdapter.getItem(position)
         queryTradeVo?.Barcode?.let { mPresenter?.reprintTicket(it) }
     }
