@@ -12,7 +12,7 @@
     <string name="tsc_text">TSC打印机</string>
     <string name="ext_app">退出应用程序</string>
     <string name="test_print">测试打印机</string>
-    <string name="input_idcard">请输刷身份证,或者手动输入</string>
+    <string name="input_idcard">请输入身份证</string>
     <string name="input_shimingrenz">请刷身份证 进行实名认证</string>
     <string name="input_jiaoyi">请输入交易号</string>
     <string name="text_fuzhuma">辅助码取票</string>

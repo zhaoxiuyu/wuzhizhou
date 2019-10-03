@@ -12,6 +12,7 @@ import com.sendinfo.wuzhizhou.owner.IdCardOwner
 import com.sendinfo.wuzhizhou.utils.TakeOrderInfo1
 import com.sendinfo.wuzhizhou.utils.startActTakeDetailed
 import com.sendinfo.wuzhizhou.utils.startActTakeOrder
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_idcard.*
 import java.util.*
 
@@ -26,6 +27,7 @@ class TakeIdCardActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), Take
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_take_idcard)
+        tts.setIvLogo(R.drawable.tickettake)
         mPresenter = TakeOrderInfoPresenter(this)
         lifecycle.addObserver(idCardOwner)
     }

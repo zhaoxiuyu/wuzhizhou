@@ -48,6 +48,11 @@ const val QueryTrade = "api/v1/Terminal/QueryTrade"
 const val ReprintTicket = "api/v1/Terminal/ReprintTicket"
 
 /**
+ * 获取购票须知
+ */
+const val QueryNotice = "api/v1/Terminal/QueryNotice"
+
+/**
  * 获取支付二维码
  *
  * {
@@ -72,3 +77,25 @@ const val QrPayQuery = "api/v1/PayCenter/QrPayQuery"
  * 支付关闭
  */
 const val PayClose = "api/v1/PayCenter/PayClose"
+
+/**
+ * 获取支付二维码
+ * 测试地址：https://qr-test2.chinaums.com/netpay-route-server/api
+ * 正式地址：https://qr.chinaums.com/netpay-route-server/api
+ */
+const val GetQRCode = "https://qr.chinaums.com/netpay-route-server/api/GetQRCode;"
+
+/**
+ * 查询支付结果
+ */
+const val Query = "https://qr.chinaums.com/netpay-route-server/api/query;"
+
+/**
+ * 关闭订单
+ */
+const val CloseQRCode = "https://qr.chinaums.com/netpay-route-server/api/closeQRCode;"
+
+/**
+ * 关闭页面广播
+ */
+const val ClosePageAction = "ClosePageAction"

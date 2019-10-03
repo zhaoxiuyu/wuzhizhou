@@ -8,8 +8,10 @@ import com.blankj.utilcode.util.ToastUtils
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.utils.*
 import kotlinx.android.synthetic.main.activity_again_setting.*
+import kotlinx.android.synthetic.main.activity_base.*
 
 /**
  * 设置
@@ -23,7 +25,7 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
 
     override fun initData() {
         super.initData()
-
+        tts.startSurplus(300 * 1000)
         /**
          * 票数
          */
@@ -75,16 +77,23 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
          */
         etIp.setText(getIp())
         btIp.setOnClickListener {
-            val ip = etIp.text.toString()
+            var ip = etIp.text.toString().trim()
             if (StringUtils.isEmpty(ip)) {
                 ToastUtils.showShort("请输入IP端口")
                 return@setOnClickListener
             }
+            if (!ip.startsWith("http:") && !ip.startsWith("https:")) ip = "http://$ip/"
             putIp(ip)
         }
 
         //测试打印机
-        testDyj.setOnClickListener { }
+        testDyj.setOnClickListener {
+            var printList = ArrayList<PrintTempVo>()
+            printList.add(PrintTempVo().apply {
+                PrintTemp = defaultTemplate()
+            })
+            startActPrint(this, printList, "测试打印机")
+        }
 
         //退出程序
         tuichu.setOnClickListener {

@@ -13,6 +13,7 @@ import com.sendinfo.wuzhizhou.module.take.presenter.TakeOrderInfoPresenter
 import com.sendinfo.wuzhizhou.utils.TakeOrderInfo3
 import com.sendinfo.wuzhizhou.utils.startActTakeDetailed
 import com.sendinfo.wuzhizhou.utils.startActTakeOrder
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_number.*
 import java.util.*
 
@@ -26,6 +27,7 @@ class TakeNumberActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), Take
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_take_number)
+        tts.setIvLogo(R.drawable.tickettake)
         mPresenter = TakeOrderInfoPresenter(this)
     }
 

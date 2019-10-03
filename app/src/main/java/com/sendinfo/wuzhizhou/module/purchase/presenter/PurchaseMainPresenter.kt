@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.LogUtils
 import com.google.gson.reflect.TypeToken
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketGroupVo
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
+import com.sendinfo.wuzhizhou.module.purchase.contract.MainContract
 import com.sendinfo.wuzhizhou.module.purchase.contract.PurchaseMainContract
 import com.sendinfo.wuzhizhou.utils.GetTicket
 import com.sendinfo.wuzhizhou.utils.GetTicketGroup

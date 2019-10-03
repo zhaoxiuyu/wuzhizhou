@@ -33,6 +33,10 @@ class TitleTopState(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
         printNumber.text = "可售数量 : ${getPrintNumber()}"
     }
 
+    fun setIvLogo(resId: Int) {
+        ivLogo.setImageResource(resId)
+    }
+
     /**
      * 返回按钮点击事件
      */
@@ -58,7 +62,7 @@ class TitleTopState(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
         this.surplus = surplus
     }
 
-    fun startSurplus(countTime: Int = 30000) {
+    fun startSurplus(countTime: Int = 90000) {
         djTime.visibility = View.VISIBLE
         djTime.text = "倒计时 ${(countTime / 1000)}"
 
@@ -88,10 +92,10 @@ class TitleTopState(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
     private val mHits = LongArray(3)
 
     fun setDouble(click: OnClickListener) {
-        ivCurrent.setOnClickListener {
+        ivLogo.setOnClickListener {
             System.arraycopy(mHits, 1, mHits, 0, mHits.size - 1)
             mHits[mHits.size - 1] = SystemClock.uptimeMillis()//获取手机开机时间
-            if (mHits[mHits.size - 1] - mHits[0] < 500) click.onClick(ivCurrent)
+            if (mHits[mHits.size - 1] - mHits[0] < 500) click.onClick(ivLogo)
         }
     }
 

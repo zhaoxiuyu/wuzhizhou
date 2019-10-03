@@ -18,7 +18,7 @@ class GetTicketVo : Serializable {
     var Validdays: String? = null // ": 1,  ->  有效天数
     var UserCount: String? = null // ": 1,  ->  使用人数
     var FTicketType: String? = null // ": "导游", ->  票类型
-    var NeedReadIDCard: String? = null // ": "0",   ->  购票是否需要读身份证
+    var NeedReadIDCard: String = "0" // ": "0"不需要 1需要 , -> 购票是否需要读身份证
     var Isyh: String? = null // ": "0", ->  是否有优惠
     var YhRemark: String? = null // ": null,    ->  优惠弹出提示信息
     var TicketGroup: String? = null // ": "734002", ->  票分组,用这个过滤分组
@@ -28,5 +28,4 @@ class GetTicketVo : Serializable {
     var tvNumber = 0
 
     var IDCards: MutableList<IDCardsReq>? = null // -> 实名制票对应的身份证
-
 }

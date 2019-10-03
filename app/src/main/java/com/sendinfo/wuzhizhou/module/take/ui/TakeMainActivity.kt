@@ -7,6 +7,7 @@ import com.base.library.util.isFastClick
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.utils.startAct
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_main.*
 
 /**
@@ -17,6 +18,7 @@ class TakeMainActivity : BaseActivity<BPresenter>(), BaseView {
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_take_main)
+        tts.setIvLogo(R.drawable.tickettake)
     }
 
     override fun initData() {

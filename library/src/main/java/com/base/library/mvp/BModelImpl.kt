@@ -90,8 +90,8 @@ class BModelImpl : BModel {
     private fun getRetrofitApi(http: BRequest): Observable<String> {
         val httpService = BManager.mBaseHttpService
         return when (http.url) {
-            IDCARD -> httpService.apiPay(http.body)
-            else -> httpService.apiPay(http.body)
+            IDCARD -> httpService.apiPay(http.bodyJson)
+            else -> httpService.apiPay(http.bodyJson)
         }
     }
 

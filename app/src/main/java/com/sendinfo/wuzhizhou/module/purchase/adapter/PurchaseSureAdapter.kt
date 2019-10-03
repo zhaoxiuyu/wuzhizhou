@@ -13,7 +13,14 @@ class PurchaseSureAdapter : BaseQuickAdapter<GetTicketVo, BaseViewHolder>(R.layo
         helper.setText(R.id.tvRebatePrice, "${item.RebatePrice}")
         helper.setText(R.id.tvValiddays, "${item.Validdays}")
         helper.setText(R.id.tvNumber, "${item.tvNumber}")
-        helper.addOnClickListener(R.id.btIdCard)
-    }
 
+        if (item.NeedReadIDCard == "0") {
+            helper.setBackgroundRes(R.id.btIdCard, R.drawable.bg_gray)
+            helper.setText(R.id.btIdCard, "不用身份证")
+        } else {
+            helper.setText(R.id.btIdCard, "验证身份证")
+            helper.addOnClickListener(R.id.btIdCard)
+            helper.setBackgroundRes(R.id.btIdCard, R.drawable.bg_but)
+        }
+    }
 }

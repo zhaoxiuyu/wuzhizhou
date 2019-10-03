@@ -4,6 +4,7 @@ import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.StringUtils
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.sendinfo.wuzhizhou.BuildConfig
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.module.again.contract.AgainVerificationContract
@@ -28,6 +29,10 @@ class AgainVerificationActivity : BaseActivity<AgainVerificationContract.Present
         butVerify.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
             verify()
+        }
+        if (BuildConfig.DEBUG){
+            tvOptorCode.setText("ADMIN")
+            tvOptorPwd.setText("1")
         }
     }
 

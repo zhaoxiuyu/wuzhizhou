@@ -1,5 +1,6 @@
 package com.sendinfo.wuzhizhou.module
 
+import com.blankj.utilcode.util.TimeUtils
 import java.util.*
 
 /**
@@ -19,4 +20,5 @@ import java.util.*
  */
 fun main(args: Array<String>) {
     System.out.println(UUID.randomUUID().toString().replace("-", ""))
+    System.out.println(TimeUtils.date2String(Date(), "yyyyMMddmmHHssSSS") + ((Math.random() * 9 + 1) * 1000000).toInt())
 }

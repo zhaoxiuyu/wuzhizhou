@@ -14,6 +14,7 @@ import com.sendinfo.wuzhizhou.module.take.contract.TakeDetailedContract
 import com.sendinfo.wuzhizhou.module.take.presenter.TakeDetailedPresenter
 import com.sendinfo.wuzhizhou.utils.startActPrint
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_detailed.*
 
 /**
@@ -38,6 +39,7 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_take_detailed)
+        tts.setIvLogo(R.drawable.tickettake)
         mPresenter = TakeDetailedPresenter(this)
     }
 

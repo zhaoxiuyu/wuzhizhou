@@ -4,9 +4,12 @@ import android.content.Intent
 import android.view.View
 import com.base.library.mvp.BPresenter
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.Utils
 import com.sendinfo.honeywellprintlib.print.PrintReturnCallback
+import com.sendinfo.honeywellprintlib.print.PrintServerUtil
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.utils.HardwareExample
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.putPrintNumber
@@ -14,6 +17,7 @@ import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_print.*
@@ -24,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_print.*
 class PrintActivity : BaseActivity<BPresenter>() {
 
     var source: String? = null
-    var printTemp: MutableList<String>? = null
+    var printTemp: MutableList<PrintTempVo>? = null
 
     var sum = 0 // 总票数
     var completedSum = 0 // 已出票数
@@ -33,7 +37,7 @@ class PrintActivity : BaseActivity<BPresenter>() {
         super.initArgs(intent)
         intent?.let {
             source = it.getStringExtra("source")
-            printTemp = it.getSerializableExtra("printTemp") as MutableList<String>
+            printTemp = it.getSerializableExtra("printTemp") as MutableList<PrintTempVo>
         }
     }
 
@@ -62,19 +66,20 @@ class PrintActivity : BaseActivity<BPresenter>() {
     }
 
     private fun print() {
-        Observable.just(printTemp?.get(completedSum)).map {
+        RxJavaPlugins.setErrorHandler {
+            LogUtils.e(it.message ?: "RxJavaError")
+        }
+        Observable.just(printTemp?.get(completedSum)?.PrintTemp).map {
             LogUtils.d("发送打印指令 : \n $it")
             other("$it", "$source 发送打印指令", "I")
-
             val printReturnCallback = PrintReturnCallback {}
-            HardwareExample.getWhPrint().print("", printReturnCallback, 15000)
+            PrintServerUtil.getInstance(applicationContext).print("$it", printReturnCallback, 15000)
+//            HardwareExample.getWhPrint().print("$it", printReturnCallback, 15000)
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
             .subscribe({
                 other("$it", "$source 打印机返回状态", "I")
-
                 tvInfo.text = "${it.msg}" // 这里显示打印状态
-
                 if (it.isSucc) {
                     // 减去票数
                     var printNumber = getPrintNumber()

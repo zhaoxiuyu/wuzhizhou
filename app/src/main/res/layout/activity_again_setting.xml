@@ -68,7 +68,6 @@
                 android:background="@drawable/bg_edit"
                 android:hint="@string/input_ip"
                 android:imeOptions="actionDone"
-                android:inputType="number"
                 android:paddingStart="@dimen/dp_5"
                 android:paddingEnd="@dimen/dp_1"
                 android:textSize="@dimen/sp_24"/>

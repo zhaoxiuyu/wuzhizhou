@@ -9,7 +9,6 @@ import com.github.florent37.viewanimator.ViewAnimator
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.custom.GlideImageLoader
-import com.sendinfo.wuzhizhou.module.again.ui.AgainSettingActivity
 import com.sendinfo.wuzhizhou.utils.getIp
 import com.sendinfo.wuzhizhou.utils.startAct
 import com.youth.banner.BannerConfig
@@ -46,7 +45,7 @@ class HomeActivity : BaseActivity<BPresenter>(), BaseView {
     private fun initBanner() {
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR)
         banner.setImageLoader(GlideImageLoader())
-        banner.setImages(listOf(R.mipmap.banner11, R.mipmap.banner12))
+        banner.setImages(listOf(R.mipmap.bg1, R.mipmap.bg2,R.mipmap.bg3,R.mipmap.bg4,R.mipmap.bg5,R.mipmap.bg6,R.mipmap.bg7))
         banner.setBannerAnimation(Transformer.DepthPage)
         banner.isAutoPlay(true)
         banner.setDelayTime(3000)

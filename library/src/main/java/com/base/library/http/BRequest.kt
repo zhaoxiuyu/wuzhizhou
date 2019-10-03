@@ -1,5 +1,6 @@
 package com.base.library.http
 
+import android.text.TextUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPStaticUtils
 import com.blankj.utilcode.util.StringUtils
@@ -23,14 +24,15 @@ class BRequest(val method: String) {
     var isFinish = false//请求失败 确定 提示框 是否销毁当前页面
     var isSpliceUrl = false//是否强制将params的参数拼接到url后面,up系列与params系列混用
     var isMultipart = false//是否强制使用multipart/form-data表单上传
+    var fullUrl: String = ""//完整的URL
     var url: String = "${SPStaticUtils.getString("ip")}$method" //方法名(默认设置为URL)
     var cacheMode = CacheMode.NO_CACHE//缓存模式
     var cacheTime = -1L //缓存时长 -1永不过期
     var heads: Map<String, String>? = null //请求头和参数
     var params: Map<String, String>? = null // key value 参数
-    var body: String = "" //upString
+    var bodyJson: String = "" //bodyJson
+    var bodyString: String = "" //upString
     var tag: Any? = null //标识
-
     fun getOkGo(): Request<String, out Request<*, *>> {
         return getRequest()
     }
@@ -44,6 +46,7 @@ class BRequest(val method: String) {
     }
 
     private fun getRequest(): Request<String, out Request<*, *>> {
+        if (!TextUtils.isEmpty(fullUrl)) url = fullUrl
         val request: Request<String, out Request<*, *>>
         when (httpType) {
             GET -> request = OkGo.get(url)
@@ -59,10 +62,10 @@ class BRequest(val method: String) {
         request?.cacheMode(cacheMode)
         request?.cacheTime(cacheTime)
 
-        if (!StringUtils.isEmpty(body) || isSpliceUrl) {//是否强制将params的参数拼接到url后面,up系列与params系列混用
-            (request as BodyRequest)
-                .upString(body)
-            request.upString(body)
+        if (!StringUtils.isEmpty(bodyJson) || !StringUtils.isEmpty(bodyString) || isSpliceUrl) {//是否强制将params的参数拼接到url后面,up系列与params系列混用
+            (request as BodyRequest).upString(bodyString)
+            request.upString(bodyString)
+            request.upJson(bodyJson)
             request.isSpliceUrl(isSpliceUrl)
             request.isMultipart(isMultipart) // 是否使用表单上传
         }
@@ -81,9 +84,9 @@ class BRequest(val method: String) {
         sb.appendln("body参数为 : ")
 
         LogUtils.i(sb.toString())
-        if (!StringUtils.isEmpty(body)) LogUtils.json(body)
+        if (!StringUtils.isEmpty(bodyJson)) LogUtils.json(bodyJson)
 
-        sb.appendln(body)
+        sb.appendln(bodyJson)
         return sb.toString()
     }
 

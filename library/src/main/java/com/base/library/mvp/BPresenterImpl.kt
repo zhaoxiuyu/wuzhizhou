@@ -109,5 +109,4 @@ open class BPresenterImpl<T : BView>(var mView: T) : BPresenter, BRequestCallbac
     override fun other(content: String, behavior: String, level: String) {
         mView?.other(content, behavior, level)
     }
-
 }

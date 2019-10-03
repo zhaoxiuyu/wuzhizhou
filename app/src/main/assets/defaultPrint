@@ -1,0 +1,29 @@
+CUT ON
+DIR3
+NASC "UTF-8"
+FT "FangSong",6,0,145
+PP520,250
+BARSET "QRCODE",1,1,6,2,1:PB "${qrCode}"
+PP280,50
+PT "订单编号:${tradeId}"
+PP280,80
+PT "开始日期:${beginDate}"
+PP280,110
+PT "身份证:${certNo}"
+PP280,140
+PT "票型名称:${tktModelName}"
+PP280,170
+PT "单票名称:${ticketName}"
+PP280,200
+PT "票价:${tktModelPrice}"
+PP280,230
+PT "条码编号:${barCode}"
+PF1
+
+
+
+
+
+
+
+

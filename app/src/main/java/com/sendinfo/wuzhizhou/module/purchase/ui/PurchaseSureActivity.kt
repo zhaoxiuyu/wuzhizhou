@@ -8,6 +8,7 @@ import com.base.library.util.ArithMultiply
 import com.base.library.util.JsonUtils
 import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
@@ -15,6 +16,7 @@ import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.entitys.request.TicketInfosReq
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
+import com.sendinfo.wuzhizhou.module.pay.ui.PayActivity
 import com.sendinfo.wuzhizhou.module.pay.ui.PayTypeActivity
 import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseSureAdapter
 import com.sendinfo.wuzhizhou.owner.IdCardOwner
@@ -23,6 +25,7 @@ import com.sendinfo.wuzhizhou.utils.startAct
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_purchase_main.*
+import java.util.*
 
 /**
  * 确定购买票型
@@ -33,7 +36,6 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     private val mDialog: RealNameDialog by lazy { RealNameDialog() }
     private var newTickets: MutableList<GetTicketVo>? = null
     private val idCardOwner: IdCardOwner by lazy { IdCardOwner(this) }
-
     override fun initArgs(intent: Intent?) {
         super.initArgs(intent)
         intent?.let {
@@ -44,6 +46,7 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_purchase_sure)
+        tts.setIvLogo(R.drawable.ticketpurchase)
         lifecycle.addObserver(idCardOwner)
     }
 
@@ -51,7 +54,6 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
         super.initData()
         soundPoolUtils.startPlayVideo(R.raw.idcarname)
         mDialog.setIdCardOwner(idCardOwner)
-
         tts.startSurplus(120000)
         btSubmit.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
@@ -73,11 +75,12 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         if (isFastClick()) return
-        val ticketVo = mAdapter.getItem(position)
-
-        mDialog.show(supportFragmentManager, "RealNameDialog")
-        if (ticketVo?.IDCards == null) ticketVo?.IDCards = mutableListOf()
-        mDialog.setNewData(ticketVo?.IDCards, ticketVo?.tvNumber ?: 0)
+        val ticketVo = mAdapter.getItem(position) as GetTicketVo
+        if (ticketVo.NeedReadIDCard == "1") {
+            mDialog.show(supportFragmentManager, "RealNameDialog")
+            if (ticketVo?.IDCards == null) ticketVo?.IDCards = mutableListOf()
+            mDialog.setNewData(ticketVo?.IDCards, ticketVo?.tvNumber)
+        }
     }
 
     /**
@@ -86,7 +89,7 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     private fun saveOrderData() {
         val ticketVos = mAdapter.data
         ticketVos?.forEach {
-            if (it.IDCards.isNullOrEmpty()) {
+            if (it.NeedReadIDCard == "1" && it.IDCards.isNullOrEmpty()) {
                 ToastUtils.showShort("请刷身份证进行实名认证")
                 return
             }
@@ -95,7 +98,7 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
                 return
             }
             // 购票数和身份证数量不相等
-            if (it.tvNumber != it.IDCards?.size) {
+            if (it.NeedReadIDCard == "1" && it.tvNumber != it.IDCards?.size) {
                 ToastUtils.showShort("实名认证数量不合法")
                 return
             }
@@ -125,16 +128,17 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
         val saveOrderVo = SaveOrderReq()
         saveOrderVo.OptType = "0"
         saveOrderVo.TerminalCode = getShebeiCode()
-        saveOrderVo.PayTypeCode = "07"
-        saveOrderVo.PayTypeName = "电子商务"
+        saveOrderVo.PayTypeCode = "56"
+        saveOrderVo.PayTypeName = "银联聚合支付"
         saveOrderVo.PaySum = sum
         saveOrderVo.TotalTicketCount = count
         saveOrderVo.BillNo = ""
         saveOrderVo.LockGuid = ""
+        saveOrderVo.PayTradeId = ""//支付订单号，支付页面生成
         saveOrderVo.TicketInfos = ticketInfoVos
 
         LogUtils.json(JsonUtils.toJson(saveOrderVo))
-        startAct(this, PayTypeActivity::class.java)
+//        startAct(this, Intent(this, PayTypeActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
+        startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
     }
-
 }

@@ -7,8 +7,11 @@ import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.entitys.response.TakeOrderModelsVo
 import com.sendinfo.wuzhizhou.entitys.response.TakeTicketModelsVo
 import com.sendinfo.wuzhizhou.module.common.ui.PrintActivity
+import com.sendinfo.wuzhizhou.module.common.ui.PrintActivityNew
 import com.sendinfo.wuzhizhou.module.take.ui.TakeDetailedActivity
 import com.sendinfo.wuzhizhou.module.take.ui.TakeOrderActivity
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.io.Serializable
 
 fun <T> startAct(context: Context, cls: Class<T>, isFinish: Boolean = true) {
@@ -41,7 +44,8 @@ fun startActTakeDetailed(context: Context, uuid: String, takeTicketModels: Mutab
 
 // 去打印
 fun startActPrint(context: Context, printTemp: MutableList<PrintTempVo>, source: String) {
-    val intent = Intent(context, PrintActivity::class.java)
+//    val intent = Intent(context, PrintActivity::class.java)
+    val intent = Intent(context, PrintActivityNew::class.java)
     intent.putExtra("source", source)
     intent.putExtra("printTemp", printTemp as Serializable)
     context.startActivity(intent)
@@ -73,4 +77,23 @@ fun defaultTemplate(): String {
             "PP450,200\n" +
             "PT \"票价: 1.0 \"\n" +
             "PF1\n"
+}
+
+fun getFromAssets(context: Context, fileName: String): String {
+    val sb = StringBuilder()
+    try {
+        val inputReader = InputStreamReader(context.resources.assets.open(fileName))
+        val bufReader = BufferedReader(inputReader)
+        var line: String?
+        while (true) {
+            line = bufReader.readLine()
+            if (line == null) break
+            else sb.append(line)
+        }
+        return sb.toString()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return sb.toString()
 }

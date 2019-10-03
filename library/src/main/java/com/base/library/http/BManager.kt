@@ -45,7 +45,7 @@ object BManager {
 //                    var request = chain.request()
 //
 //                    LogUtils.d(request.toString())
-//                    LogUtils.d(request.body()?.toString())
+//                    LogUtils.d(request.bodyJson()?.toString())
 //
 //                    if (!NetworkUtils.isConnected()) {
 //                        request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build()

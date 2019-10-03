@@ -14,6 +14,7 @@ import com.sendinfo.wuzhizhou.utils.TakeOrderInfo2
 import com.sendinfo.wuzhizhou.utils.getQRcodeSerialPort
 import com.sendinfo.wuzhizhou.utils.startActTakeDetailed
 import com.sendinfo.wuzhizhou.utils.startActTakeOrder
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_qrcode.*
 import java.util.*
 
@@ -28,6 +29,7 @@ class TakeQrCodeActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), Take
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_take_qrcode)
+        tts.setIvLogo(R.drawable.tickettake)
         mPresenter = TakeOrderInfoPresenter(this)
         lifecycle.addObserver(qrCodeOwner)
     }

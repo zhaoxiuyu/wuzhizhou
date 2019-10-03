@@ -17,6 +17,7 @@ import com.sendinfo.wuzhizhou.module.take.presenter.TakeOrderInfoPresenter
 import com.sendinfo.wuzhizhou.utils.TakeOrderInfo4
 import com.sendinfo.wuzhizhou.utils.startActTakeDetailed
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_take_order.*
 import java.util.*
 
@@ -41,6 +42,7 @@ class TakeOrderActivity : BaseActivity<TakeOrderInfoContract.Presenter>(), TakeO
     override fun initView() {
         super.initView()
         initContentView(R.layout.activity_take_order)
+        tts.setIvLogo(R.drawable.tickettake)
         mPresenter = TakeOrderInfoPresenter(this)
     }
 

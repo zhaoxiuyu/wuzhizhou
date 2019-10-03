@@ -1,40 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center">
+              android:background="@color/white"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="140dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp">
 
         <ImageView
-                android:id="@+id/ivGuide"
-                tools:src="@mipmap/zhifubaoyindaotu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/img_content"/>
+                android:src="@drawable/tb" />
 
-        <ImageView
-                android:id="@+id/ivQrCode"
-                tools:src="@mipmap/ic_launcher"
+        <TextView
+                android:id="@+id/tvCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/img_content"/>
+                android:layout_marginLeft="20dp"
+                android:gravity="left"
+                android:minWidth="120dp"
+                android:text="总数量：0张"
+                android:textColor="@color/text_333333"
+                android:textSize="@dimen/sp_24" />
+
+        <TextView
+                android:id="@+id/tvSumPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:minWidth="120dp"
+                android:text="总价格：0张"
+                android:textColor="@color/text_333333"
+                android:textSize="@dimen/sp_24" />
 
     </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/qrbg"
+            android:gravity="center"
+            android:padding="5dp">
+
+        <LinearLayout
+                android:layout_width="235dp"
+                android:layout_height="235dp"
+                android:background="@drawable/qrscan"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+            <ImageView
+                    android:id="@+id/ivQrCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tvType"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="打开扫一扫"
+            android:textColor="@color/text_333333"
+            android:textSize="@dimen/sp_24" />
+
     <TextView
             android:id="@+id/tvPayInfo"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             android:gravity="center"
-            android:textSize="@dimen/sp_30"
-            android:textColor="@color/colorAccent"
-            tools:text="支付状态 : "/>
-
+            android:text="提示:请在5分钟内完成扫码支付,支付过程中不能关闭扫码界面"
+            android:textColor="@color/red_ff0000"
+            android:textSize="20sp" />
 </LinearLayout>

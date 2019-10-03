@@ -51,12 +51,12 @@
             android:textSize="@dimen/sp_20"
             tools:text="数量"/>
 
-    <Button
+    <TextView
             android:id="@+id/btIdCard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bg_but"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_20"
             android:text="验证身份证"/>

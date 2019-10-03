@@ -33,6 +33,7 @@ class PayTypeActivity : BaseActivity<BPresenter>() {
                 this, Intent(this, PayActivity::class.java)
                     .putExtra("PayTypeCode", "18")
                     .putExtra("PayTypeName", "支付宝")
+                    .putExtra("saveOrderVo", intent.getSerializableExtra("saveOrderVo"))
             )
         }
         tvWx.setOnClickListener {
@@ -42,6 +43,7 @@ class PayTypeActivity : BaseActivity<BPresenter>() {
                 this, Intent(this, PayActivity::class.java)
                     .putExtra("PayTypeCode", "19")
                     .putExtra("PayTypeName", "微信")
+                    .putExtra("saveOrderVo", intent.getSerializableExtra("saveOrderVo"))
             )
         }
 

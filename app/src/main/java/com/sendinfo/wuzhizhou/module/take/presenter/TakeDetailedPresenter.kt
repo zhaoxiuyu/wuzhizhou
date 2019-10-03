@@ -5,9 +5,9 @@ import com.base.library.http.BRequest
 import com.base.library.mvp.BPresenterImpl
 import com.base.library.util.ArithMultiply
 import com.base.library.util.JsonUtils
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.reflect.TypeToken
-import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.entitys.request.TicketInfosReq
 import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
@@ -68,10 +68,10 @@ class TakeDetailedPresenter(view: TakeDetailedContract.View) :
         saveOrderVo.BillNo = billNo
         saveOrderVo.LockGuid = uuid
         saveOrderVo.TicketInfos = ticketInfoVos
-
         val bRequest = BRequest(SaveOrder).apply {
-            body = JsonUtils.toJson(saveOrderVo)
+            bodyJson = JsonUtils.toJson(saveOrderVo)
         }
+        LogUtils.json(JsonUtils.toJson(saveOrderVo))
         getData(bRequest)
     }
 

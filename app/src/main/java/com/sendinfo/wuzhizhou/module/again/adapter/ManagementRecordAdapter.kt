@@ -11,6 +11,9 @@ class ManagementRecordAdapter : BaseQuickAdapter<QueryTradeVo, BaseViewHolder>(R
         helper.setText(R.id.tvTradeId, item.TradeId)
             .setText(R.id.tvTicketModelName, item.TicketModelName)
             .setText(R.id.tvParkName, item.ParkName)
+            .setText(R.id.tvFirstBarcode, item.FirstBarcode)
+            .setText(R.id.tvBarcode, item.Barcode)
+            .setText(R.id.tvCheckFlag, item.CheckFlag)
             .addOnClickListener(R.id.butAgain)
     }
 

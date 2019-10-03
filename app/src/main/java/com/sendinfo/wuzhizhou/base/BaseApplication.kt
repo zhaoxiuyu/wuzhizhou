@@ -2,6 +2,7 @@ package com.sendinfo.wuzhizhou.base
 
 import com.base.library.base.BApplication
 import com.sendinfo.devicehelp.service.devicehelp.SdFileUtil
+import com.sendinfo.wuzhizhou.BuildConfig
 import com.sendinfo.wuzhizhou.utils.*
 
 class BaseApplication : BApplication() {
@@ -18,13 +19,13 @@ class BaseApplication : BApplication() {
 
         putQRcodeSerialPort(P02_QRcodeSerialPort)
         putIcCardSerialPort(P52_IcCardSerialPort)
+        putShebeiCode(device_Sn)
 
-        //todo 这里为了方便测试,ip端口和设备编号是写死的
-        putIp("http://192.168.200.236:9010/")
-        putShebeiCode("1001")
-        putPrintNumber(1000)
-        putIdCard(2)
-
+        //方便测试
+        if (BuildConfig.DEBUG) {
+            putIp("http://192.168.200.64:9010/")
+            putPrintNumber(1000)
+            putIdCard(1)
+        }
     }
-
 }

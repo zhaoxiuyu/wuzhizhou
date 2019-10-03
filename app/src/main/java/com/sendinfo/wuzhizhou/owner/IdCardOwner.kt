@@ -53,13 +53,13 @@ class IdCardOwner(private var context: Context?) : MyLifecycleObserver {
 
     override fun onDestroy(owner: LifecycleOwner) {
         stopReadIdCard()
+        myBroadcastReceiver?.let {
+            ActivityUtils.getActivityByContext(context)?.unregisterReceiver(it)
+        }
         idCardListener = null
         common = null
         sdta = null
         context = null
-        myBroadcastReceiver?.let {
-            ActivityUtils.getActivityByContext(context).unregisterReceiver(it)
-        }
         myBroadcastReceiver = null
     }
 

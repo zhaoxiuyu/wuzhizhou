@@ -1,6 +1,8 @@
 package com.sendinfo.wuzhizhou.entitys.request
 
-class TicketInfosReq {
+import java.io.Serializable
+
+class TicketInfosReq : Serializable {
 
     var BillDetailNo: String? = null // ": "string", -> 取票的订单明细号
     var TicketModelCode: String? = null // ": "string", -> 票的编码
