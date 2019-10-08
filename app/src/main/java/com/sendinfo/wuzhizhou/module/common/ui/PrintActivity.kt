@@ -64,7 +64,6 @@ class PrintActivity : BaseActivity<BPresenter>() {
 
         print()
     }
-
     private fun print() {
         RxJavaPlugins.setErrorHandler {
             LogUtils.e(it.message ?: "RxJavaError")
