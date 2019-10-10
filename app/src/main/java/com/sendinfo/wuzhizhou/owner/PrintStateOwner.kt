@@ -1,26 +1,21 @@
 package com.sendinfo.wuzhizhou.owner
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.interfaces.MyLifecycleObserver
-import com.sendinfo.honeywellprintlib.print.PrintReturnCallback
-import com.sendinfo.tscprintlib.PrintServerUtil
 import com.sendinfo.wuzhizhou.entitys.hardware.PrintProgress
 import com.sendinfo.wuzhizhou.entitys.hardware.PrintStatus
 import com.sendinfo.wuzhizhou.interfaces.PrintListener
 import com.sendinfo.wuzhizhou.interfaces.PrintStatusListener
 import com.sendinfo.wuzhizhou.utils.HardwareExample
 import com.sendinfo.wuzhizhou.utils.getDyj
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.ArrayList
+import java.util.*
 
 /**
  * 根据打印机设置来获取打印机状态
@@ -38,67 +33,11 @@ class PrintStateOwner : MyLifecycleObserver {
         endPrinter()
     }
 
-    fun getPrintState(printStatusListener: PrintStatusListener) {
-        if (getDyj() == 1) {
-            getWhState(printStatusListener)
-        } else {
-            getTSCState(printStatusListener)
-        }
-    }
-
-    private fun getWhState(printStatusListener: PrintStatusListener) {
-        Observable.just("").map {
-            val printReturnCallback = PrintReturnCallback { }
-            HardwareExample.getWhPrint().getStatus(printReturnCallback)
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
-            .subscribe({
-                val printStatus = PrintStatus()
-                printStatus.code = it.code
-                printStatus.succ = it.isSucc
-                printStatus.devicePreper = it.isDevicePreper
-                printStatus.msg = it.msg
-                printStatusListener.printLinstener(printStatus)
-            }, {
-                it.printStackTrace()
-            })
-    }
-
-    private fun getTSCState(printStatusListener: PrintStatusListener) {
-        Observable.just("").map {
-            val printReturnCallback = com.sendinfo.tscprintlib.PrintReturnCallback { }
-            HardwareExample.getTscPrint().getStatus(printReturnCallback)
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(owner)))
-            .subscribe({
-                val printStatus = PrintStatus()
-                printStatus.code = it.code
-                printStatus.succ = it.isSucc
-                printStatus.devicePreper = it.isDevicePreper
-                printStatus.msg = it.msg
-                printStatusListener.printLinstener(printStatus)
-            }, {
-                it.printStackTrace()
-            })
-    }
-
-
-    private var tscPrintServerUtil: PrintServerUtil? = null
-    private var whPrintServerUtil: com.sendinfo.honeywellprintlib.print.PrintServerUtil? = null
     private var disposablePrinterStatus: Disposable? = null
     private var disposablePrint: Disposable? = null
     private var isInterrupt = false
     private var printListener: PrintListener? = null
     private var statusListener: PrintStatusListener? = null
-    private var context: Context?=null
-    fun initPrinter(context: Context) {
-        this.context = context
-        if (getDyj() == 1) {//1维尔打印机 ; 2 TSC打印机
-            whPrintServerUtil = com.sendinfo.honeywellprintlib.print.PrintServerUtil.getInstance(context)
-        } else {
-            tscPrintServerUtil = PrintServerUtil.getInstance(context)
-        }
-    }
 
     @SuppressLint("CheckResult")
     fun getPrinterStatus(listener: PrintStatusListener) {
@@ -111,10 +50,10 @@ class PrintStateOwner : MyLifecycleObserver {
             .unsafeCreate { observer: Observer<in Any> ->
                 val dyj = getDyj()//1维尔打印机 ; 2 TSC打印机
                 val printStatus: PrintStatus
-                if (dyj == 1) {
-                    printStatus = getWelStatus()
+                printStatus = if (dyj == 1) {
+                    getWelStatus()
                 } else {
-                    printStatus = getTscStatus()
+                    getTscStatus()
                 }
                 observer.onNext(printStatus)
                 observer.onComplete()
@@ -131,7 +70,7 @@ class PrintStateOwner : MyLifecycleObserver {
 
     private fun getTscStatus(): PrintStatus {
         val printStatus = PrintStatus()
-        val printReturnDto = tscPrintServerUtil!!.getStatus(null)
+        val printReturnDto = HardwareExample.tscPrintServerUtil?.getStatus(null)
         if (TextUtils.isEmpty(printReturnDto.msg)) {
             printStatus.msg = "打印机故障"
         } else {
@@ -145,7 +84,7 @@ class PrintStateOwner : MyLifecycleObserver {
 
     private fun getWelStatus(): PrintStatus {
         val printStatus = PrintStatus()
-        val printReturnDto = whPrintServerUtil!!.getStatus(null)
+        val printReturnDto = HardwareExample.whPrintServerUtil?.getStatus(null)
         if (TextUtils.isEmpty(printReturnDto.msg)) {
             printStatus.msg = "打印机故障"
         } else {
@@ -161,7 +100,7 @@ class PrintStateOwner : MyLifecycleObserver {
     fun printer(list: List<String>, listener: PrintListener?) {
         this.printListener = listener
         if (disposablePrint != null && !disposablePrint!!.isDisposed) {
-            disposablePrint!!.dispose()
+            disposablePrint?.dispose()
             disposablePrint = null
             isInterrupt = false
         }
@@ -196,8 +135,7 @@ class PrintStateOwner : MyLifecycleObserver {
                 observer.onNext(printProgress)
                 break
             }
-            if (whPrintServerUtil == null) initPrinter(context!!)
-            val dto = whPrintServerUtil!!.print(list[i - 1]+"\n\n", { }, 15000)//打印
+            val dto = HardwareExample.whPrintServerUtil?.print(list[i - 1] + "\n\n", { }, 15000)//打印
             try {
                 Thread.sleep(500)
             } catch (ex: Exception) {
@@ -249,7 +187,7 @@ class PrintStateOwner : MyLifecycleObserver {
             }
             val stringList = ArrayList<String>()
             stringList.add(list[i - 1])
-            val dto = tscPrintServerUtil!!.print(stringList, null, 10000, null, true)
+            val dto = HardwareExample.tscPrintServerUtil?.print(stringList, null, 10000, null, true)
             try {
                 Thread.sleep(1000)
             } catch (ex: Exception) {
@@ -289,7 +227,7 @@ class PrintStateOwner : MyLifecycleObserver {
         }
     }
 
-    fun endPrinter() {
+    private fun endPrinter() {
         if (disposablePrint != null && !disposablePrint!!.isDisposed) {
             disposablePrint?.dispose()
             disposablePrint = null

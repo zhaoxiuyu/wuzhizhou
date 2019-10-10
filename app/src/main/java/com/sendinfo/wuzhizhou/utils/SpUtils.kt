@@ -74,3 +74,21 @@ fun putPlv(plv: String) {
 
 fun getPlv(): String = SPStaticUtils.getString("plv", "")
 
+/**
+ * 终端号
+ */
+fun putTid(tid: String) {
+    SPStaticUtils.put("tid", tid)
+}
+
+fun getTid(): String = SPStaticUtils.getString("tid", "")
+
+/**
+ * 一次取票数最大限制
+ */
+fun putTakeNumber(takeNumber: Int) {
+    SPStaticUtils.put("takeNumber", takeNumber)
+}
+
+fun getTakeNumber(): Int = SPStaticUtils.getInt("takeNumber", 100)
+

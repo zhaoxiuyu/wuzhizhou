@@ -16,7 +16,7 @@ class MainPresenter(view: MainContract.View) : BPresenterImpl<MainContract.View>
         val map = mapOf("terminalCode" to getShebeiCode())
         val bRequest = BRequest(QueryNotice).apply {
             httpType = BRequest.GET
-            isFinish = true
+            silence = true
             params = map
         }
         getData(bRequest)

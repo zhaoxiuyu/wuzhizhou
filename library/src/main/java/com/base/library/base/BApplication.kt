@@ -5,6 +5,7 @@ import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
 import com.base.library.util.CockroachUtil
+import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
@@ -25,7 +26,9 @@ open class BApplication : MultiDexApplication() {
         initAndroidUtilCode()
         initHttp()
 
-//        initCockroach()
+        if (BuildConfig.DEBUG) {
+            initCockroach()
+        }
 
         //XPopup主题颜色
         XPopup.setPrimaryColor(ContextCompat.getColor(this, R.color.base_sb_pressed))
@@ -43,6 +46,10 @@ open class BApplication : MultiDexApplication() {
             override fun handlerException(thread: Thread, throwable: Throwable, info: String) {
                 try {
                     LogUtils.e(info)
+                    roomInsertJournalRecord(info, "全局异常拦截", "E")
+                        .subscribe({
+                        }, {
+                        })
                 } catch (e: Throwable) {
                 }
             }

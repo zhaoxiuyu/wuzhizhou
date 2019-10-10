@@ -43,7 +43,7 @@ class IdCardOwner(private var context: Context?) : MyLifecycleObserver {
     private var sdta: Sdtapi? = null
     private var common: Common? = null
     private var myBroadcastReceiver: MyBroadcastReceiver? = null
-    private val bGSdtUtil: GSdtUtil = HardwareExample.getGSdtUtil()
+    private val bGSdtUtil: GSdtUtil = HardwareExample.bGSdtUtil
 
     private var idCardListener: IdCardListener? = null
 

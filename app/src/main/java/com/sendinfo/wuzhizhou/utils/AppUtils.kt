@@ -6,7 +6,6 @@ import android.content.Intent
 import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.entitys.response.TakeOrderModelsVo
 import com.sendinfo.wuzhizhou.entitys.response.TakeTicketModelsVo
-import com.sendinfo.wuzhizhou.module.common.ui.PrintActivity
 import com.sendinfo.wuzhizhou.module.common.ui.PrintActivityNew
 import com.sendinfo.wuzhizhou.module.take.ui.TakeDetailedActivity
 import com.sendinfo.wuzhizhou.module.take.ui.TakeOrderActivity
@@ -54,9 +53,8 @@ fun startActPrint(context: Context, printTemp: MutableList<PrintTempVo>, source:
 
 // 默认打印模板
 fun defaultTemplate(): String {
-    //        return "CUT  ON \n" +   //切纸
-    return "CUT  OFF \n" +    //不切纸
-
+    return "CUT  ON \n" +   //切纸
+//    return "CUT  OFF \n" +    //不切纸
             "DIR3\n" +
             "NASC \"UTF-8\"\n" +
             "FT \"FangSong\",6,0,145\n" +

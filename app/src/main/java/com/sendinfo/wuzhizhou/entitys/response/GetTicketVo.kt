@@ -15,8 +15,8 @@ class GetTicketVo : Serializable {
     var BarcodeType: String? = null // ": "MP", ->  介质类型
     var RebatePrice: Double? = null // ": 0,    ->  票型价格
     var BuyLimitCoun: String? = null // t": 1,  ->  限制一次购票最大数量
-    var Validdays: String? = null // ": 1,  ->  有效天数
-    var UserCount: String? = null // ": 1,  ->  使用人数
+    var Validdays: Int? = null // ": 1,  ->  有效天数
+    var UserCount: Int? = null // ": 1,  ->  使用人数
     var FTicketType: String? = null // ": "导游", ->  票类型
     var NeedReadIDCard: String = "0" // ": "0"不需要 1需要 , -> 购票是否需要读身份证
     var Isyh: String? = null // ": "0", ->  是否有优惠

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.library.util.isFastClick
+import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
@@ -12,6 +13,7 @@ import com.sendinfo.wuzhizhou.entitys.response.TakeTicketModelsVo
 import com.sendinfo.wuzhizhou.module.take.adapter.TakeDetailedAdapter
 import com.sendinfo.wuzhizhou.module.take.contract.TakeDetailedContract
 import com.sendinfo.wuzhizhou.module.take.presenter.TakeDetailedPresenter
+import com.sendinfo.wuzhizhou.utils.getTakeNumber
 import com.sendinfo.wuzhizhou.utils.startActPrint
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_base.*
@@ -52,7 +54,16 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
         // 取票保存订单
         btSubmit.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
-            mPresenter?.saveOrder(takeTicketModels, uuid ?: "")
+
+            // 订单明细数量 大于 一次取票数最大限制，就只能去窗台取票
+            var num = 0
+            takeTicketModels?.forEach { num += it.TicketNum }
+            if (num > getTakeNumber()) {
+                showDialog(content = "您的取票数量超过限制数量，请到柜台取票", confirmListener = getConfirmFinishListener())
+                soundPoolUtils.startPlayVideo(R.raw.qpslcgxz)
+            } else {
+                mPresenter?.saveOrder(takeTicketModels, uuid ?: "")
+            }
         }
     }
 

@@ -79,21 +79,21 @@ const val QrPayQuery = "api/v1/PayCenter/QrPayQuery"
 const val PayClose = "api/v1/PayCenter/PayClose"
 
 /**
- * 获取支付二维码
  * 测试地址：https://qr-test2.chinaums.com/netpay-route-server/api
  * 正式地址：https://qr.chinaums.com/netpay-route-server/api
  */
-const val GetQRCode = "https://qr.chinaums.com/netpay-route-server/api/GetQRCode;"
-
+/**
+ * 获取支付二维码
+ */
+const val GetQRCode = "https://qr.chinaums.com/netpay-route-server/api/"
 /**
  * 查询支付结果
  */
-const val Query = "https://qr.chinaums.com/netpay-route-server/api/query;"
-
+const val Query = "https://qr.chinaums.com/netpay-route-server/api/"
 /**
  * 关闭订单
  */
-const val CloseQRCode = "https://qr.chinaums.com/netpay-route-server/api/closeQRCode;"
+const val CloseQRCode = "https://qr.chinaums.com/netpay-route-server/api/"
 
 /**
  * 关闭页面广播

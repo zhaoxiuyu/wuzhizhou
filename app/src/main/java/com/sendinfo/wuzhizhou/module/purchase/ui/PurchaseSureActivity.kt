@@ -8,7 +8,6 @@ import com.base.library.util.ArithMultiply
 import com.base.library.util.JsonUtils
 import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
@@ -16,16 +15,15 @@ import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.entitys.request.TicketInfosReq
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
-import com.sendinfo.wuzhizhou.module.pay.ui.PayActivity
 import com.sendinfo.wuzhizhou.module.pay.ui.PayTypeActivity
 import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseSureAdapter
 import com.sendinfo.wuzhizhou.owner.IdCardOwner
+import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.getShebeiCode
 import com.sendinfo.wuzhizhou.utils.startAct
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_purchase_main.*
-import java.util.*
 
 /**
  * 确定购买票型
@@ -125,6 +123,12 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
             sum += ArithMultiply(it.tvNumber.toDouble(), it.RebatePrice ?: 0.0)
         }
 
+        if (getPrintNumber() < count) {
+            ToastUtils.showShort("可打印票纸数量不足，请联系景区管理人员")
+            soundPoolUtils.startPlayVideo(R.raw.piaozhibuzu)
+            return
+        }
+
         val saveOrderVo = SaveOrderReq()
         saveOrderVo.OptType = "0"
         saveOrderVo.TerminalCode = getShebeiCode()
@@ -138,7 +142,7 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
         saveOrderVo.TicketInfos = ticketInfoVos
 
         LogUtils.json(JsonUtils.toJson(saveOrderVo))
-//        startAct(this, Intent(this, PayTypeActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
-        startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
+        startAct(this, Intent(this, PayTypeActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
+//        startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
     }
 }

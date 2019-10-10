@@ -10,17 +10,12 @@ import com.wellcom.GSdtUtil
  */
 object HardwareExample {
 
-    private val whPrintServerUtil: PrintServerUtil = PrintServerUtil.getInstance(Utils.getApp())
+    val whPrintServerUtil: PrintServerUtil by lazy { PrintServerUtil.getInstance(Utils.getApp()) }
 
-    private val tscPrintServerUtil: com.sendinfo.tscprintlib.PrintServerUtil =
+    val tscPrintServerUtil: com.sendinfo.tscprintlib.PrintServerUtil by lazy {
         com.sendinfo.tscprintlib.PrintServerUtil.getInstance(Utils.getApp())
+    }
 
-    private val bGSdtUtil: GSdtUtil = GSdtUtil.getInstance()
-
-    fun getWhPrint(): PrintServerUtil = whPrintServerUtil
-
-    fun getTscPrint(): com.sendinfo.tscprintlib.PrintServerUtil = tscPrintServerUtil
-
-    fun getGSdtUtil(): GSdtUtil = bGSdtUtil
+    val bGSdtUtil: GSdtUtil by lazy { GSdtUtil.getInstance() }
 
 }

@@ -34,6 +34,7 @@
                 android:background="@drawable/bg_edit"
                 android:hint="@string/input_number"
                 android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:inputType="number"
                 android:maxLength="5"
                 android:paddingStart="@dimen/dp_5"
@@ -68,6 +69,73 @@
                 android:background="@drawable/bg_edit"
                 android:hint="@string/input_ip"
                 android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:paddingStart="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_1"
+                android:textSize="@dimen/sp_24"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/butTid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_but"
+                android:text="保存终端号"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_24"/>
+
+        <EditText
+                android:id="@+id/etTid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_weight="3"
+                android:background="@drawable/bg_edit"
+                android:hint="请输入终端号"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:paddingStart="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_1"
+                android:textSize="@dimen/sp_24"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/butTakeNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_but"
+                android:text="一次取票数最大限制"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_24"/>
+
+        <EditText
+                android:id="@+id/etTakeNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_weight="3"
+                android:background="@drawable/bg_edit"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:inputType="number"
                 android:paddingStart="@dimen/dp_5"
                 android:paddingEnd="@dimen/dp_1"
                 android:textSize="@dimen/sp_24"/>

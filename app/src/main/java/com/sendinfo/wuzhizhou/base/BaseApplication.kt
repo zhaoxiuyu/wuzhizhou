@@ -1,9 +1,15 @@
 package com.sendinfo.wuzhizhou.base
 
 import com.base.library.base.BApplication
+import com.base.library.util.glide.GlideDiskClean
+import com.base.library.util.glide.GlideMemoryClean
+import com.blankj.utilcode.util.LogUtils
 import com.sendinfo.devicehelp.service.devicehelp.SdFileUtil
 import com.sendinfo.wuzhizhou.BuildConfig
 import com.sendinfo.wuzhizhou.utils.*
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class BaseApplication : BApplication() {
 
@@ -21,11 +27,22 @@ class BaseApplication : BApplication() {
         putIcCardSerialPort(P52_IcCardSerialPort)
         putShebeiCode(device_Sn)
 
+        Observable.create<String> {
+            GlideDiskClean()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                GlideMemoryClean()
+                LogUtils.d("清除缓存")
+            }
+
         //方便测试
         if (BuildConfig.DEBUG) {
             putIp("http://192.168.200.64:9010/")
             putPrintNumber(1000)
             putIdCard(1)
         }
+
     }
+
 }

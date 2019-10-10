@@ -1,5 +1,6 @@
 package com.sendinfo.wuzhizhou.module.again.ui
 
+import android.content.Intent
 import com.base.library.database.DataBaseUtils
 import com.base.library.mvp.BPresenter
 import com.blankj.utilcode.util.AppUtils
@@ -84,6 +85,35 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
             }
             if (!ip.startsWith("http:") && !ip.startsWith("https:")) ip = "http://$ip/"
             putIp(ip)
+            ToastUtils.showShort("保存成功")
+        }
+
+        /**
+         * 终端号
+         */
+        etTid.setText(getTid())
+        butTid.setOnClickListener {
+            val tid = etTid.text.toString()
+            if (StringUtils.isEmpty(tid)) {
+                ToastUtils.showShort("请输入终端号")
+                return@setOnClickListener
+            }
+            putTid(tid)
+            ToastUtils.showShort("保存成功")
+        }
+
+        /**
+         * 一次取票数最大限制
+         */
+        etTakeNumber.setText("${getTakeNumber()}")
+        butTakeNumber.setOnClickListener {
+            val takeNumber = etTakeNumber.text.toString()
+            if (StringUtils.isEmpty(takeNumber)) {
+                ToastUtils.showShort("请输入一次取票数最大限制,不能为空")
+                return@setOnClickListener
+            }
+            putTakeNumber(takeNumber.toInt())
+            ToastUtils.showShort("保存成功")
         }
 
         //测试打印机
@@ -92,7 +122,9 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
             printList.add(PrintTempVo().apply {
                 PrintTemp = defaultTemplate()
             })
-            startActPrint(this, printList, "测试打印机")
+            val intent = Intent(this, TestPrintActivity::class.java)
+            startActivity(intent)
+//            startActPrint(this, printList, "测试打印机")
         }
 
         //退出程序
@@ -102,7 +134,6 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
                 AppUtils.exitApp()
             })
         }
-
     }
 
 }

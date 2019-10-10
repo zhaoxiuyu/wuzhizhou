@@ -15,7 +15,10 @@ import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.entitys.response.PayRsp
 import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.module.pay.contract.PayContract
-import com.sendinfo.wuzhizhou.utils.*
+import com.sendinfo.wuzhizhou.utils.CloseQRCode
+import com.sendinfo.wuzhizhou.utils.GetQRCode
+import com.sendinfo.wuzhizhou.utils.Query
+import com.sendinfo.wuzhizhou.utils.SaveOrder
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 
@@ -74,7 +77,7 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
                 builder.append("msgType=" + "bills.closeQRCode" + "&")
                 builder.append("qrCodeId=$qrcodeID&")
                 builder.append("requestTimestamp=$requestTimestamp&")
-                builder.append("tid=$tid&")
+                builder.append("tid=$tid")
             }
         }
         val payReq = PayReq()
@@ -84,10 +87,12 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
         payReq.instMid = instMid
         payReq.mid = mid
         payReq.tid = tid
+        LogUtils.i(builder.toString() + secretKey)
         payReq.sign = MD5Utils.string2MD5(builder.toString() + secretKey).toUpperCase()
+        LogUtils.i(payReq.sign)
         payReq.msgSrc = msgSrc
         var urlFull = ""
-        val bRequest = BRequest("")
+        val bRequest = BRequest("$flag")
         when (flag) {
             1 -> {
                 payReq.msgType = "bills.getQRCode"
@@ -114,8 +119,8 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
     }
 
     override fun requestSuccess(body: String, bHttpDto: BRequest) {
-        when (bHttpDto.url) {
-            GetQRCode -> {
+        when (bHttpDto.method) {
+            "1" -> {
                 mView?.disDialog()
                 var payRsp = JsonUtils.toAny(body, PayRsp::class.java)
                 if (payRsp.errCode == "SUCCESS") {
@@ -124,15 +129,15 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
                     showDialogFinish(payRsp.errMsg ?: "获取支付二维码失败", true)
                 }
             }
-            Query -> {
+            "2" -> {
                 var payRsp = JsonUtils.toAny(body, PayRsp::class.java)
                 mView?.onQuery(payRsp)
             }
-            CloseQRCode -> {
+            "3" -> {
                 mView?.disDialog()
                 mView?.onCloseQRCode()
             }
-            else -> { //保存订单
+            SaveOrder -> { //保存订单
                 mView?.disDialog()
                 var baseResponse = JsonUtils.toAny(body, BaseResponse::class.java)
                 if (baseResponse.success) {
@@ -150,6 +155,42 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
                 }
             }
         }
+//        when (bHttpDto.url) {
+//            GetQRCode -> {
+//                mView?.disDialog()
+//                var payRsp = JsonUtils.toAny(body, PayRsp::class.java)
+//                if (payRsp.errCode == "SUCCESS") {
+//                    mView?.onGetQRCode(payRsp)
+//                } else {
+//                    showDialogFinish(payRsp.errMsg ?: "获取支付二维码失败", true)
+//                }
+//            }
+//            Query -> {
+//                var payRsp = JsonUtils.toAny(body, PayRsp::class.java)
+//                mView?.onQuery(payRsp)
+//            }
+//            CloseQRCode -> {
+//                mView?.disDialog()
+//                mView?.onCloseQRCode()
+//            }
+//            else -> { //保存订单
+//                mView?.disDialog()
+//                var baseResponse = JsonUtils.toAny(body, BaseResponse::class.java)
+//                if (baseResponse.success) {
+//                    baseResponse.data?.let {
+//                        val printTemp = JsonUtils.toAny(it,
+//                            object : TypeToken<MutableList<PrintTempVo>>() {}) as MutableList<PrintTempVo>
+//                        if (printTemp.isNullOrEmpty()) {
+//                            showDialogFinish("没有获取到打印模板", bHttpDto.isFinish)
+//                        } else {
+//                            mView?.toPrintTemp(printTemp)
+//                        }
+//                    }
+//                } else {
+//                    showDialogFinish(baseResponse.message, bHttpDto.isFinish)
+//                }
+//            }
+//        }
     }
 
     override fun requestError(throwable: Throwable?, baseHttpDto: BRequest) {

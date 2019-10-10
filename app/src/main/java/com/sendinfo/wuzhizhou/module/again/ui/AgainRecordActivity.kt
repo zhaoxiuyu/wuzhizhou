@@ -80,7 +80,8 @@ class AgainRecordActivity : BaseActivity<AgainRecordContract.Presenter>(),
 
         //打印纸票数不足,请管理员重新设置
         if (getPrintNumber() < 1) {
-            ToastUtils.showShort("打印纸票数不足,请管理员重新设置")
+            ToastUtils.showShort("可打印票纸数量不足，请联系景区管理人员")
+            soundPoolUtils.startPlayVideo(R.raw.piaozhibuzu)
             return
         }
 

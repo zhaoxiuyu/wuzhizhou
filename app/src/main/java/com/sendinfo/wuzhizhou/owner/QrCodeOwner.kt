@@ -48,11 +48,11 @@ class QrCodeOwner(private val sendPort: String, private var handler: Handler?) :
 
                 var readFlag = false
                 var completeRead = 0
-                while (!Thread.interrupted()) {
+                while (!interrupted()) {
                     val size: Int
 
                     if (inputStream.available() <= 0) {
-                        Thread.sleep(100)
+                        sleep(100)
                         continue
                     }
                     val tmpBuffer = ByteArray(128)
@@ -107,7 +107,7 @@ class QrCodeOwner(private val sendPort: String, private var handler: Handler?) :
                         resultstr += bufferBytes[i]
                     }
                     Log.e("bufferBytes", resultstr)
-                    if (!Thread.interrupted() && completeRead == 2 && totalSize > 0) {
+                    if (!interrupted() && completeRead == 2 && totalSize > 0) {
 
                         val result = String(bufferBytes, 0, totalSize)
                         Log.e("result", result)

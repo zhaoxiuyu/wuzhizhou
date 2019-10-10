@@ -31,7 +31,7 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     abstract fun initData()
 
     var mPresenter: T? = null
-    var xPopupLoading: BasePopupView? = null
+    private var xPopupLoading: BasePopupView? = null
     var xPopup: BasePopupView? = null
 
     val mHandler: Handler by lazy { Handler() }
@@ -59,9 +59,9 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         disDialog()
         mHandler.removeCallbacksAndMessages(null)
+        super.onDestroy()
     }
 
     override fun getContext() = this

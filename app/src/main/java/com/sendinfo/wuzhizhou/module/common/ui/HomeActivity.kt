@@ -1,32 +1,39 @@
 package com.sendinfo.wuzhizhou.module.common.ui
 
 import android.animation.ValueAnimator
-import com.base.library.entitys.BaseResponse
-import com.base.library.mvp.BPresenter
-import com.base.library.mvp.BaseView
+import android.content.Intent
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
 import com.github.florent37.viewanimator.ViewAnimator
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.custom.GlideImageLoader
+import com.sendinfo.wuzhizhou.entitys.response.Notice
+import com.sendinfo.wuzhizhou.module.common.presenter.MainPresenter
+import com.sendinfo.wuzhizhou.module.purchase.contract.MainContract
 import com.sendinfo.wuzhizhou.utils.getIp
 import com.sendinfo.wuzhizhou.utils.startAct
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : BaseActivity<BPresenter>(), BaseView {
+class HomeActivity : BaseActivity<MainContract.Presenter>(), MainContract.View {
+
+    private var notice: Notice? = null
 
     override fun initView() {
         super.initView()
         setContentView(R.layout.activity_home)
+
+        mPresenter = MainPresenter(this)
+        initBanner()
     }
 
     override fun initData() {
         super.initData()
-        initBanner()
         online.setOnClickListener {
-            startAct(this, MainActivity::class.java, isFinish = false)
+            startAct(this, Intent(this, MainActivity::class.java).putExtra("notice", notice), isFinish = false)
+//            startAct(this, MainActivity::class.java, isFinish = false)
         }
         ViewAnimator.animate(online)
             .scaleX(1f, 0.9f)
@@ -34,18 +41,23 @@ class HomeActivity : BaseActivity<BPresenter>(), BaseView {
             .repeatMode(ViewAnimator.REVERSE)
             .repeatCount(ValueAnimator.INFINITE)
             .start()
+    }
 
+    override fun onResume() {
+        super.onResume()
         // 如果IP端口为空就跳转设置页面
         if (StringUtils.isEmpty(getIp())) {
             startAct(this, GestureActivity::class.java, isFinish = false)
+        } else {
+            mPresenter?.queryNotice()
         }
 
+        banner.start()
     }
 
     private fun initBanner() {
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR)
         banner.setImageLoader(GlideImageLoader())
-        banner.setImages(listOf(R.mipmap.bg1, R.mipmap.bg2,R.mipmap.bg3,R.mipmap.bg4,R.mipmap.bg5,R.mipmap.bg6,R.mipmap.bg7))
         banner.setBannerAnimation(Transformer.DepthPage)
         banner.isAutoPlay(true)
         banner.setDelayTime(3000)
@@ -53,15 +65,12 @@ class HomeActivity : BaseActivity<BPresenter>(), BaseView {
         banner.start()
     }
 
-    override fun bindData(baseResponse: BaseResponse) {
-    }
-
-    override fun bindError(string: String) {
-    }
-
-    override fun onResume() {
-        super.onResume()
-        banner.start()
+    override fun queryNoticeSuccess(notice: Notice) {
+        this.notice = notice
+        val ip = getIp()
+        val images = mutableListOf<String>()
+        notice.SplashImages?.forEach { images.add("$ip$it") }
+        banner.update(images)
     }
 
     override fun onPause() {

@@ -7,6 +7,7 @@ import com.base.library.util.isFastClick
 import com.github.florent37.viewanimator.ViewAnimator
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.utils.startAct
 import kotlinx.android.synthetic.main.activity_pay_type.*
 
@@ -15,7 +16,16 @@ import kotlinx.android.synthetic.main.activity_pay_type.*
  */
 class PayTypeActivity : BaseActivity<BPresenter>() {
 
+    private lateinit var saveOrderVo: SaveOrderReq
+
     private var va: ViewAnimator? = null
+
+    override fun initArgs(intent: Intent?) {
+        super.initArgs(intent)
+        intent?.let {
+            saveOrderVo = it.getSerializableExtra("saveOrderVo") as SaveOrderReq
+        }
+    }
 
     override fun initView() {
         super.initView()
@@ -29,22 +39,18 @@ class PayTypeActivity : BaseActivity<BPresenter>() {
         tvAli.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
 
-            startAct(
-                this, Intent(this, PayActivity::class.java)
-                    .putExtra("PayTypeCode", "18")
-                    .putExtra("PayTypeName", "支付宝")
-                    .putExtra("saveOrderVo", intent.getSerializableExtra("saveOrderVo"))
-            )
+            saveOrderVo?.PayTypeCode = "18"
+            saveOrderVo?.PayTypeName = "支付宝"
+
+            startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
         }
         tvWx.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
 
-            startAct(
-                this, Intent(this, PayActivity::class.java)
-                    .putExtra("PayTypeCode", "19")
-                    .putExtra("PayTypeName", "微信")
-                    .putExtra("saveOrderVo", intent.getSerializableExtra("saveOrderVo"))
-            )
+            saveOrderVo?.PayTypeCode = "19"
+            saveOrderVo?.PayTypeName = "微信"
+
+            startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
         }
 
         va = ViewAnimator.animate(tvAli, tvWx)

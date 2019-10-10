@@ -19,6 +19,7 @@ import com.sendinfo.wuzhizhou.module.pay.contract.PayContract
 import com.sendinfo.wuzhizhou.module.pay.presenter.PayPresenter
 import com.sendinfo.wuzhizhou.utils.ClosePageAction
 import com.sendinfo.wuzhizhou.utils.PayUtils
+import com.sendinfo.wuzhizhou.utils.getTid
 import com.sendinfo.wuzhizhou.utils.startActPrint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,26 +31,25 @@ import kotlinx.android.synthetic.main.activity_pay.*
  * 支付页面
  */
 class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
-    private var PayTypeCode = ""
-    private var PayTypeName = ""
+
     private lateinit var saveOrderVo: SaveOrderReq
-    private var mid = "898469247330003"//商户号
-    private var tid = "22101350"//终端号
+    //    private var mid = "898469247330003"//商户号 旧的
+    private var mid = "898460279994006"//商户号 新的
+    private var tid = ""//终端号
     private var instMid = "QRPAYDEFAULT"//机构商户号(instMid)
     private var msgSrc = "WWW.AHUIBLHLY.COM"//消息来源
     private var msgSrcId = "4164"//来源编码
     private var secretKey = "Jac5shTTKS28xfiRKj72MzCKAPeepPSXpSTc4iKPwcMEjC3t"//秘钥
     private val handler = Handler()
-    private var httpType = 0//0获取支付二维码 1查询支付结果 2撤销订单 3下订单
+    private var httpType = 0 // 0获取支付二维码 1查询支付结果 2撤销订单 3下订单
     private var countLoop = 2//当页面到计时或点击撤销订单或返回接口后 查询支付接口次数
     private val pageTime = 300 * 1000//页面倒计时5分钟
     private var billno = ""//订单号
     private var qrcodeID = ""//查询二维码返回的订单号
+
     override fun initArgs(intent: Intent?) {
         super.initArgs(intent)
         intent?.let {
-            if (it.hasExtra("PayTypeCode"))PayTypeCode = it.getStringExtra("PayTypeCode")
-            if (it.hasExtra("PayTypeName"))PayTypeName = it.getStringExtra("PayTypeName")
             saveOrderVo = it.getSerializableExtra("saveOrderVo") as SaveOrderReq
         }
     }
@@ -63,22 +63,12 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
     @SuppressLint("SetTextI18n")
     override fun initData() {
         super.initData()
+        tid = getTid()
+        soundPoolUtils.startPlayVideo(R.raw.wxorzybsaomazhifu)
+
         tts.setIvLogo(R.drawable.ticketpurchase)
         tts.setBackVisibility(View.GONE)
-        // 18：支付宝 19：微信
-        when (PayTypeCode) {
-            "18" -> {
-                soundPoolUtils.startPlayVideo(R.raw.zhifubaopay)
-                tvType.text = "打开支付宝扫一扫"
-            }
-            "19" -> {
-                soundPoolUtils.startPlayVideo(R.raw.weixinpay)
-                tvType.text = "打开微信扫一扫"
-            }
-            else -> {
-                tvType.text = "打开微信或支付宝扫一扫"
-            }
-        }
+
         tvCount.text = "总数量：${saveOrderVo.TotalTicketCount}张"
         tvSumPrice.text = "总价格：${saveOrderVo.PaySum}元"
         if (TextUtils.isEmpty(billno)) {
@@ -137,17 +127,47 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
                 tvPayInfo.text = "支付状态 : 未支付"
                 handler?.removeCallbacksAndMessages(null)
                 handler?.postDelayed({
-                    mPresenter?.httpData(billno, mid, instMid, msgSrc, tid, saveOrderVo.PaySum, qrcodeID, secretKey, 2)//查询支付结果
+                    mPresenter?.httpData(
+                        billno,
+                        mid,
+                        instMid,
+                        msgSrc,
+                        tid,
+                        saveOrderVo.PaySum,
+                        qrcodeID,
+                        secretKey,
+                        2
+                    )//查询支付结果
                 }, 1000)
             } else {
-                mPresenter?.httpData(billno, mid, instMid, msgSrc, tid, saveOrderVo.PaySum, qrcodeID, secretKey, 3)//撤销订单
+                mPresenter?.httpData(
+                    billno,
+                    mid,
+                    instMid,
+                    msgSrc,
+                    tid,
+                    saveOrderVo.PaySum,
+                    qrcodeID,
+                    secretKey,
+                    3
+                )//撤销订单
                 tvPayInfo.text = "支付状态 : 订单撤销中"
             }
         } else {
             tvPayInfo.text = "支付状态 : 未支付"
             handler?.removeCallbacksAndMessages(null)
             handler?.postDelayed({
-                mPresenter?.httpData(billno, mid, instMid, msgSrc, tid, saveOrderVo.PaySum, qrcodeID, secretKey, 2)//查询支付结果
+                mPresenter?.httpData(
+                    billno,
+                    mid,
+                    instMid,
+                    msgSrc,
+                    tid,
+                    saveOrderVo.PaySum,
+                    qrcodeID,
+                    secretKey,
+                    2
+                )//查询支付结果
             }, 1000)
         }
     }
@@ -192,7 +212,7 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
         } else {
             showDialog(content = "确定退出请勿继续支付,点击取消继续操作?", confirmListener = OnConfirmListener {
                 exitActivity()
-            },cancelListener = getCancelDisListener())
+            }, cancelListener = getCancelDisListener(), isHideCancel = false)
         }
     }
 
@@ -201,7 +221,7 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
      */
     private fun exitActivity() {
         showDialog("请等待...")
-        if (httpType!=3) httpType = 2
+        if (httpType != 3) httpType = 2
     }
 
     override fun onDestroy() {
