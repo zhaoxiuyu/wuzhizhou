@@ -3,6 +3,7 @@ package com.sendinfo.wuzhizhou.module.purchase.ui
 import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.base.library.interfaces.OnSurplusListener
 import com.base.library.mvp.BPresenter
 import com.base.library.util.ArithMultiply
 import com.base.library.util.JsonUtils
@@ -12,9 +13,11 @@ import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.entitys.hardware.CardInfo
 import com.sendinfo.wuzhizhou.entitys.request.SaveOrderReq
 import com.sendinfo.wuzhizhou.entitys.request.TicketInfosReq
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
+import com.sendinfo.wuzhizhou.interfaces.IdCardListener
 import com.sendinfo.wuzhizhou.module.pay.ui.PayTypeActivity
 import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseSureAdapter
 import com.sendinfo.wuzhizhou.owner.IdCardOwner
@@ -28,12 +31,14 @@ import kotlinx.android.synthetic.main.activity_purchase_main.*
 /**
  * 确定购买票型
  */
-class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItemChildClickListener {
+class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItemChildClickListener,
+    View.OnClickListener, IdCardListener {
 
     private val mAdapter: PurchaseSureAdapter by lazy { PurchaseSureAdapter() }
-    private val mDialog: RealNameDialog by lazy { RealNameDialog() }
+    private var mDialog: RealNameDialog? = null
     private var newTickets: MutableList<GetTicketVo>? = null
     private val idCardOwner: IdCardOwner by lazy { IdCardOwner(this) }
+
     override fun initArgs(intent: Intent?) {
         super.initArgs(intent)
         intent?.let {
@@ -51,13 +56,25 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     override fun initData() {
         super.initData()
         soundPoolUtils.startPlayVideo(R.raw.idcarname)
-        mDialog.setIdCardOwner(idCardOwner)
         tts.startSurplus(120000)
+        tts.setOnSurplusListener(object : OnSurplusListener {
+            override fun surplus() {
+                disDia()
+            }
+        })
+        tts.setBackOnClick(View.OnClickListener {
+            disDia()
+        })
         btSubmit.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
             saveOrderData()
         }
         initAdapter()
+
+        mDialog = RealNameDialog()
+        mDialog?.onClick = this
+        idCardOwner.setIdCardListener(this)
+        idCardOwner?.getReadIdCard()
     }
 
     /**
@@ -66,38 +83,51 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     private fun initAdapter() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
-        rv.adapter = mAdapter
+        mAdapter.bindToRecyclerView(rv)
         mAdapter.onItemChildClickListener = this
         mAdapter.setNewData(newTickets)
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        if (isFastClick()) return
         val ticketVo = mAdapter.getItem(position) as GetTicketVo
         if (ticketVo.NeedReadIDCard == "1") {
-            mDialog.show(supportFragmentManager, "RealNameDialog")
             if (ticketVo?.IDCards == null) ticketVo?.IDCards = mutableListOf()
-            mDialog.setNewData(ticketVo?.IDCards, ticketVo?.tvNumber)
+
+            mDialog?.ticketVo = ticketVo
+            mDialog?.show(supportFragmentManager, "RealNameDialog")
         }
+    }
+
+    // 身份证读取的回调
+    override fun idCardListener(cardInfo: CardInfo) {
+        mDialog?.verification(cardInfo)
+        idCardOwner?.getReadIdCard()
+    }
+
+    // 点击 确定 关闭对话框的回调
+    override fun onClick(v: View?) {
+        saveOrderData()
     }
 
     /**
      * 验证数据是否合法并组装好下单数据
      */
     private fun saveOrderData() {
-        val ticketVos = mAdapter.data
-        ticketVos?.forEach {
-            if (it.NeedReadIDCard == "1" && it.IDCards.isNullOrEmpty()) {
-                ToastUtils.showShort("请刷身份证进行实名认证")
-                return
-            }
-            if (it.tvNumber <= 0) {
+        for ((index, vo) in newTickets?.withIndex()!!) {
+            if (vo.tvNumber <= 0) {
                 ToastUtils.showShort("票数不能小于等于0,请返回重新选择")
                 return
             }
+
+            // 身份证数量为空
+            if (vo.NeedReadIDCard == "1" && vo.IDCards.isNullOrEmpty()) {
+                automaticDialog(index)
+                return
+            }
+
             // 购票数和身份证数量不相等
-            if (it.NeedReadIDCard == "1" && it.tvNumber != it.IDCards?.size) {
-                ToastUtils.showShort("实名认证数量不合法")
+            if (vo.NeedReadIDCard == "1" && vo.tvNumber != vo.IDCards?.size) {
+                automaticDialog(index)
                 return
             }
         }
@@ -105,7 +135,7 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
         var sum = 0.0 // 总金额
         var count = 0 // 总数量
         var ticketInfoVos = mutableListOf<TicketInfosReq>()
-        ticketVos?.forEach {
+        newTickets?.forEach {
             // 每个票型
             val ticketInfoVo = TicketInfosReq()
             ticketInfoVo.BillDetailNo = ""
@@ -142,7 +172,23 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
         saveOrderVo.TicketInfos = ticketInfoVos
 
         LogUtils.json(JsonUtils.toJson(saveOrderVo))
-        startAct(this, Intent(this, PayTypeActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
+        startAct(
+            this,
+            Intent(this, PayTypeActivity::class.java).putExtra("saveOrderVo", saveOrderVo)
+        )
 //        startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
     }
+
+    // 需要验证身份证,自动弹出框
+    private fun automaticDialog(index: Int) {
+        ToastUtils.showShort("身份证数量不合法,请刷身份证进行实名认证")
+        val btIdCard = mAdapter?.getViewByPosition(index, R.id.btIdCard)
+        btIdCard?.performClick()
+    }
+
+    private fun disDia() {
+        mDialog?.dismiss()
+        this@PurchaseSureActivity.finish()
+    }
+
 }

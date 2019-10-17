@@ -30,7 +30,7 @@ class BModelImpl : BModel {
 
             override fun onError(response: Response<String>?) {
                 val throwable = response?.exception
-                callback.other("${throwable?.localizedMessage}", "请求失败 ${http.method}", "E")
+                callback.other("${throwable?.message}", "请求失败 ${http.method}", "E")
                 callback.requestError(throwable, http)
                 super.onError(response)
             }

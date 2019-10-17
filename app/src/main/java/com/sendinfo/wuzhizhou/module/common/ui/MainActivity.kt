@@ -5,7 +5,6 @@ import android.text.TextUtils
 import android.view.View
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
@@ -18,6 +17,7 @@ import com.sendinfo.wuzhizhou.module.common.presenter.MainPresenter
 import com.sendinfo.wuzhizhou.module.purchase.contract.MainContract
 import com.sendinfo.wuzhizhou.module.purchase.ui.PurchaseMainActivity
 import com.sendinfo.wuzhizhou.module.take.ui.TakeMainActivity
+import com.sendinfo.wuzhizhou.utils.getMid
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.getTid
 import com.sendinfo.wuzhizhou.utils.startAct
@@ -44,7 +44,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
     override fun initData() {
         super.initData()
         tts.setDouble(View.OnClickListener { startAct(this, AgainVerificationActivity::class.java, isFinish = false) })
-        fv.setDouble(View.OnClickListener { startAct(this, GestureActivity::class.java, isFinish = false) })
 
         tvPurchase.setOnClickListener {
             soundPoolUtils.startPlayVideo(R.raw.yueduxuzhi)
@@ -104,9 +103,9 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
                 isHideCancel = false
             )
             return
-        } else if (StringUtils.isEmpty(getTid())) {
+        } else if (StringUtils.isEmpty(getTid()) || StringUtils.isEmpty(getMid())) {
             showDialog(
-                content = "终端编号为空", confirmBtnText = "去设置",
+                content = "终端编号 或者 商户号为空", confirmBtnText = "去设置",
                 confirmListener = OnConfirmListener {
                     xPopup?.dismissWith {
                         LogUtils.d("onDismiss")

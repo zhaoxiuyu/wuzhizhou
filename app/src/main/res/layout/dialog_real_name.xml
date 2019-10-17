@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
     <LinearLayout
             android:layout_width="0dp"
@@ -15,46 +16,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp"
                 android:paddingLeft="5dp"
+                android:paddingTop="20dp"
                 android:paddingRight="5dp"
-                android:paddingTop="20dp">
+                android:paddingBottom="20dp">
 
             <TextView
-                    android:id="@+id/tvTicketModelName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="@dimen/sp_24"
-                    android:text="名称"/>
+                    android:text="名称"
+                    android:textSize="@dimen/sp_24" />
 
             <TextView
-                    android:id="@+id/tvTicketModelKindName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textSize="@dimen/sp_24"
-                    android:text="身份证号码"/>
+                    android:text="身份证号码"
+                    android:textSize="@dimen/sp_24" />
 
             <TextView
-                    android:id="@+id/tvRebatePrice"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="@dimen/sp_24"
-                    android:text="性别"/>
+                    android:text="性别"
+                    android:textSize="@dimen/sp_24" />
 
             <TextView
-                    android:id="@+id/tvValiddays"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="@dimen/sp_24"
-                    android:text="操作"/>
+                    android:text="操作"
+                    android:textSize="@dimen/sp_24" />
 
         </LinearLayout>
 
@@ -70,30 +67,72 @@
     <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingStart="@dimen/dp_8"
-            android:paddingEnd="@dimen/dp_8"
-            android:layout_weight="1">
+            android:paddingEnd="@dimen/dp_8">
+
+        <TextView
+                android:id="@+id/diaTicketModelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/sp_24"
+                tools:text="票型 : " />
+
+        <TextView
+                android:id="@+id/diaTicketModelKindName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/sp_24"
+                tools:text="票种 : " />
+
+        <TextView
+                android:id="@+id/diaRebatePrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/sp_24"
+                tools:text="价格 : " />
+
+        <TextView
+                android:id="@+id/diaNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/sp_24"
+                tools:text="数量 : " />
+
+        <TextView
+                android:id="@+id/idCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/sp_24"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                tools:text="所需身份证数量 : " />
 
         <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:lottie_autoPlay="true"
                 app:lottie_fileName="idcard.json"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true"/>
+                app:lottie_loop="true" />
 
         <TextView
                 android:id="@+id/tvInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableStart="@mipmap/gantanhao"
-                android:gravity="center"
-                android:textColor="@color/colorAccent"
-                android:text="@string/input_shimingrenz"
                 android:drawablePadding="@dimen/dp_8"
-                android:textSize="@dimen/sp_20"/>
+                android:gravity="center"
+                android:text="@string/input_shimingrenz"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp_20" />
 
         <Button
                 android:id="@+id/butClose"
@@ -101,11 +140,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/bg_but"
-                android:paddingBottom="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_24" />
+
+        <Button
+                android:id="@+id/butDis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/bg_but"
                 android:text="关闭"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_24"/>
+                android:textSize="@dimen/sp_24" />
 
     </LinearLayout>
 

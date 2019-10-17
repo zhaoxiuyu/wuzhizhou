@@ -25,7 +25,6 @@ class MainPresenter(view: MainContract.View) : BPresenterImpl<MainContract.View>
     override fun requestSuccess(baseResponse: BaseResponse, bHttpDto: BRequest) {
         super.requestSuccess(baseResponse, bHttpDto)
         if (baseResponse.success) {
-            LogUtils.d(bHttpDto.method)
             baseResponse.data?.let {
                 val tickets = JsonUtils.toAny(it, Notice::class.java)
                 mView?.queryNoticeSuccess(tickets)

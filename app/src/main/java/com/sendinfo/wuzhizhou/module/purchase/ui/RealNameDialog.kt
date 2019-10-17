@@ -5,21 +5,33 @@ import android.util.DisplayMetrics
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.entitys.hardware.CardInfo
 import com.sendinfo.wuzhizhou.entitys.request.IDCardsReq
+import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
 import com.sendinfo.wuzhizhou.interfaces.IdCardListener
 import com.sendinfo.wuzhizhou.module.purchase.adapter.RealNameAdapter
 import com.sendinfo.wuzhizhou.owner.IdCardOwner
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.dialog_real_name.*
 
-class RealNameDialog : DialogFragment(), BaseQuickAdapter.OnItemChildClickListener, IdCardListener {
+class RealNameDialog : DialogFragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     private val mAdapter: RealNameAdapter by lazy { RealNameAdapter() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    var ticketVo: GetTicketVo? = null
+
+    var onClick: View.OnClickListener? = null
+
+    var idCardRead = false // 让身份证一直阅读,用状态来判断是否处理,true可以处理,false不处理
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         return inflater.inflate(R.layout.dialog_real_name, container)
     }
@@ -28,9 +40,22 @@ class RealNameDialog : DialogFragment(), BaseQuickAdapter.OnItemChildClickListen
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         butClose.setOnClickListener {
-            idCardOwnerss?.stopReadIdCard()
+            dismiss()
+            onClick?.onClick(it)
+        }
+        butDis.setOnClickListener {
             dismiss()
         }
+    }
+
+    /**
+     * 初始化适配器
+     */
+    private fun initAdapter() {
+        mAdapter.onItemChildClickListener = this
+        rv.adapter = mAdapter
+        rv.layoutManager = LinearLayoutManager(context)
+        rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(context).build())
     }
 
     override fun onStart() {
@@ -49,43 +74,18 @@ class RealNameDialog : DialogFragment(), BaseQuickAdapter.OnItemChildClickListen
         isCancelable = false
     }
 
-    /**
-     * 初始化适配器
-     */
-    private fun initAdapter() {
-        mAdapter.onItemChildClickListener = this
-        rv.adapter = mAdapter
-        rv.layoutManager = LinearLayoutManager(context)
-        rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(context).build())
-    }
-
-    var number = 0 // 购票数量
-    var idCardOwnerss: IdCardOwner? = null
-
-    fun setIdCardOwner(idCardOwner: IdCardOwner) {
-        this.idCardOwnerss = idCardOwner
-        idCardOwnerss?.setIdCardListener(this)
-    }
-
-    fun setNewData(idCards: MutableList<IDCardsReq>?, number: Int) {
-        this.number = number
-        mAdapter.setNewData(idCards)
-        idCardOwnerss?.getReadIdCard()
-    }
-
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         mAdapter.remove(position)
     }
 
     // 读取身份证的回调
-    override fun idCardListener(cardInfo: CardInfo) {
+    fun verification(cardInfo: CardInfo) {
+        if (!idCardRead) return
+
         var isAddIdCard = true // true 可以添加,false 身份证重复 不能添加
         val idCards = mAdapter.data
 
-        // 读取成功之后继续读取
-        idCardOwnerss?.getReadIdCard()
-
-        if (idCards.size == number) {
+        if (idCards.size == ticketVo?.tvNumber) {
             tvInfo.text = "身份证已添加完成"
             return
         }
@@ -110,10 +110,27 @@ class RealNameDialog : DialogFragment(), BaseQuickAdapter.OnItemChildClickListen
         mAdapter.addData(idCardsReq)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onResume() {
+        idCardRead = true
+        super.onResume()
+
+        diaTicketModelName.text = "票型 : ${ticketVo?.TicketModelName}"
+        diaTicketModelKindName.text = "票种 : ${ticketVo?.TicketModelKindName}"
+        diaRebatePrice.text = "价格 : ${ticketVo?.RebatePrice}"
+        diaNumber.text = "数量 : ${ticketVo?.tvNumber}"
+        idCardNumber.text = "所需身份证数量 : ${ticketVo?.tvNumber}"
+
+        mAdapter.setNewData(ticketVo?.IDCards)
+    }
+
+    override fun onPause() {
+        idCardRead = false
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
         lav?.cancelAnimation()
-        dismiss()
     }
 
 }

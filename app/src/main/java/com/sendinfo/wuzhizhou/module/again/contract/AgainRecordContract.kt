@@ -17,7 +17,7 @@ interface AgainRecordContract {
 
     interface Presenter : BPresenter {
 
-        fun queryTrade(tradeId: String, certNo: String)
+        fun queryTrade(tradeId: String, certNo: String, assistCheckNo: String)
 
         fun reprintTicket(oldBarcode: String)
 

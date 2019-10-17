@@ -1,5 +1,6 @@
 package com.sendinfo.wuzhizhou.module.common.ui
 
+import android.content.Intent
 import android.view.View
 import com.base.library.mvp.BPresenter
 import com.blankj.utilcode.util.CollectionUtils
@@ -11,8 +12,10 @@ import com.github.ihsg.patternlocker.OnPatternChangeListener
 import com.github.ihsg.patternlocker.PatternLockerView
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.module.again.ui.AgainPayParamActivity
 import com.sendinfo.wuzhizhou.module.again.ui.AgainSettingActivity
 import com.sendinfo.wuzhizhou.utils.getPlv
+import com.sendinfo.wuzhizhou.utils.payParam
 import com.sendinfo.wuzhizhou.utils.putPlv
 import com.sendinfo.wuzhizhou.utils.startAct
 import kotlinx.android.synthetic.main.activity_gesture.*
@@ -21,6 +24,15 @@ class GestureActivity : BaseActivity<BPresenter>(), OnPatternChangeListener {
 
     private var plvStr: String = ""
     private var isLogin: Boolean = true // true 登录验证,false 首次创建
+
+    private var source: String = "" // 来源,payParam参数设置,home首页
+
+    override fun initArgs(intent: Intent?) {
+        super.initArgs(intent)
+        intent?.let {
+            source = it.getStringExtra("source")
+        }
+    }
 
     override fun initView() {
         super.initView()
@@ -88,7 +100,7 @@ class GestureActivity : BaseActivity<BPresenter>(), OnPatternChangeListener {
         if (plvStr == CollectionUtils.toString(hitIndexList)) {
             tvInfo.text = "密码创建成功"
             putPlv(plvStr)
-            startAct(this, AgainSettingActivity::class.java)
+            toAct()
         } else {
             tvInfo.text = "两次密码不一致"
             YoYo.with(Techniques.Shake).playOn(tvInfo)
@@ -98,9 +110,17 @@ class GestureActivity : BaseActivity<BPresenter>(), OnPatternChangeListener {
     private fun loginPlv(hitIndexList: List<Int>) {
         if (plvStr == CollectionUtils.toString(hitIndexList)) {
             tvInfo.text = "登录验证成功"
-            startAct(this, AgainSettingActivity::class.java)
+            toAct()
         } else {
             tvInfo.text = "登录验证失败"
+        }
+    }
+
+    private fun toAct() {
+        if (source == payParam) {
+            startAct(this, AgainPayParamActivity::class.java)
+        } else {
+            startAct(this, AgainSettingActivity::class.java)
         }
     }
 

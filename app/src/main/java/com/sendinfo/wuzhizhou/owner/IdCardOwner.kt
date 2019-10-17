@@ -8,10 +8,7 @@ import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import androidx.lifecycle.LifecycleOwner
 import com.base.library.interfaces.MyLifecycleObserver
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.StringUtils
-import com.blankj.utilcode.util.ToastUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.sdt.Common
 import com.sdt.Sdtapi
 import com.sendinfo.wuzhizhou.entitys.hardware.CardInfo
@@ -123,7 +120,7 @@ class IdCardOwner(private var context: Context?) : MyLifecycleObserver {
                 cardInfo.sex = it.sex?.trim()
                 cardInfo.bm = it.ptoto
                 idCardListener?.idCardListener(cardInfo)
-            }, { it.printStackTrace() })
+            }, { LogUtils.e("读取身份证出错了") })
     }
 
     private fun getReadHIDIdCard() {

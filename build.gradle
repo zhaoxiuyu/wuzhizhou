@@ -13,13 +13,16 @@ buildscript {
         targetSdkVersion = 28
         minSdkVersion = 19
 
-        versionCode = 106
-        versionName = "1.0.6"
+        versionCode = 115
+        versionName = "1.1.5"
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // 使用BusUtils需要
+        classpath 'com.blankj:bus-gradle-plugin:2.1'
 
         // 统计方法数
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'

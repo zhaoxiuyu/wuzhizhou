@@ -55,7 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="@dimen/sp_30"
+                android:textSize="@dimen/sp_40"
                 android:textStyle="bold"
                 android:text="-"/>
 
@@ -75,7 +75,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="@dimen/sp_30"
+                android:textSize="@dimen/sp_40"
                 android:textStyle="bold"
                 android:text="+"/>
 

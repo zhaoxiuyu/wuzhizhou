@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.Utils
 import com.lxj.xpopup.XPopup
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.https.HttpsUtils
+import com.tencent.bugly.crashreport.CrashReport
 import okhttp3.OkHttpClient
 
 /**
@@ -26,7 +27,9 @@ open class BApplication : MultiDexApplication() {
         initAndroidUtilCode()
         initHttp()
 
-        if (BuildConfig.DEBUG) {
+        CrashReport.initCrashReport(applicationContext, "f4abc2160b", false)
+
+        if (!BuildConfig.DEBUG) {
             initCockroach()
         }
 
@@ -46,7 +49,8 @@ open class BApplication : MultiDexApplication() {
             override fun handlerException(thread: Thread, throwable: Throwable, info: String) {
                 try {
                     LogUtils.e(info)
-                    roomInsertJournalRecord(info, "全局异常拦截", "E")
+                    CrashReport.postCatchedException(throwable)  // bugly会将这个throwable上报
+                    roomInsertJournalRecord(info, "异常-全局", "E")
                         .subscribe({
                         }, {
                         })

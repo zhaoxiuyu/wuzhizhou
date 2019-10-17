@@ -8,7 +8,9 @@ class TakeTicketModelsVo : Serializable {
     var BillDetailNo: String? = null // ": "string",
     var BillDate: String? = null // ": "2019-09-19T05:37:25.944Z",
     var InvaliDatetime: String? = null // ": "2019-09-19T05:37:25.944Z",
-    var TicketNum: Int = 0 // ": 0, -> 票数
+    var TicketNum: Int = 0 // ": 0, -> 可取票数
+    var TotalNum: Int = 0 // ": 0, -> 总票数
+    var TakeNum: Int = 0 // ": 0, -> 已取票数
     var TicketPrice: Double = 0.0 // ": 0, -> 票价
     var SellPrice: Double = 0.0 // ": 0, -> 销售价格
     var PayFlag: String? = null // ": "string",

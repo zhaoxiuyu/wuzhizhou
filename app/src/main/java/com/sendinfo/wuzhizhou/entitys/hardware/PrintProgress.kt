@@ -1,5 +1,7 @@
 package com.sendinfo.wuzhizhou.entitys.hardware
+
 import com.sendinfo.honeywellprintlib.print.PrintReturnDto
+
 /**
  * 备注：打印进度
  * progress   进度
@@ -16,4 +18,10 @@ class PrintProgress {
     var errorMsg: String? = null
     var printReturnDto: PrintReturnDto? = null
     var tscPrintReturnDto: com.sendinfo.tscprintlib.PrintReturnDto? = null
+    var temp: String = ""
+
+    override fun toString(): String {
+        return "PrintProgress(progress=$progress, total=$total, isComplete=$isComplete, succ=$succ, errorMsg=$errorMsg, printReturnDto=$printReturnDto, tscPrintReturnDto=$tscPrintReturnDto, temp='$temp')"
+    }
+
 }

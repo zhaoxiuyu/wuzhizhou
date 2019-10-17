@@ -12,6 +12,8 @@ class TakeDetailedAdapter : BaseQuickAdapter<TakeTicketModelsVo, BaseViewHolder>
             .setText(R.id.tvTicketmodelKindName, item.TicketmodelKindName)
             .setText(R.id.tvTicketPrice, "${item.TicketPrice}")
             .setText(R.id.tvTicketNum, "${item.TicketNum}")
+            .setText(R.id.tvTotalNum, "${item.TotalNum}")
+            .setText(R.id.tvTakeNum, "${item.TakeNum}")
             .setText(R.id.tvNumber, "${item.number}")
             .addOnClickListener(R.id.tvRemove)
             .addOnClickListener(R.id.tvAdd)

@@ -121,11 +121,18 @@ class PrintStateOwner : MyLifecycleObserver {
             .doOnSubscribe { disposable: Disposable -> disposablePrint = disposable }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ ret ->
-                if (ret is PrintProgress && printListener != null) printListener!!.printBack(ret, "")
+                if (ret is PrintProgress && printListener != null) printListener!!.printBack(
+                    ret,
+                    ""
+                )
             }, { throwable -> printListener!!.printBack(null, throwable.toString()) })
     }
 
-    private fun welPrint(list: List<String>, printProgress: PrintProgress, observer: Observer<in Any>) {
+    private fun welPrint(
+        list: List<String>,
+        printProgress: PrintProgress,
+        observer: Observer<in Any>
+    ) {
         printProgress.succ = true
         printProgress.total = list.size
         for (i in 1..list.size) {
@@ -135,6 +142,7 @@ class PrintStateOwner : MyLifecycleObserver {
                 observer.onNext(printProgress)
                 break
             }
+            printProgress.temp = list[i - 1] + "\n\n"
             val dto = HardwareExample.whPrintServerUtil?.print(list[i - 1] + "\n\n", { }, 15000)//打印
             try {
                 Thread.sleep(500)
@@ -175,7 +183,11 @@ class PrintStateOwner : MyLifecycleObserver {
         }
     }
 
-    private fun tscPrint(list: List<String>, printProgress: PrintProgress, observer: Observer<in Any>) {
+    private fun tscPrint(
+        list: List<String>,
+        printProgress: PrintProgress,
+        observer: Observer<in Any>
+    ) {
         printProgress.succ = true
         printProgress.total = list.size
         for (i in 1..list.size) {
@@ -187,6 +199,7 @@ class PrintStateOwner : MyLifecycleObserver {
             }
             val stringList = ArrayList<String>()
             stringList.add(list[i - 1])
+            printProgress.temp = "$stringList"
             val dto = HardwareExample.tscPrintServerUtil?.print(stringList, null, 10000, null, true)
             try {
                 Thread.sleep(1000)

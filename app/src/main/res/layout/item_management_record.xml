@@ -13,66 +13,107 @@
             android:id="@+id/tvTradeId"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_16"
             tools:text="交易编号"/>
 
     <TextView
             android:id="@+id/tvTicketModelName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_16"
             android:lines="2"
             android:ellipsize="end"
             tools:text="票型名称"/>
+
     <TextView
             android:id="@+id/tvFirstBarcode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_16"
             android:lines="2"
             android:ellipsize="end"
             tools:text="初始条码号"/>
+
     <TextView
             android:id="@+id/tvBarcode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_16"
             android:lines="2"
             android:ellipsize="end"
             tools:text="当前条码号"/>
 
     <TextView
-            android:id="@+id/tvParkName"
+            android:id="@+id/tvLsNum"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_20"
-            tools:text="检票点"/>
+            android:textSize="@dimen/sp_16"
+            android:lines="2"
+            android:ellipsize="end"
+            tools:text="支付流水"/>
+
     <TextView
-            android:id="@+id/tvCheckFlag"
+            android:id="@+id/tvAssistCheckNo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/sp_20"
-            tools:text="检票状态"/>
+            android:textSize="@dimen/sp_16"
+            android:lines="2"
+            android:ellipsize="end"
+            tools:text="辅助码"/>
+
+    <TextView
+            android:id="@+id/tvTelNo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
+            android:lines="2"
+            android:ellipsize="end"
+            tools:text="手机号"/>
+
+    <TextView
+            android:id="@+id/tvPayTypeName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
+            android:lines="2"
+            android:ellipsize="end"
+            tools:text="支付方式"/>
+
+    <Button
+            android:id="@+id/butChaKan"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:background="@drawable/bg_but"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:text="查看"/>
+
     <Button
             android:id="@+id/butAgain"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
+            android:layout_marginStart="@dimen/dp_4"
             android:background="@drawable/bg_but"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_16"
             android:text="重打"/>
 
 </LinearLayout>

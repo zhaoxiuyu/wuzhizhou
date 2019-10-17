@@ -17,10 +17,7 @@ import com.sendinfo.wuzhizhou.entitys.response.PayRsp
 import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.module.pay.contract.PayContract
 import com.sendinfo.wuzhizhou.module.pay.presenter.PayPresenter
-import com.sendinfo.wuzhizhou.utils.ClosePageAction
-import com.sendinfo.wuzhizhou.utils.PayUtils
-import com.sendinfo.wuzhizhou.utils.getTid
-import com.sendinfo.wuzhizhou.utils.startActPrint
+import com.sendinfo.wuzhizhou.utils.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -33,9 +30,8 @@ import kotlinx.android.synthetic.main.activity_pay.*
 class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
 
     private lateinit var saveOrderVo: SaveOrderReq
-    //    private var mid = "898469247330003"//商户号 旧的
-    private var mid = "898460279994006"//商户号 新的
-    private var tid = ""//终端号
+    private var mid = ""//商户号 新的 898460279994006
+    private var tid = ""//终端号 22148693
     private var instMid = "QRPAYDEFAULT"//机构商户号(instMid)
     private var msgSrc = "WWW.AHUIBLHLY.COM"//消息来源
     private var msgSrcId = "4164"//来源编码
@@ -64,6 +60,7 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
     override fun initData() {
         super.initData()
         tid = getTid()
+        mid = getMid()
         soundPoolUtils.startPlayVideo(R.raw.wxorzybsaomazhifu)
 
         tts.setIvLogo(R.drawable.ticketpurchase)

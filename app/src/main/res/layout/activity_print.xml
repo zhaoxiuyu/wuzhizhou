@@ -33,7 +33,7 @@
                 android:id="@+id/tvSum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_24"
+                android:textSize="@dimen/sp_30"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:text="总张数 : 0"/>
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
-                android:textSize="@dimen/sp_24"
+                android:textSize="@dimen/sp_30"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:text="已出张数 : 0"/>
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
-                android:textSize="@dimen/sp_24"
+                android:textSize="@dimen/sp_30"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:text="出票信息 : 0"/>

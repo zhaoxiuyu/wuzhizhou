@@ -33,6 +33,11 @@ const val SaveOrder = "api/v1/TicketTrade/SaveOrder"
 const val Login = "api/v1/Terminal/Login"
 
 /**
+ * 心跳
+ */
+const val Beat = "api/Health/Beat"
+
+/**
  * 重打查询交易,
  * terminalCode 设备号,如果只有这个参数,那么就是查询当天这台自助机的明细
  * tradeId 交易号,这个用得少,如果片面打印了可以用这个快速查询
@@ -99,3 +104,27 @@ const val CloseQRCode = "https://qr.chinaums.com/netpay-route-server/api/"
  * 关闭页面广播
  */
 const val ClosePageAction = "ClosePageAction"
+
+/**
+ * 停止使用自助机
+ */
+const val StopZZJ = "StopZZJ"
+
+/**
+ * 开始使用自助机
+ */
+const val StartZZJ = "StartZZJ"
+
+/**
+ * 轮播图缓存的连接
+ */
+const val jsonImages = "jsonImages"
+
+/**
+ * 进入手势密码页面的来源参数
+ */
+const val payParam = "payParam"
+const val home = "home"
+
+
+

@@ -82,7 +82,6 @@ class BRequest(val method: String) {
         sb.appendln("请求头为 : ")
         heads?.forEach { sb.appendln("${it.key} = ${it.value}") }
         sb.appendln("body参数为 : ")
-
         LogUtils.i(sb.toString())
         if (!StringUtils.isEmpty(bodyJson)) LogUtils.json(bodyJson)
 

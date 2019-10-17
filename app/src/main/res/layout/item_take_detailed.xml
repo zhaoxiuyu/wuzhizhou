@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:paddingBottom="20dp"
-              android:paddingLeft="5dp"
-              android:paddingRight="5dp"
-              android:paddingTop="20dp">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingTop="20dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="20dp">
 
     <TextView
             android:id="@+id/tvTicketmodelName"
@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_20"
-            tools:text="票型名称"/>
+            tools:text="票型名称" />
 
     <TextView
             android:id="@+id/tvTicketmodelKindName"
@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_20"
-            tools:text="票种"/>
+            tools:text="票种" />
 
     <TextView
             android:id="@+id/tvTicketPrice"
@@ -34,7 +34,25 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_20"
-            tools:text="票价"/>
+            tools:text="票价" />
+
+    <TextView
+            android:id="@+id/tvTotalNum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_20"
+            tools:text="总票数" />
+
+    <TextView
+            android:id="@+id/tvTakeNum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/sp_20"
+            tools:text="已取票数" />
 
     <TextView
             android:id="@+id/tvTicketNum"
@@ -43,7 +61,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/sp_20"
-            tools:text="票数"/>
+            tools:text="可取票数" />
 
     <LinearLayout
             android:layout_width="0dp"
@@ -58,9 +76,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="@dimen/sp_30"
-                android:textStyle="bold"
-                android:text="-"/>
+                android:text="-"
+                android:textSize="@dimen/sp_40"
+                android:textStyle="bold" />
 
         <TextView
                 android:id="@+id/tvNumber"
@@ -70,7 +88,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/sp_30"
                 android:textStyle="bold"
-                tools:text="0"/>
+                tools:text="0" />
 
         <TextView
                 android:id="@+id/tvAdd"
@@ -78,9 +96,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="@dimen/sp_30"
-                android:textStyle="bold"
-                android:text="+"/>
+                android:text="+"
+                android:textSize="@dimen/sp_40"
+                android:textStyle="bold" />
 
     </LinearLayout>
 

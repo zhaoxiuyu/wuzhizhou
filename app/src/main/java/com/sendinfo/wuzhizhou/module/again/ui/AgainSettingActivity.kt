@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
-import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
+import com.sendinfo.wuzhizhou.module.common.ui.GestureActivity
 import com.sendinfo.wuzhizhou.utils.*
 import kotlinx.android.synthetic.main.activity_again_setting.*
 import kotlinx.android.synthetic.main.activity_base.*
@@ -89,20 +89,6 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
         }
 
         /**
-         * 终端号
-         */
-        etTid.setText(getTid())
-        butTid.setOnClickListener {
-            val tid = etTid.text.toString()
-            if (StringUtils.isEmpty(tid)) {
-                ToastUtils.showShort("请输入终端号")
-                return@setOnClickListener
-            }
-            putTid(tid)
-            ToastUtils.showShort("保存成功")
-        }
-
-        /**
          * 一次取票数最大限制
          */
         etTakeNumber.setText("${getTakeNumber()}")
@@ -118,12 +104,11 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
 
         //测试打印机
         testDyj.setOnClickListener {
-            var printList = ArrayList<PrintTempVo>()
-            printList.add(PrintTempVo().apply {
-                PrintTemp = defaultTemplate()
-            })
-            val intent = Intent(this, TestPrintActivity::class.java)
-            startActivity(intent)
+            //            var printList = ArrayList<PrintTempVo>()
+//            printList.add(PrintTempVo().apply {
+//                PrintTemp = defaultTemplate()
+//            })
+            startAct(this, TestPrintActivity::class.java, isFinish = false)
 //            startActPrint(this, printList, "测试打印机")
         }
 
@@ -133,6 +118,13 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
                 DataBaseUtils.close()
                 AppUtils.exitApp()
             })
+        }
+
+        // 支付参数设置
+        tvPayParam.setOnClickListener {
+            val intent = Intent(this, GestureActivity::class.java)
+            intent.putExtra("source", payParam)
+            startAct(this, intent, isFinish = false)
         }
     }
 

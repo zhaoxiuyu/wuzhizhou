@@ -15,8 +15,13 @@ import com.sendinfo.wuzhizhou.utils.getShebeiCode
 class AgainRecordPresenter(view: AgainRecordContract.View) :
     BPresenterImpl<AgainRecordContract.View>(view), AgainRecordContract.Presenter {
 
-    override fun queryTrade(tradeId: String, certNo: String) {
-        val map = mapOf("terminalCode" to getShebeiCode(), "tradeId" to tradeId, "certNo" to certNo)
+    override fun queryTrade(tradeId: String, certNo: String, assistCheckNo: String) {
+        val map = mapOf(
+            "terminalCode" to getShebeiCode(),
+            "tradeId" to tradeId,
+            "certNo" to certNo,
+            "assistCheckNo" to assistCheckNo
+        )
         val bRequest = BRequest(QueryTrade).apply {
             httpType = BRequest.GET
             params = map

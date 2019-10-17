@@ -22,7 +22,8 @@ import kotlinx.android.synthetic.main.activity_take_detailed.*
 /**
  * 取票明细
  */
-class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), TakeDetailedContract.View,
+class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(),
+    TakeDetailedContract.View,
     BaseQuickAdapter.OnItemChildClickListener {
 
     private val mAdapter: TakeDetailedAdapter by lazy { TakeDetailedAdapter() }
@@ -34,7 +35,8 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
         super.initArgs(intent)
         intent?.let {
             uuid = it.getStringExtra("uuid")
-            takeTicketModels = it.getSerializableExtra("takeTicketModels") as MutableList<TakeTicketModelsVo>
+            takeTicketModels =
+                it.getSerializableExtra("takeTicketModels") as MutableList<TakeTicketModelsVo>
         }
     }
 
@@ -59,7 +61,10 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
             var num = 0
             takeTicketModels?.forEach { num += it.TicketNum }
             if (num > getTakeNumber()) {
-                showDialog(content = "您的取票数量超过限制数量，请到柜台取票", confirmListener = getConfirmFinishListener())
+                showDialog(
+                    content = "您的取票数量超过限制数量，请到柜台取票",
+                    confirmListener = getConfirmFinishListener()
+                )
                 soundPoolUtils.startPlayVideo(R.raw.qpslcgxz)
             } else {
                 mPresenter?.saveOrder(takeTicketModels, uuid ?: "")
@@ -71,6 +76,11 @@ class TakeDetailedActivity : BaseActivity<TakeDetailedContract.Presenter>(), Tak
      * 初始化适配器
      */
     private fun initAdapter() {
+        // 设置 取票数量为 可取数量
+        takeTicketModels?.forEach {
+            it.number = it.TicketNum
+        }
+
         rv.layoutManager = LinearLayoutManager(this)
         rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
         rv.adapter = mAdapter

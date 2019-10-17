@@ -84,6 +84,15 @@ fun putTid(tid: String) {
 fun getTid(): String = SPStaticUtils.getString("tid", "")
 
 /**
+ * 商户号
+ */
+fun putMid(mid: String) {
+    SPStaticUtils.put("mid", mid)
+}
+
+fun getMid(): String = SPStaticUtils.getString("mid", "")
+
+/**
  * 一次取票数最大限制
  */
 fun putTakeNumber(takeNumber: Int) {

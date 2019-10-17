@@ -1,6 +1,8 @@
 package com.sendinfo.wuzhizhou.entitys.hardware
 
+import android.util.Log
 import com.sdt.Sdtapi
+import java.lang.StringBuilder
 import java.nio.charset.Charset
 
 /* 民族列表 */
@@ -72,6 +74,8 @@ fun ReadBaseMsgToStr(msg: IdCardMsg, sdta: Sdtapi): Int {
     val pucPHMsg = ByteArray(1024)
     // sdtapi中标准接口，输出字节格式的信息。
     ret = sdta.SDT_ReadBaseMsg(pucCHMsg, puiCHMsgLen, pucPHMsg, puiPHMsgLen)
+    Log.e("msgToStr", "ret=$ret")
+
     if (ret == 0x90) {
         try {
             val pucCHMsgStr = CharArray(128)
@@ -89,12 +93,26 @@ fun ReadBaseMsgToStr(msg: IdCardMsg, sdta: Sdtapi): Int {
 // 字节解码函数
 @Throws(Exception::class)
 fun DecodeByte(msg: ByteArray, msg_str: CharArray) {
+    val sb1 = StringBuilder()
+    msg.forEach {
+        sb1.append(it)
+    }
+    Log.e("msgToStr", "msg=$sb1")
+
+    val sb2 = StringBuilder()
+    msg_str.forEach {
+        sb2.append(it)
+    }
+    Log.e("msgToStr", "msg_str=$sb2")
+
     val newmsg = ByteArray(msg.size + 2)
     newmsg[0] = 0xff.toByte()
     newmsg[1] = 0xfe.toByte()
     for (i in msg.indices)
         newmsg[i + 2] = msg[i]
     val s = String(newmsg, Charset.forName("UTF-16"))
+
+    Log.e("msgToStr", "s=$sb2")
     for (i in 0 until s.toCharArray().size)
         msg_str[i] = s.toCharArray()[i]
 }
@@ -103,15 +121,22 @@ fun DecodeByte(msg: ByteArray, msg_str: CharArray) {
 fun PareseItem(pucCHMsgStr: CharArray, msg: IdCardMsg) {
     msg.name = String(pucCHMsgStr, 0, 15)
     val sex_code = String(pucCHMsgStr, 15, 1)
-    if (sex_code == "1")
-        msg.sex = "男"
-    else if (sex_code == "2")
-        msg.sex = "女"
-    else if (sex_code == "0")
-        msg.sex = "未知"
-    else if (sex_code == "9")
-        msg.sex = "未说明"
+    when (sex_code) {
+        "1" -> msg.sex = "男"
+        "2" -> msg.sex = "女"
+        "0" -> msg.sex = "未知"
+        "9" -> msg.sex = "未说明"
+    }
+
     val nation_code = String(pucCHMsgStr, 16, 2)
+    Log.e("msgToStr", "nation_code=$nation_code")
+
+    val sb = StringBuilder()
+    pucCHMsgStr.forEach {
+        sb.append(it)
+    }
+    Log.e("msgToStr", "pucCHMsgStr=$sb")
+
     msg.nation_str = nation[Integer.valueOf(nation_code) - 1]
     msg.birth_year = String(pucCHMsgStr, 18, 4)
     msg.birth_month = String(pucCHMsgStr, 22, 2)

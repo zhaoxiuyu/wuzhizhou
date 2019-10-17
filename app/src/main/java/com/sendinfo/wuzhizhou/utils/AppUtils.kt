@@ -57,7 +57,8 @@ fun defaultTemplate(): String {
 //    return "CUT  OFF \n" +    //不切纸
             "DIR3\n" +
             "NASC \"UTF-8\"\n" +
-            "FT \"FangSong\",6,0,145\n" +
+            "FT \"Microsoft YaHei\",6,0,145\n" +
+//            "FT \"FangSong\",6,0,145\n" +
 
             "PP600,190 \n" +
             "BARSET \"QRCODE\",1,1,6,2,1:" +

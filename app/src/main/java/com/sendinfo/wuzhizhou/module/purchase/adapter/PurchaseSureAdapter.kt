@@ -15,12 +15,12 @@ class PurchaseSureAdapter : BaseQuickAdapter<GetTicketVo, BaseViewHolder>(R.layo
         helper.setText(R.id.tvNumber, "${item.tvNumber}")
 
         if (item.NeedReadIDCard == "0") {
-            helper.setBackgroundRes(R.id.btIdCard, R.drawable.bg_gray)
-            helper.setText(R.id.btIdCard, "不用身份证")
+            helper.setVisible(R.id.btIdCard, false)
+//            helper.setBackgroundRes(R.id.btIdCard, R.drawable.bg_gray)
         } else {
-            helper.setText(R.id.btIdCard, "验证身份证")
+            helper.setVisible(R.id.btIdCard, true)
             helper.addOnClickListener(R.id.btIdCard)
-            helper.setBackgroundRes(R.id.btIdCard, R.drawable.bg_but)
+//            helper.setBackgroundRes(R.id.btIdCard, R.drawable.bg_but)
         }
     }
 }

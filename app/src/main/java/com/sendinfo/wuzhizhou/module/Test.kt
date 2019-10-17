@@ -16,7 +16,7 @@ import java.util.*
  *      (purchase = 请选择要购买的票型)
  *      (idcarname = 请进行实名认证)
  *      (paytype = 请选择支付方式)
- *      (chupiao = 正在出票，请留意自助机下方出票口，下方出票口取票)
+ *      (chupiao = 正在出票，请留意自助机下方出票口，下方出票口取票，一人一票，一人一票)
  *      (taketype = 请选择取票方式)
  *      (qpslcgxz = 您的取票数量超过限制数量，请到柜台取票)
  *      (yueduxuzhi = 请仔细阅读须知)
