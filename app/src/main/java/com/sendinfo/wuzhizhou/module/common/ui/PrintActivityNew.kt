@@ -83,7 +83,9 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
             tvSum.text = "总票数：${totalPrint}张"
             tvCompleted.text = "已出票数：0张"
             var printList = ArrayList<String>()
-            printTemp.forEach { printList.add(it.PrintTemp) }
+            printTemp.forEach {
+                printList.add(rep(it.PrintTemp))
+            }
             printStateOwner.printer(printList, object : PrintListener {
                 override fun printBack(printProgress: PrintProgress?, errorMsg: String) {
                     if (printProgress != null) {
@@ -129,6 +131,53 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
                 isHideCancel = false
             )
         }
+    }
+
+    fun rep(template: String): String {
+        val sBuilder = StringBuilder()
+
+        val datas = template.split("\n")
+        // 拆分模板为每一行进行循环
+        for (i in datas.indices) {
+            val data = datas[i]
+            // 拆分每一行的模板,用:进行分割,如果长度为5就说明符合规则,进行字符串截取
+            val str = data.split(":")
+            if (str.size == 5) {
+                // 截取的开始位和结束位
+                var start = 0
+                var end = 0
+                try {
+                    start = Integer.valueOf(str[2])
+                    end = Integer.valueOf(str[3])
+                } catch (e: Exception) {
+                }
+
+                var rep = str[1]
+                //开始截取位小于等 内容的长度
+                if (start <= rep.length) {
+                    if (end <= rep.length) {//结束位小于等 内容的长度,说明可以截取
+                        rep = rep.substring(start, end)
+                    } else {//结束位大于等 内容的长度,说明不在截取范围内,就显示剩余部分
+                        rep = rep.substring(start, rep.length)
+                    }
+                } else {
+                    rep = ""
+                }
+
+                val newStr = if (str[0].trim().length <= 5) {
+                    str[0] + rep + str[4]
+                } else {
+                    str[0] + ":" + rep + str[4]
+                }
+                sBuilder.appendln(newStr)
+
+            } else {
+                sBuilder.appendln(data)
+            }
+        }
+        LogUtils.d("最终模板如下 : ")
+        LogUtils.d(sBuilder.toString())
+        return sBuilder.toString()
     }
 
     override fun onStop() {

@@ -143,7 +143,13 @@ class PrintStateOwner : MyLifecycleObserver {
                 break
             }
             printProgress.temp = list[i - 1] + "\n\n"
-            val dto = HardwareExample.whPrintServerUtil?.print(list[i - 1] + "\n\n", { }, 15000)//打印
+            val dto = HardwareExample.whPrintServerUtil?.print(
+                list[i - 1] + "\n\n",
+                { },
+                { },
+                15000,
+                true
+            )//打印
             try {
                 Thread.sleep(500)
             } catch (ex: Exception) {
