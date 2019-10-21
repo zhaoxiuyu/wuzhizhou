@@ -33,7 +33,11 @@ fun startActTakeOrder(context: Context, takeOrderModels: MutableList<TakeOrderMo
 }
 
 // 去取票明细页面
-fun startActTakeDetailed(context: Context, uuid: String, takeTicketModels: MutableList<TakeTicketModelsVo>) {
+fun startActTakeDetailed(
+    context: Context,
+    uuid: String,
+    takeTicketModels: MutableList<TakeTicketModelsVo>
+) {
     val intent = Intent(context, TakeDetailedActivity::class.java)
     intent.putExtra("uuid", uuid)
     intent.putExtra("takeTicketModels", takeTicketModels as Serializable)
@@ -53,29 +57,121 @@ fun startActPrint(context: Context, printTemp: MutableList<PrintTempVo>, source:
 
 // 默认打印模板
 fun defaultTemplate(): String {
-    return "CUT  ON \n" +   //切纸
-//    return "CUT  OFF \n" +    //不切纸
+    return "CUT ON\n" +
+            "\n" +
             "DIR3\n" +
+            "\n" +
             "NASC \"UTF-8\"\n" +
-            "FT \"Microsoft YaHei\",6,0,145\n" +
-//            "FT \"FangSong\",6,0,145\n" +
-
-            "PP600,190 \n" +
-            "BARSET \"QRCODE\",1,1,6,2,1:" +
-            "PB \"barCode\" \n" +
-
-            "PP450,80\n" +
-            "PT \"人数: 1 \"\n" +
-
-            "PP450,110\n" +
-            "PT \"名称: 张三李四王二麻子 \"\n" +
-
-            "PP450,170\n" +
-            "PT \"生效日期 : 2019-09-24 \"\n" +
-
-            "PP450,200\n" +
-            "PT \"票价: 1.0 \"\n" +
+            "\n" +
+            "PP520,160\n" +
+            "BARSET \"QRCODE\",1,1,6,2,1:PB \"你们真烦\"\n" +
+            "\n" +
+            "FT \"Microsoft YaHei\",8,0,145\n" +
+            "\n" +
+            "PP530,30\n" +
+            "PT \"票名:\"\n" +
+            "\n" +
+            "FT \"Microsoft YaHei\",7,0,145\n" +
+            "\n" +
+            "PP380,60\n" +
+            "PT \"交易号:\"\n" +
+            "\n" +
+            "PP380,90\n" +
+            "\n" +
+            "PT \"票价:\"\n" +
+            "\n" +
+            "PP380,120\n" +
+            "PT \"合计:\"\n" +
+            "\n" +
+            "PP230,120\n" +
+            "PT \"补打标识:\"\n" +
+            "\n" +
+            "PP380,150\n" +
+            "\n" +
+            "PT \"售票员:\"\n" +
+            "\n" +
+            "PP380,170\n" +
+            "\n" +
+            "PT \"支付方式:\"\n" +
+            "\n" +
+            "PP230,90\n" +
+            "PT \"人数:\"\n" +
+            "PP520,200\n" +
+            "PT \"条码号:\"\n" +
+            "\n" +
+            "PP520,230\n" +
+            "\n" +
+            "PT \"游玩日期:\"\n" +
+            "PP520,260\n" +
+            "\n" +
+            "PT \"出票时间:\"\n" +
+            "\n" +
+            "FT \"Microsoft YaHei\",8,0,145\n" +
+            "\n" +
+            "PP530,330\n" +
+            "PT \"票名:测试票\"\n" +
+            "FT \"Microsoft YaHei\",7,0,145\n" +
+            "\n" +
+            "PP520,360\n" +
+            "PT \"交易号:\"\n" +
+            "\n" +
+            "PP520,390\n" +
+            "PT \"票种:\"\n" +
+            "\n" +
+            "PP230,390\n" +
+            "PT \"补打标识:\"\n" +
+            "\n" +
+            "PP520,420\n" +
+            "PT \"票价:\"\n" +
+            "\n" +
+            "PP520,450\n" +
+            "PT \"合计:\"\n" +
+            "\n" +
+            "PP520,480\n" +
+            "PT \"支付方式:\"\n" +
+            "\n" +
+            "PP520,510\n" +
+            "PT \"条码号:\"\n" +
+            "PP520,540\n" +
+            "\n" +
+            "PT \"游客姓名:\"\n" +
+            "PP520,570\n" +
+            "PT \"售票员:\"\n" +
+            "\n" +
+            "PP520,600\n" +
+            "PT \"售票点:\"\n" +
+            "\n" +
+            "PP520,630\n" +
+            "PT \"出票时间:\"\n" +
+            "PP520,660\n" +
+            "PT \"游玩日期:\"\n" +
+            "PP520,690\n" +
+            "PT\"商户号:\"\n" +
             "PF1\n"
+
+//    return "CUT  ON \n" +   //切纸
+////    return "CUT  OFF \n" +    //不切纸
+//            "DIR3\n" +
+//            "NASC \"UTF-8\"\n" +
+//            "FT \"Microsoft YaHei\",6,0,145\n" +
+////            "FT \"FangSong\",6,0,145\n" +
+//
+//            "PP600,190 \n" +
+//            "BARSET \"QRCODE\",1,1,6,2,1:" +
+//            "PB \"barCode\" \n" +
+//
+//            "PP450,80\n" +
+//            "PT \"人数: 1 \"\n" +
+//
+//            "PP450,110\n" +
+//            "PT \"名称: 张三李四王二麻子 \"\n" +
+//
+//            "PP450,170\n" +
+//            "PT \"生效日期 : 2019-09-24 \"\n" +
+//
+//            "PP450,200\n" +
+//            "PT \"票价: 1.0 \"\n" +
+//            "PF1\n"
 }
 
 fun getFromAssets(context: Context, fileName: String): String {

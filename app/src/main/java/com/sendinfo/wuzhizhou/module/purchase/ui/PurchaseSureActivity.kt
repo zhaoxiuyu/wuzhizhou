@@ -187,7 +187,11 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     }
 
     private fun disDia() {
-        mDialog?.dismiss()
+        try {
+            mDialog?.dismiss()
+        } catch (e: Exception) {
+            LogUtils.e("问题真多")
+        }
         this@PurchaseSureActivity.finish()
     }
 

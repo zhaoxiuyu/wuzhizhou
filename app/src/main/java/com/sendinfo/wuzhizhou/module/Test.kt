@@ -136,7 +136,13 @@ fun main(args: Array<String>) {
 //        ) + ((Math.random() * 9 + 1) * 1000000).toInt()
 //    )
 
-    rep(string)
+//    rep(string)
+
+
+    val string = "429001199311153156"
+    val sb = java.lang.StringBuilder(string)
+    System.out.println("${sb.replace(6, 12, "******")}")
+    System.out.println("${sb.replace(6, 12, "******")}")
 
 }
 
