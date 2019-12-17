@@ -175,7 +175,8 @@ class IdCardOwner(private var context: Context?) : MyLifecycleObserver {
                     ActivityUtils.getActivityByContext(context).finish()
                 }
             } else {
-                ToastUtils.showLong("USB设备无权限")
+//                ToastUtils.showLong("USB设备无权限")
+                LogUtils.d("USB设备无权限")
             }
         }
     }

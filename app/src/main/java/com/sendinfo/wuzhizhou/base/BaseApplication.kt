@@ -1,17 +1,12 @@
 package com.sendinfo.wuzhizhou.base
 
 import com.base.library.base.BApplication
-import com.base.library.util.glide.GlideDiskClean
-import com.base.library.util.glide.GlideMemoryClean
-import com.blankj.utilcode.util.LogUtils
 import com.sendinfo.devicehelp.service.devicehelp.SdFileUtil
 import com.sendinfo.wuzhizhou.BuildConfig
+import com.sendinfo.wuzhizhou.utils.HardwareExample
 import com.sendinfo.wuzhizhou.utils.putIcCardSerialPort
 import com.sendinfo.wuzhizhou.utils.putQRcodeSerialPort
 import com.sendinfo.wuzhizhou.utils.putShebeiCode
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class BaseApplication : BApplication() {
 
@@ -28,6 +23,10 @@ class BaseApplication : BApplication() {
         putQRcodeSerialPort(P02_QRcodeSerialPort)
         putIcCardSerialPort(P52_IcCardSerialPort)
         putShebeiCode(device_Sn)
+
+        HardwareExample.whPrintServerUtil
+        HardwareExample.tscPrintServerUtil
+        HardwareExample.bGSdtUtil
 
 //        Observable.create<String> {
 //            GlideDiskClean()

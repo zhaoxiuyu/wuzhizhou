@@ -18,6 +18,7 @@ package com.sendinfo.wuzhizhou.module
  *      (qpslcgxz = 您的取票数量超过限制数量，请到柜台取票)
  *      (yueduxuzhi = 请仔细阅读须知)
  *      (piaozhibuzu = 可打印票纸数量不足，请联系景区管理人员)
+ *      (ysf = 请打开银联云闪付进行扫码支付)
  */
 
 
@@ -139,10 +140,10 @@ fun main(args: Array<String>) {
 //    rep(string)
 
 
-    val string = "429001199311153156"
-    val sb = java.lang.StringBuilder(string)
-    System.out.println("${sb.replace(6, 12, "******")}")
-    System.out.println("${sb.replace(6, 12, "******")}")
+//    val string = "429001199311153156"
+//    val sb = java.lang.StringBuilder(string)
+//    System.out.println("${sb.replace(6, 12, "******")}")
+//    System.out.println("${sb.replace(6, 12, "******")}")
 
 }
 

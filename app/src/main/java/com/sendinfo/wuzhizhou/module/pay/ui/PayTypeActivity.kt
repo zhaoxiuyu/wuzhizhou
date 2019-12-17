@@ -42,7 +42,10 @@ class PayTypeActivity : BaseActivity<BPresenter>() {
             saveOrderVo?.PayTypeCode = "18"
             saveOrderVo?.PayTypeName = "支付宝"
 
-            startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
+            startAct(
+                this,
+                Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo)
+            )
         }
         tvWx.setOnClickListener {
             if (isFastClick()) return@setOnClickListener
@@ -50,10 +53,24 @@ class PayTypeActivity : BaseActivity<BPresenter>() {
             saveOrderVo?.PayTypeCode = "19"
             saveOrderVo?.PayTypeName = "微信"
 
-            startAct(this, Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo))
+            startAct(
+                this,
+                Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo)
+            )
+        }
+        tvYsf.setOnClickListener {
+            if (isFastClick()) return@setOnClickListener
+
+            saveOrderVo?.PayTypeCode = "85"
+            saveOrderVo?.PayTypeName = "银联云闪付"
+
+            startAct(
+                this,
+                Intent(this, PayActivity::class.java).putExtra("saveOrderVo", saveOrderVo)
+            )
         }
 
-        va = ViewAnimator.animate(tvAli, tvWx)
+        va = ViewAnimator.animate(tvAli, tvWx, tvYsf)
             .scale(1f, 0.9f)
             .duration(1000)
             .repeatMode(ViewAnimator.REVERSE)

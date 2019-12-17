@@ -35,8 +35,9 @@ fun getIdCard(): Int = SPStaticUtils.getInt("idCard", 1)
 fun putDyj(dyj: Int) {
     SPStaticUtils.put("dyj", dyj)
 }
-
-fun getDyj(): Int = SPStaticUtils.getInt("dyj", 1)
+// 写成固定的 霍尼打印机
+fun getDyj(): Int = 1
+//fun getDyj(): Int = SPStaticUtils.getInt("dyj", 1)
 
 /**
  * IP端口

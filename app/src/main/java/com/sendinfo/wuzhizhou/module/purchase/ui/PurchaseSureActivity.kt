@@ -55,7 +55,16 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
 
     override fun initData() {
         super.initData()
-        soundPoolUtils.startPlayVideo(R.raw.idcarname)
+
+        var isBfIdCard = false // true 播放语音,false 不播放
+        newTickets?.forEach {
+            if (it.NeedReadIDCard == "1") {
+                isBfIdCard = true
+            }
+        }
+
+        if (isBfIdCard) soundPoolUtils.startPlayVideo(R.raw.idcarname)
+
         tts.startSurplus(120000)
         tts.setOnSurplusListener(object : OnSurplusListener {
             override fun surplus() {

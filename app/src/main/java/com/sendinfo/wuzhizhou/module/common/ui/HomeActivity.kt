@@ -5,7 +5,6 @@ import android.content.Intent
 import com.base.library.util.JsonUtils
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ServiceUtils
 import com.blankj.utilcode.util.StringUtils
 import com.github.florent37.viewanimator.ViewAnimator
 import com.google.gson.reflect.TypeToken
@@ -15,7 +14,6 @@ import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.custom.GlideImageLoader
 import com.sendinfo.wuzhizhou.entitys.hardware.CardInfo
-import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
 import com.sendinfo.wuzhizhou.entitys.response.Notice
 import com.sendinfo.wuzhizhou.interfaces.IdCardListener
 import com.sendinfo.wuzhizhou.module.common.presenter.MainPresenter
@@ -40,12 +38,6 @@ class HomeActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
 
         mPresenter = MainPresenter(this)
         lifecycle.addObserver(idCardOwner)
-    }
-
-    override fun initData() {
-        super.initData()
-        idCardOwner.setIdCardListener(this)
-        idCardOwner.getReadIdCard()
 
         // 进入
         online.setOnClickListener {
@@ -65,8 +57,14 @@ class HomeActivity : BaseActivity<MainContract.Presenter>(), MainContract.View, 
             .start()
 
         // 心跳
-        ServiceUtils.startService(BeatService::class.java)
+        val intent = Intent(this, BeatService::class.java)
+        startService(intent)
+    }
 
+    override fun initData() {
+        super.initData()
+        idCardOwner.setIdCardListener(this)
+        idCardOwner.getReadIdCard()
     }
 
     // 初始化轮播图

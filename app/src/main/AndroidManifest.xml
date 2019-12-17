@@ -32,6 +32,7 @@
         <activity android:name=".module.again.ui.AgainMainActivity"/>
         <activity android:name=".module.again.ui.AgainRecordActivity"/>
         <activity android:name=".module.again.ui.AgainPayParamActivity"/>
+        <activity android:name=".module.again.ui.AgainIdCardParamActivity"/>
 
         <!-- 购票 -->
         <activity android:name=".module.purchase.ui.PurchaseMainActivity"/>

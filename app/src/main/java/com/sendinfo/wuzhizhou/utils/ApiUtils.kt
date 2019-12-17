@@ -123,8 +123,9 @@ const val jsonImages = "jsonImages"
 /**
  * 进入手势密码页面的来源参数
  */
-const val payParam = "payParam"
-const val home = "home"
+const val payParam = "payParam" // payParam参数设置
+const val home = "home" // home首页
+const val updateIdCard = "updateIdCard" // 修改身份证设置
 
 
 

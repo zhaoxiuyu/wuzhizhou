@@ -13,8 +13,8 @@ buildscript {
         targetSdkVersion = 28
         minSdkVersion = 19
 
-        versionCode = 118
-        versionName = "1.1.8"
+        versionCode = 126
+        versionName = "1.2.6"
     }
 
     dependencies {

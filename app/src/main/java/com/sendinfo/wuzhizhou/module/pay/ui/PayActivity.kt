@@ -61,6 +61,14 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
         super.initData()
         tid = getTid()
         mid = getMid()
+
+        when (saveOrderVo?.PayTypeCode) {
+            "18" -> soundPoolUtils.startPlayVideo(R.raw.zhifubaopay)   // 支付宝
+            "19" -> soundPoolUtils.startPlayVideo(R.raw.weixinpay)   // 微信
+            "85" -> soundPoolUtils.startPlayVideo(R.raw.ysf)   // 银联云闪付
+            else -> soundPoolUtils.startPlayVideo(R.raw.wxorzybsaomazhifu)
+        }
+
         soundPoolUtils.startPlayVideo(R.raw.wxorzybsaomazhifu)
 
         tts.setIvLogo(R.drawable.ticketpurchase)
@@ -71,7 +79,17 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
         if (TextUtils.isEmpty(billno)) {
             billno = PayUtils.genMerOrderId(msgSrcId)
             saveOrderVo.PayTradeId = billno
-            mPresenter?.httpData(billno, mid, instMid, msgSrc, tid, saveOrderVo.PaySum, "", secretKey, 1)//获取二维码
+            mPresenter?.httpData(
+                billno,
+                mid,
+                instMid,
+                msgSrc,
+                tid,
+                saveOrderVo.PaySum,
+                "",
+                secretKey,
+                1
+            )//获取二维码
             LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(ClosePageAction))//关闭其他页面广播
         }
     }

@@ -12,12 +12,10 @@ import com.github.ihsg.patternlocker.OnPatternChangeListener
 import com.github.ihsg.patternlocker.PatternLockerView
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
+import com.sendinfo.wuzhizhou.module.again.ui.AgainIdCardParamActivity
 import com.sendinfo.wuzhizhou.module.again.ui.AgainPayParamActivity
 import com.sendinfo.wuzhizhou.module.again.ui.AgainSettingActivity
-import com.sendinfo.wuzhizhou.utils.getPlv
-import com.sendinfo.wuzhizhou.utils.payParam
-import com.sendinfo.wuzhizhou.utils.putPlv
-import com.sendinfo.wuzhizhou.utils.startAct
+import com.sendinfo.wuzhizhou.utils.*
 import kotlinx.android.synthetic.main.activity_gesture.*
 
 class GestureActivity : BaseActivity<BPresenter>(), OnPatternChangeListener {
@@ -117,11 +115,13 @@ class GestureActivity : BaseActivity<BPresenter>(), OnPatternChangeListener {
     }
 
     private fun toAct() {
-        if (source == payParam) {
-            startAct(this, AgainPayParamActivity::class.java)
-        } else {
-            startAct(this, AgainSettingActivity::class.java)
+        when (source) {
+            payParam -> startAct(this, AgainPayParamActivity::class.java)
+            home -> startAct(this, AgainSettingActivity::class.java)
+            updateIdCard -> startAct(this, AgainIdCardParamActivity::class.java)
+            else -> {
+                startAct(this, AgainSettingActivity::class.java)
+            }
         }
     }
-
 }

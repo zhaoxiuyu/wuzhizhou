@@ -58,22 +58,6 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
         }
 
         /**
-         * 1 霍尼,2 HID ,身份证阅读器
-         */
-        if (getIdCard() == 1) {
-            radioGroupIdCard.check(weier.id)
-        } else {
-            radioGroupIdCard.check(hid.id)
-        }
-        radioGroupIdCard.setOnCheckedChangeListener { group, checkedId ->
-            if (checkedId == weier.id) {
-                putIdCard(1)
-            } else if (checkedId == hid.id) {
-                putIdCard(2)
-            }
-        }
-
-        /**
          * IP端口
          */
         etIp.setText(getIp())
@@ -124,6 +108,13 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
         tvPayParam.setOnClickListener {
             val intent = Intent(this, GestureActivity::class.java)
             intent.putExtra("source", payParam)
+            startAct(this, intent, isFinish = false)
+        }
+
+        // 修改身份证设置
+        tvUpdateIdCard.setOnClickListener {
+            val intent = Intent(this, GestureActivity::class.java)
+            intent.putExtra("source", updateIdCard)
             startAct(this, intent, isFinish = false)
         }
     }
