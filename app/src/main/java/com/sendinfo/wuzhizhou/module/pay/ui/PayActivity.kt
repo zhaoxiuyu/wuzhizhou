@@ -65,11 +65,9 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
         when (saveOrderVo?.PayTypeCode) {
             "18" -> soundPoolUtils.startPlayVideo(R.raw.zhifubaopay)   // 支付宝
             "19" -> soundPoolUtils.startPlayVideo(R.raw.weixinpay)   // 微信
-            "85" -> soundPoolUtils.startPlayVideo(R.raw.ysf)   // 银联云闪付
+            "85" -> soundPoolUtils.startPlayVideo(R.raw.yjysf)   // 银联云闪付
             else -> soundPoolUtils.startPlayVideo(R.raw.wxorzybsaomazhifu)
         }
-
-        soundPoolUtils.startPlayVideo(R.raw.wxorzybsaomazhifu)
 
         tts.setIvLogo(R.drawable.ticketpurchase)
         tts.setBackVisibility(View.GONE)
