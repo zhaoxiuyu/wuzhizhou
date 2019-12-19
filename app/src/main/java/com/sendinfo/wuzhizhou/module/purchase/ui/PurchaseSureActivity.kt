@@ -98,6 +98,8 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        if (isFastClick()) return
+
         val ticketVo = mAdapter.getItem(position) as GetTicketVo
         if (ticketVo.NeedReadIDCard == "1") {
             if (ticketVo?.IDCards == null) ticketVo?.IDCards = mutableListOf()

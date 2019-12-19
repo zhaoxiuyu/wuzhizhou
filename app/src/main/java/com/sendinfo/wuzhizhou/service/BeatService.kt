@@ -30,9 +30,9 @@ class BeatService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        // 删除7天前的日志记录
+        // 删除2天前的日志记录
         DataBaseUtils.getJournalRecordDao()
-            .deleteFormTime(TimeUtils.getString(TimeUtils.getNowString(), -7, TimeConstants.DAY))
+            .deleteFormTime(TimeUtils.getString(TimeUtils.getNowString(), -2, TimeConstants.DAY))
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(Consumer {
                 LogUtils.d("删除了多少条:$it")
