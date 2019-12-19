@@ -6,7 +6,7 @@ import com.base.library.base.BActivity
 import com.base.library.mvp.BPresenter
 import com.base.library.util.SoundPoolUtils
 import com.sendinfo.wuzhizhou.R
-import com.sendinfo.wuzhizhou.owner.PrintStateOwner
+import com.sendinfo.wuzhizhou.owner.PrintOwner
 import kotlinx.android.synthetic.main.activity_base.*
 
 /**
@@ -15,14 +15,14 @@ import kotlinx.android.synthetic.main.activity_base.*
  */
 open class BaseActivity<T : BPresenter> : BActivity<T>() {
 
-    val printStateOwner: PrintStateOwner by lazy { PrintStateOwner() }
+    val printOwner: PrintOwner by lazy { PrintOwner() }
     val soundPoolUtils: SoundPoolUtils by lazy { SoundPoolUtils() }
 
     override fun initArgs(intent: Intent?) {
     }
 
     override fun initView() {
-        lifecycle.addObserver(printStateOwner)
+        lifecycle.addObserver(printOwner)
         lifecycle.addObserver(soundPoolUtils)
     }
 

@@ -118,18 +118,16 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
             return
         } else {
             //此时检测打印机是否正常
-            printStateOwner.getPrinterStatus(object : PrintStatusListener {
-                override fun printLinstener(printStatus: PrintStatus) {
-                    if (!printStatus.succ) {
-                        showDialog(
-                            content = "打印机异常:${printStatus.msg}",
-                            confirmListener = getConfirmFinishListener()
-                        )
-                        other("$printStatus", "检测打印机", "E")
-                        LogUtils.i("打印机异常，$printStatus")
-                    }
+            printOwner.getPrinterStatus {
+                if (!it.succ) {
+                    showDialog(
+                        content = "打印机异常:${it.msg}",
+                        confirmListener = getConfirmFinishListener()
+                    )
+                    other("$it", "检测打印机", "E")
+                    LogUtils.i("打印机异常，$it")
                 }
-            })
+            }
         }
     }
 

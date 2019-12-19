@@ -3,6 +3,7 @@ package com.sendinfo.wuzhizhou.module.common.ui
 import android.content.Intent
 import android.view.View
 import com.base.library.mvp.BPresenter
+import com.base.library.util.JsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
@@ -115,42 +116,26 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
      * 开始打印
      */
     private fun toPrint(printList: List<String>) {
-        printStateOwner.printer(printList, object : PrintListener {
-            override fun printBack(printProgress: PrintProgress?, errorMsg: String) {
-                if (printProgress != null) {
-                    LogUtils.i("打印进度：$printProgress")
-                    other("$totalPrint 打印进度：$printProgress", "$source 打印进度", "I")
-                    tvCompleted.text = "已出票数：  ${printProgress.progress}张"
-                    progressPrint = printProgress.progress
-                    if (!printProgress.succ) {
-                        tts.setBackVisibility(View.VISIBLE)
-                        tts.startSurplus(5000)
-                        showDialog(
-                            content = "${printProgress.errorMsg},请联系管理员重打",
-                            confirmListener = getConfirmFinishListener()
-                        )
-                    }
-                    if (printProgress.isComplete) {
-                        tts.setBackVisibility(View.VISIBLE)
-                        tts.startSurplus(5000)
-                        tvInfo.text = "打印完成，请在出票口取票"
-                        other("出票完成：$printProgress", "$source 出票完成", "I")
-                        // 更新票数
-                        putPrintNumber(getPrintNumber() - printProgress.total)
-                        tts.updatePrintNumber()
-                    }
-                } else {
-                    tts.setBackVisibility(View.VISIBLE)
-                    tts.startSurplus(5000)
-                    other("打印出错,进度：$progressPrint，错误信息：$errorMsg", "$source 打印进度", "E")
-                    showDialog(
-                        content = "${printProgress?.errorMsg},请联系管理员重打",
-                        confirmListener = getConfirmFinishListener()
-                    )
-                    LogUtils.i("打印出错,进度：$progressPrint，错误信息：$errorMsg")
-                }
+        other("开始打印，总数量：$totalPrint，全部内容：${JsonUtils.toJson(printList)}", "$source toPrint", "I")
+        printOwner.printer(printList) { printProgress ->
+            LogUtils.i("打印进度：$printProgress")
+            tvCompleted.text = "已出票数：  ${printProgress.progress}张"
+            progressPrint = printProgress.progress
+            if (!printProgress.succ) {
+                tts.setBackVisibility(View.VISIBLE)
+                tts.startSurplus(5000)
+                showDialog(content = "${printProgress.errorMsg},请联系管理员重打", confirmListener = getConfirmFinishListener())
             }
-        })
+            if (printProgress.isComplete) {
+                tts.setBackVisibility(View.VISIBLE)
+                tts.startSurplus(5000)
+                tvInfo.text = "打印完成，请在出票口取票"
+                other("出票完成：$printProgress", "$source 出票完成", "I")
+                // 更新票数
+                putPrintNumber(getPrintNumber() - printProgress.total)
+                tts.updatePrintNumber()
+            }
+        }
     }
 
     /**

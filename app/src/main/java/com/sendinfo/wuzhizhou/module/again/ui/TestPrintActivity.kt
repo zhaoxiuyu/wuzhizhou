@@ -26,20 +26,16 @@ class TestPrintActivity : BaseActivity<BPresenter>() {
         super.initData()
 
         butState.setOnClickListener {
-            printStateOwner.getPrinterStatus(object : PrintStatusListener {
-                override fun printLinstener(printStatus: PrintStatus) {
-                    sb.appendln(printStatus.toString())
-                    tvInfo.text = sb.toString()
-                }
-            })
+            printOwner.getPrinterStatus {
+                sb.appendln(it.toString())
+                tvInfo.text = sb.toString()
+            }
         }
         butPrint.setOnClickListener {
-            printStateOwner.printer(listOf(defaultTemplate()), object : PrintListener {
-                override fun printBack(printProgress: PrintProgress?, errorMsg: String) {
-                    sb.appendln(printProgress?.printReturnDto?.toString())
-                    tvInfo.text = sb.toString()
-                }
-            })
+            printOwner.printer(listOf(defaultTemplate())){
+                sb.appendln(it.printReturnDto?.toString())
+                tvInfo.text = sb.toString()
+            }
         }
     }
 
