@@ -125,6 +125,7 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
                 tts.setBackVisibility(View.VISIBLE)
                 tts.startSurplus(5000)
                 showDialog(content = "${printProgress.errorMsg},请联系管理员重打", confirmListener = getConfirmFinishListener())
+                other("打印异常，总数量：$totalPrint，当前进度：$progressPrint，异常信息：$printProgress", "$source toPrint", "I")
             }
             if (printProgress.isComplete) {
                 tts.setBackVisibility(View.VISIBLE)
