@@ -11,6 +11,12 @@ import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
 import com.sendinfo.wuzhizhou.interfaces.PrintListener
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.putPrintNumber
+import com.uber.autodispose.AutoDispose
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_print.*
 
@@ -43,7 +49,7 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
         totalPrint = printTemp.size
         initTitle()
         if (errorChecking()) return
-        toPrint()
+        templateCheck()
     }
 
     private fun initTitle() {
@@ -78,62 +84,79 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
         return false
     }
 
-    private fun toPrint() {
-        try {
-            tvSum.text = "总票数：${totalPrint}张"
-            tvCompleted.text = "已出票数：0张"
+    /**
+     * 模板替换
+     */
+    private fun templateCheck() {
+        tvSum.text = "总票数：${totalPrint}张"
+        tvCompleted.text = "已出票数：0张"
+
+        Observable.just("").map {
             var printList = ArrayList<String>()
             printTemp.forEach {
                 printList.add(rep(it.PrintTemp))
             }
-            printStateOwner.printer(printList, object : PrintListener {
-                override fun printBack(printProgress: PrintProgress?, errorMsg: String) {
-                    if (printProgress != null) {
-                        LogUtils.i("打印进度：$printProgress")
-                        other("$totalPrint 打印进度：$printProgress", "$source 打印进度", "I")
-                        tvCompleted.text = "已出票数：  ${printProgress.progress}张"
-                        progressPrint = printProgress.progress
-                        if (!printProgress.succ) {
-                            tts.setBackVisibility(View.VISIBLE)
-                            tts.startSurplus(5000)
-                            showDialog(
-                                content = "${printProgress.errorMsg},请联系管理员重打",
-                                confirmListener = getConfirmFinishListener()
-                            )
-                        }
-                        if (printProgress.isComplete) {
-                            tts.setBackVisibility(View.VISIBLE)
-                            tts.startSurplus(5000)
-                            tvInfo.text = "打印完成，请在出票口取票"
-                            other("出票完成：$printProgress", "$source 出票完成", "I")
-                            // 更新票数
-                            putPrintNumber(getPrintNumber() - printProgress.total)
-                            tts.updatePrintNumber()
-                        }
-                    } else {
-                        tts.setBackVisibility(View.VISIBLE)
-                        tts.startSurplus(5000)
-                        other("打印出错,进度：$progressPrint，错误信息：$errorMsg", "$source 打印进度", "E")
-                        showDialog(
-                            content = "${printProgress?.errorMsg},请联系管理员重打",
-                            confirmListener = getConfirmFinishListener()
-                        )
-                        LogUtils.i("打印出错,进度：$progressPrint，错误信息：$errorMsg")
-                    }
-                }
+            return@map printList
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+            .subscribe(Consumer {
+                toPrint(it)
+            }, Consumer {
+                other("errorChecking -  ${it.printStackTrace()}", "$source 打印失败", "E")
+                showDialog(
+                    content = "打印失败，请联系管理员重打",
+                    confirmListener = getConfirmFinishListener(),
+                    isHideCancel = false
+                )
             })
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            other("errorChecking -  ${ex.printStackTrace()}", "$source 打印失败", "E")
-            showDialog(
-                content = "打印失败，请联系管理员重打",
-                confirmListener = getConfirmFinishListener(),
-                isHideCancel = false
-            )
-        }
     }
 
-    fun rep(template: String): String {
+    /**
+     * 开始打印
+     */
+    private fun toPrint(printList: List<String>) {
+        printStateOwner.printer(printList, object : PrintListener {
+            override fun printBack(printProgress: PrintProgress?, errorMsg: String) {
+                if (printProgress != null) {
+                    LogUtils.i("打印进度：$printProgress")
+                    other("$totalPrint 打印进度：$printProgress", "$source 打印进度", "I")
+                    tvCompleted.text = "已出票数：  ${printProgress.progress}张"
+                    progressPrint = printProgress.progress
+                    if (!printProgress.succ) {
+                        tts.setBackVisibility(View.VISIBLE)
+                        tts.startSurplus(5000)
+                        showDialog(
+                            content = "${printProgress.errorMsg},请联系管理员重打",
+                            confirmListener = getConfirmFinishListener()
+                        )
+                    }
+                    if (printProgress.isComplete) {
+                        tts.setBackVisibility(View.VISIBLE)
+                        tts.startSurplus(5000)
+                        tvInfo.text = "打印完成，请在出票口取票"
+                        other("出票完成：$printProgress", "$source 出票完成", "I")
+                        // 更新票数
+                        putPrintNumber(getPrintNumber() - printProgress.total)
+                        tts.updatePrintNumber()
+                    }
+                } else {
+                    tts.setBackVisibility(View.VISIBLE)
+                    tts.startSurplus(5000)
+                    other("打印出错,进度：$progressPrint，错误信息：$errorMsg", "$source 打印进度", "E")
+                    showDialog(
+                        content = "${printProgress?.errorMsg},请联系管理员重打",
+                        confirmListener = getConfirmFinishListener()
+                    )
+                    LogUtils.i("打印出错,进度：$progressPrint，错误信息：$errorMsg")
+                }
+            }
+        })
+    }
+
+    /**
+     * 模板内容超长截取
+     */
+    private fun rep(template: String): String {
         val sBuilder = StringBuilder()
 
         val datas = template.split("\n")
