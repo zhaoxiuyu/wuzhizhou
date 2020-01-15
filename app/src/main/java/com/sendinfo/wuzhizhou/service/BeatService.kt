@@ -3,11 +3,10 @@ package com.sendinfo.wuzhizhou.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.base.library.database.DataBaseUtils
+import com.base.library.database.entity.JournalLitePal
 import com.base.library.entitys.BaseResponse
 import com.base.library.http.BRequest
 import com.base.library.util.JsonUtils
-import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.constant.TimeConstants
 import com.blankj.utilcode.util.BusUtils
 import com.blankj.utilcode.util.LogUtils
@@ -19,6 +18,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import org.litepal.LitePal
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
@@ -30,18 +30,15 @@ class BeatService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        // 删除2天前的日志记录
-        DataBaseUtils.getJournalRecordDao()
-            .deleteFormTime(TimeUtils.getString(TimeUtils.getNowString(), -2, TimeConstants.DAY))
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe(Consumer {
-                LogUtils.d("删除了多少条:$it")
-            }, Consumer {
-                LogUtils.e("删除: $it.localizedMessage")
-            })
+        // 得到2天前的时间
+        val time = TimeUtils.getString(TimeUtils.getNowString(), -2, TimeConstants.DAY)
+
+        // 删除2天前的数据,返回受影响的行数
+        val rowNumber = LitePal.deleteAll(JournalLitePal::class.java, "time < ?", time)
+        LogUtils.d("删除行数 $rowNumber")
 
         // 两分钟调用一次
-        Observable.interval(0, 60, TimeUnit.SECONDS)
+        Observable.interval(0, 120, TimeUnit.SECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -95,19 +92,11 @@ class BeatService : Service() {
                                     " 至  ${TimeUtils.date2String(endData, sdf)}"
                         )
                     }
-
                     LogUtils.d("$sb")
-                    addRz("$sb", "${bRequest.url}心跳返回")
                 }
             }, Consumer {
                 LogUtils.e(it.message)
-                addRz("${it.message}", "${bRequest.url}异常-心跳")
             })
-    }
-
-    private fun addRz(message: String, behavior: String) {
-        roomInsertJournalRecord("$message", "$behavior", "I")
-            .subscribe(Consumer { LogUtils.d("日志添加成功") }, Consumer { LogUtils.e("日志添加失败") })
     }
 
     override fun onBind(intent: Intent?): IBinder? {

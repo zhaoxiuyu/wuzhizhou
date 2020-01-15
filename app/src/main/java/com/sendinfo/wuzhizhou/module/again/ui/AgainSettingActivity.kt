@@ -1,7 +1,6 @@
 package com.sendinfo.wuzhizhou.module.again.ui
 
 import android.content.Intent
-import com.base.library.database.DataBaseUtils
 import com.base.library.mvp.BPresenter
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.StringUtils
@@ -99,7 +98,6 @@ class AgainSettingActivity : BaseActivity<BPresenter>() {
         //退出程序
         tuichu.setOnClickListener {
             showDialog(content = "确定要退出?", confirmListener = OnConfirmListener {
-                DataBaseUtils.close()
                 AppUtils.exitApp()
             })
         }

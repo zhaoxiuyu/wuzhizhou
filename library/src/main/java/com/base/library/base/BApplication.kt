@@ -5,14 +5,15 @@ import androidx.multidex.MultiDexApplication
 import com.base.library.BuildConfig
 import com.base.library.R
 import com.base.library.util.CockroachUtil
-import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.lxj.xpopup.XPopup
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.https.HttpsUtils
 import com.tencent.bugly.crashreport.CrashReport
 import okhttp3.OkHttpClient
+import org.litepal.LitePal
 
 /**
  * 作用: 程序的入口
@@ -23,14 +24,15 @@ open class BApplication : MultiDexApplication() {
         super.onCreate()
         val startTime = System.currentTimeMillis()//获取开始时间
 
-//        DoraemonKit.install(this)
         initAndroidUtilCode()
         initHttp()
+        LitePal.initialize(this)
 
-        CrashReport.initCrashReport(applicationContext, "f4abc2160b", false)
-
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
+            DoraemonKit.install(this)
+        } else {
             initCockroach()
+            CrashReport.initCrashReport(applicationContext, "f4abc2160b", false)
         }
 
         //XPopup主题颜色
@@ -50,10 +52,6 @@ open class BApplication : MultiDexApplication() {
                 try {
                     LogUtils.e(info)
                     CrashReport.postCatchedException(throwable)  // bugly会将这个throwable上报
-                    roomInsertJournalRecord(info, "异常-全局", "E")
-                        .subscribe({
-                        }, {
-                        })
                 } catch (e: Throwable) {
                 }
             }

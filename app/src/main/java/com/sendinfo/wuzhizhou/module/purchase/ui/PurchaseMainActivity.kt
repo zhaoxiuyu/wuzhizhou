@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.library.util.isFastClick
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.google.common.eventbus.EventBus
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketGroupVo
 import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
 import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseMainAdapter
 import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseMainGroupAdapter
-import com.sendinfo.wuzhizhou.module.purchase.contract.MainContract
 import com.sendinfo.wuzhizhou.module.purchase.contract.PurchaseMainContract
 import com.sendinfo.wuzhizhou.module.purchase.presenter.PurchaseMainPresenter
 import com.sendinfo.wuzhizhou.utils.ClosePageAction

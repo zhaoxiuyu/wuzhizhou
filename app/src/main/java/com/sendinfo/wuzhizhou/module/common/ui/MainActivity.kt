@@ -9,9 +9,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
 import com.sendinfo.wuzhizhou.custom.InfoDialog
-import com.sendinfo.wuzhizhou.entitys.hardware.PrintStatus
 import com.sendinfo.wuzhizhou.entitys.response.Notice
-import com.sendinfo.wuzhizhou.interfaces.PrintStatusListener
 import com.sendinfo.wuzhizhou.module.again.ui.AgainVerificationActivity
 import com.sendinfo.wuzhizhou.module.common.presenter.MainPresenter
 import com.sendinfo.wuzhizhou.module.purchase.contract.MainContract
@@ -43,7 +41,13 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     override fun initData() {
         super.initData()
-        tts.setDouble(View.OnClickListener { startAct(this, AgainVerificationActivity::class.java, isFinish = false) })
+        tts.setDouble(View.OnClickListener {
+            startAct(
+                this,
+                AgainVerificationActivity::class.java,
+                isFinish = false
+            )
+        })
 
         tvPurchase.setOnClickListener {
             soundPoolUtils.startPlayVideo(R.raw.yueduxuzhi)
@@ -77,6 +81,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     override fun onResume() {
         super.onResume()
+        tts.updatePrintNumber()
         testing()
     }
 
@@ -135,7 +140,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
         disInfoDialog()
         if (infoDialog == null) infoDialog = InfoDialog(this)
         infoDialog?.let {
-            it.setConfirmClickListener(listener).setConfirmText("已阅读,同意").setContentText(showInfo).setTitleText(title)
+            it.setConfirmClickListener(listener).setConfirmText("已阅读,同意").setContentText(showInfo)
+                .setTitleText(title)
         }
         infoDialog?.show()
     }

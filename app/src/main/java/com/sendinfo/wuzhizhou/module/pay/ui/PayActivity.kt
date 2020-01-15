@@ -151,7 +151,7 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
                         secretKey,
                         2
                     )//查询支付结果
-                }, 1000)
+                }, 4000)
             } else {
                 mPresenter?.httpData(
                     billno,
@@ -181,7 +181,7 @@ class PayActivity : BaseActivity<PayPresenter>(), PayContract.View {
                     secretKey,
                     2
                 )//查询支付结果
-            }, 1000)
+            }, 4000)
         }
     }
 

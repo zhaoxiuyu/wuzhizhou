@@ -2,14 +2,15 @@ package com.sendinfo.wuzhizhou.module.common.ui
 
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import com.base.library.mvp.BPresenter
 import com.base.library.util.JsonUtils
 import com.blankj.utilcode.util.LogUtils
+import com.sendinfo.honeywellprintlib.print.PrintReturnDto
 import com.sendinfo.wuzhizhou.R
 import com.sendinfo.wuzhizhou.base.BaseActivity
-import com.sendinfo.wuzhizhou.entitys.hardware.PrintProgress
 import com.sendinfo.wuzhizhou.entitys.response.PrintTempVo
-import com.sendinfo.wuzhizhou.interfaces.PrintListener
+import com.sendinfo.wuzhizhou.utils.HardwareExample
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.putPrintNumber
 import com.uber.autodispose.AutoDispose
@@ -28,6 +29,7 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
 
     private var totalPrint = 0
     private var progressPrint = 0
+
     var source: String = ""
     var printTemp: List<PrintTempVo> = ArrayList()
 
@@ -46,11 +48,15 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
 
     override fun initData() {
         super.initData()
-        soundPoolUtils.startPlayVideo(R.raw.chupiao)
-        totalPrint = printTemp.size
-        initTitle()
-        if (errorChecking()) return
-        templateCheck()
+        if (printTemp != null && printTemp.isNotEmpty()) {
+            soundPoolUtils.startPlayVideo(R.raw.chupiao)
+            totalPrint = printTemp.size
+            tvSum.text = "总票数：${totalPrint}张"
+            initTitle()
+            templatePrint()
+        } else {
+            showDialog(content = "没有可打印内容", confirmListener = getConfirmFinishListener())
+        }
     }
 
     private fun initTitle() {
@@ -65,33 +71,77 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
         })
     }
 
-    // 验证票数和打印模板是否正常
-    private fun errorChecking(): Boolean {
-        try {
-            var errorMsg: String? = null
-            if (printTemp.isNullOrEmpty()) errorMsg = "打印内容为空，请联系管理员"
-            if (getPrintNumber() < printTemp.size) {
-                errorMsg = "可打印票数不足，请联系管理员"
+    private fun templatePrint() {
+        val vo = printTemp[progressPrint].PrintTemp
+        other(
+            "开始打印，总数量:$totalPrint，第几张:$progressPrint 打印内容: \n $vo",
+            "$source toPrint", "I"
+        )
+
+        Observable.just(vo)
+            .map {
+                val tem = rep(vo)
+                val dto = HardwareExample.whPrintServerUtil.print(tem, { }, { }, 15000, true)
+                dto
             }
-            errorMsg?.let {
-                other(errorMsg, "$source 检查打印前状态", "E")
-                showDialog(content = errorMsg, confirmListener = getConfirmFinishListener())
-                return true
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            other("errorChecking -  ${ex.printStackTrace()}", "$source 检查打印前状态", "E")
-        }
-        return false
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .`as`(
+                AutoDispose.autoDisposable(
+                    AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY)
+                )
+            ).subscribe({
+                other(
+                    "打印返回，总数量:$totalPrint，第几张:$progressPrint 打印返回:$it",
+                    "$source toPrint", "I"
+                )
+
+                tvInfo.text = "出票信息 : ${it.msg}"
+
+                if (it.isSucc) {
+                    progressPrint += 1
+                    tvCompleted.text = "已出票数：$progressPrint 张"
+
+                    // 更新票数
+                    putPrintNumber(getPrintNumber() - 1)
+                    tts.updatePrintNumber()
+
+                    if (it.isNoErrorHappen) {
+                        if (progressPrint >= totalPrint) {
+                            LogUtils.d("打印完成")
+                            tts.setBackVisibility(View.VISIBLE)
+                            tts.startSurplus(5000)
+                        } else {
+                            LogUtils.d("再次打印")
+                            templatePrint()
+                        }
+                    } else {
+                        printErrot(it)
+                    }
+                } else {
+                    printErrot(it)
+                }
+            }, {
+                val dto = PrintReturnDto()
+                dto.msg = it.message + " ; RxJava流程异常"
+                printErrot(dto)
+            })
+    }
+
+    private fun printErrot(dto: PrintReturnDto) {
+        tts.setBackVisibility(View.VISIBLE)
+        tts.startSurplus(5000)
+        other(
+            "打印异常，总数量：$totalPrint，当前进度：$progressPrint，打印返回异常：$dto",
+            "$source toPrint", "I"
+        )
+        showDialog(content = "${dto.msg},请联系管理员重打", confirmListener = getConfirmFinishListener())
     }
 
     /**
      * 模板替换
      */
     private fun templateCheck() {
-        tvSum.text = "总票数：${totalPrint}张"
-        tvCompleted.text = "已出票数：0张"
-
         Observable.just("").map {
             var printList = ArrayList<String>()
             printTemp.forEach {
@@ -124,8 +174,15 @@ class PrintActivityNew : BaseActivity<BPresenter>() {
             if (!printProgress.succ) {
                 tts.setBackVisibility(View.VISIBLE)
                 tts.startSurplus(5000)
-                showDialog(content = "${printProgress.errorMsg},请联系管理员重打", confirmListener = getConfirmFinishListener())
-                other("打印异常，总数量：$totalPrint，当前进度：$progressPrint，异常信息：$printProgress", "$source toPrint", "I")
+                showDialog(
+                    content = "${printProgress.errorMsg},请联系管理员重打",
+                    confirmListener = getConfirmFinishListener()
+                )
+                other(
+                    "打印异常，总数量：$totalPrint，当前进度：$progressPrint，异常信息：$printProgress",
+                    "$source toPrint",
+                    "I"
+                )
             }
             if (printProgress.isComplete) {
                 tts.setBackVisibility(View.VISIBLE)

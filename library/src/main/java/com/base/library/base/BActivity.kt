@@ -6,13 +6,12 @@ import android.os.Handler
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.base.library.R
+import com.base.library.database.entity.JournalLitePal
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
-import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.util.LogUtils
-import com.gyf.immersionbar.ImmersionBar
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.OnCancelListener
@@ -22,7 +21,6 @@ import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.b_activity_layout.*
-import kotlinx.android.synthetic.main.b_titlebar.*
 
 abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
 
@@ -42,7 +40,6 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
 
         initArgs(intent)
         initView()
-        ImmersionBar.with(this).titleBar(bLL).init() // 沉浸式
         mPresenter?.let { lifecycle.addObserver(it) }
         window.decorView.post { mHandler.post { initData() } }
     }
@@ -90,7 +87,15 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
         disDialog()
         xPopup = XPopup.Builder(this).setPopupCallback(xPopupCallback)
             .dismissOnBackPressed(false).dismissOnTouchOutside(false)
-            .asConfirm(title, content, cancelBtnText, confirmBtnText, confirmListener, cancelListener, isHideCancel)
+            .asConfirm(
+                title,
+                content,
+                cancelBtnText,
+                confirmBtnText,
+                confirmListener,
+                cancelListener,
+                isHideCancel
+            )
             .show()
     }
 
@@ -133,13 +138,20 @@ abstract class BActivity<T : BPresenter> : AppCompatActivity(), BView {
     }
 
     override fun other(content: String, behavior: String, level: String) {
-        roomInsertJournalRecord(content, behavior, level)
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe({
-                //                LogUtils.d("插入的主键是:$it")
-            }, {
-                //                LogUtils.e("删除:$it.localizedMessage")
-            })
+        val journalLitePal = JournalLitePal()
+        journalLitePal.content = content
+        journalLitePal.behavior = behavior
+        journalLitePal.level = level
+        journalLitePal.save()
+
+//        roomInsertJournalRecord(content, behavior, level)
+//            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+//            .subscribe({
+//                //                LogUtils.d("插入的主键是:$it")
+//            }, {
+//                CrashReport.postCatchedException(it)
+//                //                LogUtils.e("删除:$it.localizedMessage")
+//            })
     }
 
 }

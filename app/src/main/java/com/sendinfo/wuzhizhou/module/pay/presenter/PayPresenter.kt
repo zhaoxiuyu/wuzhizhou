@@ -22,7 +22,8 @@ import com.sendinfo.wuzhizhou.utils.SaveOrder
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 
-class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(view), PayContract.Presenter {
+class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(view),
+    PayContract.Presenter {
 
     private var lifecycleOwner: LifecycleOwner? = null
 
@@ -142,9 +143,9 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
                 var baseResponse = JsonUtils.toAny(body, BaseResponse::class.java)
                 if (baseResponse.success) {
                     baseResponse.data?.let {
-                        val printTemp = JsonUtils.toAny(it,
-                            object : TypeToken<MutableList<PrintTempVo>>() {}) as MutableList<PrintTempVo>
-                        if (printTemp.isNullOrEmpty()) {
+                        val printTemp = JsonUtils.toAny(it, object :
+                            TypeToken<MutableList<PrintTempVo>>() {}) as MutableList<PrintTempVo>
+                        if (printTemp == null || printTemp.size <= 0) {
                             showDialogFinish("没有获取到打印模板", bHttpDto.isFinish)
                         } else {
                             mView?.toPrintTemp(printTemp)
@@ -208,7 +209,8 @@ class PayPresenter(view: PayContract.View) : BPresenterImpl<PayContract.View>(vi
 
     // 统一的,只要返回错误或者没有数据都给出提示并且退出页面
     private fun showDialogFinish(message: String, finish: Boolean) {
-        val listener = if (finish) mView?.getConfirmFinishListener() else mView?.getConfirmDisListener()
+        val listener =
+            if (finish) mView?.getConfirmFinishListener() else mView?.getConfirmDisListener()
         mView?.showDialog(content = message, confirmListener = listener)
     }
 

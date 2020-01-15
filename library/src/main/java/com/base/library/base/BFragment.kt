@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.base.library.database.entity.JournalLitePal
 import com.base.library.mvp.BPresenter
 import com.base.library.mvp.BView
 import com.base.library.util.getCacheObservable
 import com.base.library.util.putCacheObservable
-import com.base.library.util.roomInsertJournalRecord
 import com.blankj.utilcode.util.LogUtils
-import com.gyf.immersionbar.ImmersionBar
-import com.gyf.immersionbar.components.ImmersionFragment
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.OnCancelListener
@@ -26,8 +24,7 @@ import io.reactivex.functions.Consumer
 /**
  * ImmersionOwner 用来在Fragment中实现沉浸式
  */
-abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
-//abstract class BFragment<T : BPresenter> : Fragment(), BView {
+abstract class BFragment<T : BPresenter> : Fragment(), BView {
 
     abstract fun initArgs(bundle: Bundle?)
     abstract fun initView(bundle: Bundle?)
@@ -43,7 +40,11 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
     val mHandler: Handler by lazy { Handler() }
     val mApplication: BApplication by lazy { activity?.application as BApplication }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         this.inflater = inflater
         this.container = container
 
@@ -56,10 +57,6 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
-    }
-
-    override fun initImmersionBar() {
-        ImmersionBar.with(this).titleBar(mView).init()
     }
 
     fun setContentView(layout: Int) {
@@ -101,7 +98,15 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
         disDialog()
         xPopup = XPopup.Builder(activity).setPopupCallback(xPopupCallback)
             .dismissOnBackPressed(false).dismissOnTouchOutside(false)
-            .asConfirm(title, content, cancelBtnText, confirmBtnText, confirmListener, cancelListener, isHideCancel)
+            .asConfirm(
+                title,
+                content,
+                cancelBtnText,
+                confirmBtnText,
+                confirmListener,
+                cancelListener,
+                isHideCancel
+            )
             .show()
     }
 
@@ -142,13 +147,19 @@ abstract class BFragment<T : BPresenter> : ImmersionFragment(), BView {
     }
 
     override fun other(content: String, behavior: String, level: String) {
-        roomInsertJournalRecord(content, behavior, level)
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
-            .subscribe({
-                //                LogUtils.d("插入的主键是:$it")
-            }, {
-                //                LogUtils.e("删除:$it.localizedMessage")
-            })
+        val journalLitePal = JournalLitePal()
+        journalLitePal.content = content
+        journalLitePal.behavior = behavior
+        journalLitePal.level = level
+        journalLitePal.save()
+
+//        roomInsertJournalRecord(content, behavior, level)
+//            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+//            .subscribe({
+//                //                LogUtils.d("插入的主键是:$it")
+//            }, {
+//                //                LogUtils.e("删除:$it.localizedMessage")
+//            })
     }
 
 }

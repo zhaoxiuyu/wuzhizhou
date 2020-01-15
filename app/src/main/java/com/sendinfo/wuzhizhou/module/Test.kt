@@ -145,6 +145,33 @@ fun main(args: Array<String>) {
 //    System.out.println("${sb.replace(6, 12, "******")}")
 //    System.out.println("${sb.replace(6, 12, "******")}")
 
+    var index = 0
+    var index2 = 0
+    var temp = StringBuilder()
+    val datas = mutableListOf<String>()
+    val newDatas = mutableListOf<String>()
+
+    for (i in 0..41) {
+        datas.add("$i")
+    }
+
+    datas.forEach {
+        temp.appendln(it)
+        index += 1
+        index2 += 1
+
+        if (index == 10 || index2 == datas.size) {
+            newDatas.add(temp.toString())
+            newDatas.add("分割线")
+            temp.delete(0, temp.length)
+            index = 0
+        }
+    }
+
+    newDatas.forEach {
+        println("$it")
+    }
+
 }
 
 fun rep(template: String): String {
