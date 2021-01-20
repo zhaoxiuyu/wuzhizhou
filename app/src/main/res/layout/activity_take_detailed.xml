@@ -65,6 +65,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:paddingBottom="20dp"
+                android:visibility="gone"
                 android:paddingTop="20dp"
                 android:text="取票数"
                 android:textSize="@dimen/sp_24"/>

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.library.interfaces.OnSurplusListener
-import com.base.library.mvp.BPresenter
 import com.base.library.util.ArithMultiply
 import com.base.library.util.JsonUtils
 import com.base.library.util.isFastClick
@@ -20,6 +19,8 @@ import com.sendinfo.wuzhizhou.entitys.response.GetTicketVo
 import com.sendinfo.wuzhizhou.interfaces.IdCardListener
 import com.sendinfo.wuzhizhou.module.pay.ui.PayTypeActivity
 import com.sendinfo.wuzhizhou.module.purchase.adapter.PurchaseSureAdapter
+import com.sendinfo.wuzhizhou.module.purchase.contract.PurchaseSureContract
+import com.sendinfo.wuzhizhou.module.purchase.presenter.PurchaseSurePresenter
 import com.sendinfo.wuzhizhou.owner.IdCardOwner
 import com.sendinfo.wuzhizhou.utils.getPrintNumber
 import com.sendinfo.wuzhizhou.utils.getShebeiCode
@@ -31,8 +32,9 @@ import kotlinx.android.synthetic.main.activity_purchase_main.*
 /**
  * 确定购买票型
  */
-class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItemChildClickListener,
-    View.OnClickListener, IdCardListener {
+class PurchaseSureActivity : BaseActivity<PurchaseSureContract.Presenter>(),
+    BaseQuickAdapter.OnItemChildClickListener,
+    View.OnClickListener, IdCardListener, PurchaseSureContract.View {
 
     private val mAdapter: PurchaseSureAdapter by lazy { PurchaseSureAdapter() }
     private var mDialog: RealNameDialog? = null
@@ -50,6 +52,7 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
         super.initView()
         initContentView(R.layout.activity_purchase_sure)
         tts.setIvLogo(R.drawable.ticketpurchase)
+        mPresenter = PurchaseSurePresenter(this)
         lifecycle.addObserver(idCardOwner)
     }
 
@@ -110,9 +113,30 @@ class PurchaseSureActivity : BaseActivity<BPresenter>(), BaseQuickAdapter.OnItem
     }
 
     // 身份证读取的回调
+    private var mCardInfo: CardInfo? = null
     override fun idCardListener(cardInfo: CardInfo) {
-        mDialog?.verification(cardInfo)
+        this.mCardInfo = cardInfo
+        // 验证是否黑名单
+        mPresenter?.ValidateBacklist("${cardInfo.card}")
+    }
+
+    // 验证身份证是否黑名单
+    override fun ValidateBacklistSuccess() {
+        mCardInfo?.let {
+            mDialog?.verification(it)
+        }
         idCardOwner?.getReadIdCard()
+    }
+
+    override fun ValidateBacklistError(msg: String) {
+        ToastUtils.showShort(msg)
+        idCardOwner?.getReadIdCard()
+//        showDialog(
+//            content = msg,
+//            confirmListener = OnConfirmListener { },
+//            cancelListener = OnCancelListener { },
+//            isHideCancel = false
+//        )
     }
 
     // 点击 确定 关闭对话框的回调

@@ -58,6 +58,11 @@ const val ReprintTicket = "api/v1/Terminal/ReprintTicket"
 const val QueryNotice = "api/v1/Terminal/QueryNotice"
 
 /**
+ * 身份证黑名单查询
+ */
+const val ValidateBacklist = "api/v1/TicketTrade/ValidateBacklist"
+
+/**
  * 获取支付二维码
  *
  * {
@@ -91,10 +96,12 @@ const val PayClose = "api/v1/PayCenter/PayClose"
  * 获取支付二维码
  */
 const val GetQRCode = "https://qr.chinaums.com/netpay-route-server/api/"
+
 /**
  * 查询支付结果
  */
 const val Query = "https://qr.chinaums.com/netpay-route-server/api/"
+
 /**
  * 关闭订单
  */

@@ -37,7 +37,9 @@ class TakeDetailedPresenter(view: TakeDetailedContract.View) :
                 ticketInfoVos.add(ticketInfoVo)
 
                 // 累加取票数量
-                count += it.number
+                // todo number 是手动加减的数量,可以部分取。 现在要改成全部取，所以直接返回可取票数即可
+//                count += it.number
+                count += it.TicketNum
 
                 // 数量 * 价格
                 sum += ArithMultiply(it.number.toDouble(), it.TicketPrice)
@@ -80,7 +82,10 @@ class TakeDetailedPresenter(view: TakeDetailedContract.View) :
         if (baseResponse.success) {
             baseResponse.data?.let {
                 val printTemp =
-                    JsonUtils.toAny(it, object : TypeToken<MutableList<PrintTempVo>>() {}) as MutableList<PrintTempVo>
+                    JsonUtils.toAny(
+                        it,
+                        object :
+                            TypeToken<MutableList<PrintTempVo>>() {}) as MutableList<PrintTempVo>
                 if (printTemp.isNullOrEmpty()) {
                     showDialogFinish("没有获取到打印模板", bHttpDto.isFinish)
                 } else {
@@ -93,7 +98,8 @@ class TakeDetailedPresenter(view: TakeDetailedContract.View) :
     }
 
     private fun showDialogFinish(message: String, finish: Boolean) {
-        val listener = if (finish) mView?.getConfirmFinishListener() else mView?.getConfirmDisListener()
+        val listener =
+            if (finish) mView?.getConfirmFinishListener() else mView?.getConfirmDisListener()
         mView?.showDialog(content = message, confirmListener = listener)
     }
 
